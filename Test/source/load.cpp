@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+
 #include <GL/glew.h>
 
 #include "load.hpp"
@@ -7,26 +8,26 @@
 using namespace std;
 
 
-void loadShader(const GLuint & program, const char * vertex_shader_file_path, GLenum shaderType)
+void loadShader(const GLuint & program, const char * file_path, GLenum type)
 {
-	ifstream vertexShaderStream(vertex_shader_file_path, ifstream::in);
+	ifstream shader_stream(file_path, ifstream::in);
 
-	stringstream vertexShaderStringStream;
-	vertexShaderStringStream << vertexShaderStream.rdbuf();
+	stringstream shader_string_stream;
+	shader_string_stream << shader_stream.rdbuf();
 
-	vertexShaderStream.close();
+	shader_stream.close();
 
-	string vertexShaderString = vertexShaderStringStream.str();
+	string shader_string = shader_string_stream.str();
 
-	char const * VertexShaderCharPointer = vertexShaderString.c_str();
+	char const * shader_char_pointer = shader_string.c_str();
 
-	GLuint vertexShader = glCreateShader(shaderType);
+	GLuint shader = glCreateShader(type);
 
-	glShaderSource(vertexShader, 1, &VertexShaderCharPointer, NULL);
+	glShaderSource(shader, 1, &shader_char_pointer, NULL);
 
-	glCompileShader(vertexShader);
+	glCompileShader(shader);
 
-	glAttachShader(program, vertexShader);
+	glAttachShader(program, shader);
 
 	glLinkProgram(program);
 }
