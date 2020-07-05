@@ -19,9 +19,9 @@ mat4 modelMat(double x_pos, double y_pos, double z_pos, double scale, double x_a
 
 mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_angle);
 
-mat4 projectionMat(double projection_fov, double aspect);
+mat4 projectionMat(float fov, float aspect);
 
-mat4 mvpMat(mat4 modelMat, mat4 viewMat, mat4 projectionMat);
+mat4 mvpMat(mat4 model_mat, mat4 view_mat, mat4 projection_mat);
 
 
 int main()
@@ -179,13 +179,21 @@ int main()
     glDepthFunc(GL_LESS);
 
 
+    double grid_x_pos = 0;
+    double grid_y_pos = 0;
+    double grid_z_pos = 0;
+    double grid_scale = 1;
+    double grid_x_angle = 0;
+    double grid_y_angle = 0;
+    double grid_z_angle = 0;
+
     double model_x_pos = 0;
     double model_y_pos = 0;
     double model_z_pos = 0;
+    double model_scale = 1;
     double model_x_angle = 0;
     double model_y_angle = 0;
     double model_z_angle = 0;
-    double model_scale = 1;
 
     double view_x_pos = 0;
     double view_y_pos = 0;
@@ -195,9 +203,9 @@ int main()
 
     double projection_fov = 90;
 
-    mat4 model_mat = modelMat(model_x_pos, model_y_pos, model_z_pos, model_x_angle, model_y_angle, model_z_angle, model_scale);
+    mat4 model_mat = modelMat(grid_x_pos, grid_y_pos, grid_z_pos, grid_scale, grid_x_angle, grid_y_angle, grid_z_angle);
     mat4 view_mat = viewMat(view_x_pos, view_y_pos, view_z_pos, view_x_angle, view_y_angle);
-    mat4 projection_mat = projectionMat(projection_fov, video_mode->width / video_mode->height);
+    mat4 projection_mat = projectionMat(projection_fov, (float)video_mode->width / video_mode->height);
 
     mat4 mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
@@ -206,23 +214,15 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        mat4 projectionMat = perspective(radians(90.0f), (float)16.0 / 9, 0.01f, 100.0f);
+        model_mat = modelMat(grid_x_pos, grid_y_pos, grid_z_pos, grid_scale, grid_x_angle, grid_y_angle, grid_z_angle);
 
-        mat4 viewMat = lookAt(vec3(2, 4, 4),
-            vec3(0, 0, 0),
-            vec3(0, 1, 0));
-
-        mat4 modelmat = mat4(1);
-
-        mat4 mvp = mvpMat(modelmat, viewMat, projectionMat);
+        mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
         GLuint mvpMatLocation = glGetUniformLocation(program, "mvpMat");
-        glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp[0][0]);
+        glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
 
-        glDrawArrays(GL_LINES, 0, 2);
-        glDrawArrays(GL_LINES, 2, 2);
-        glDrawArrays(GL_LINES, 4, 2);
-
+        for (int i = 0; i < 6; i += 2)
+            glDrawArrays(GL_LINES, i, 2);
 
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
@@ -238,20 +238,12 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
             model_scale -= 0.001;
 
-
-        projectionMat = perspective(radians(90.0f), (float)16.0 / 9, 0.01f, 100.0f);
-
-        viewMat = lookAt(vec3(2, 4, 4),
-            vec3(0, 0, 0),
-            vec3(0, 1, 0));
-
-        mat4 translateMat = translate(mat4(1), vec3(model_x_pos, 0, model_z_pos));
-        mat4 scaleMat = glm::scale(mat4(1), vec3(model_scale, model_scale, model_scale));
-        modelmat = translateMat * scaleMat;
-        mvp = mvpMat(modelmat, viewMat, projectionMat);
+        model_mat = modelMat(model_x_pos, model_y_pos, model_z_pos, model_scale, model_x_angle, model_y_angle, model_z_angle);
+        
+        mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
         mvpMatLocation = glGetUniformLocation(program, "mvpMat");
-        glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp[0][0]);
+        glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
 
         for (int i = 6; i < 42; i += 3)
             glDrawArrays(GL_TRIANGLES, i, 3);
@@ -295,9 +287,9 @@ mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_
 }
 
 
-mat4 projectionMat(double projection_fov, double aspect)
+mat4 projectionMat(float fov, float aspect)
 {
-    return perspective(radians((float)projection_fov), (float)aspect, 0.01f, 100.0f);
+    return perspective(radians(fov), aspect, 0.01f, 100.0f);
 }
 
 
