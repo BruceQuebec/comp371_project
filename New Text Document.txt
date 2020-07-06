@@ -1,0 +1,25 @@
+void tempLoadShader(const GLuint & program)
+{
+    const char* v_string = "layout(location = 0) in vec3 vertexPosition;layout(location = 1) in vec3 vertexColor;out vec3 fragmentColor;uniform mat4 mvpMat;void main() { gl_Position = mvpMat * vec4(vertexPosition, 1);fragmentColor = vertexColor;}";
+    const char* f_string = "#version 330 core \n in vec3 fragmentColor; out vec3 color; void main() { color = fragmentColor; }";
+
+    GLuint v_shader = glCreateShader(GL_VERTEX_SHADER);
+    GLuint f_shader = glCreateShader(GL_FRAGMENT_SHADER);
+
+    glShaderSource(v_shader, 1, &v_string, NULL);
+    glShaderSource(f_shader, 1, &f_string, NULL);
+
+    glCompileShader(v_shader);
+    glCompileShader(f_shader);
+
+    glAttachShader(program, v_shader);
+    glAttachShader(program, f_shader);
+
+    glLinkProgram(program);
+
+    glDetachShader(program, v_shader);
+    glDetachShader(program, f_shader);
+
+    glDeleteShader(v_shader);
+    glDeleteShader(f_shader);
+}
