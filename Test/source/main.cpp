@@ -276,7 +276,10 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
             camera_position += glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
         }
-
+        // camera position reset
+        if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
+            camera_position = eye;
+        }
 
 
 
