@@ -36,7 +36,7 @@ int main()
     const GLFWvidmode * video_mode = glfwGetVideoMode(monitor);
 
     // Create a window 创建窗口
-    GLFWwindow * window = glfwCreateWindow(video_mode->width, video_mode->height, "", monitor, NULL); //宽和高为监视器的宽和高，显示模式为全屏
+    GLFWwindow * window = glfwCreateWindow(1024, 768, "", NULL, NULL); //宽和高为监视器的宽和高，显示模式为全屏
 
     // Make the context of the window current on the calling thread
     glfwMakeContextCurrent(window);
@@ -162,14 +162,14 @@ int main()
 
 
     // Create a shader program 创建shader程序
-    GLuint program = glCreateProgram();
+    GLuint shader_program = glCreateProgram();
 
     // load shaders from files 加载shaders
-    loadShader(program, "source/vertex-shader.glsl", GL_VERTEX_SHADER);
-    loadShader(program, "source/fragment-shader.glsl", GL_FRAGMENT_SHADER);
+	loadShader(shader_program, "source/vertex-shader.glsl", GL_VERTEX_SHADER);
+	loadShader(shader_program, "source/fragment-shader.glsl", GL_FRAGMENT_SHADER);
 
     // Use the program 启用shader程序
-    glUseProgram(program);
+    glUseProgram(shader_program);
 
 
     // Enable the depth test 启用景深测试
@@ -205,7 +205,7 @@ int main()
 
     mat4 model_mat = modelMat(grid_x_pos, grid_y_pos, grid_z_pos, grid_scale, grid_x_angle, grid_y_angle, grid_z_angle);
     mat4 view_mat = viewMat(view_x_pos, view_y_pos, view_z_pos, view_x_angle, view_y_angle);
-    mat4 projection_mat = projectionMat(projection_fov, (float)video_mode->width / video_mode->height);
+    mat4 projection_mat = projectionMat(projection_fov, (float)4.0 / 3);
 
     mat4 mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
@@ -218,7 +218,7 @@ int main()
 
         mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
-        GLuint mvpMatLocation = glGetUniformLocation(program, "mvpMat");
+        GLuint mvpMatLocation = glGetUniformLocation(shader_program, "mvp_mat");
         glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
 
         for (int i = 0; i < 6; i += 2)
@@ -242,7 +242,7 @@ int main()
         
         mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
-        mvpMatLocation = glGetUniformLocation(program, "mvpMat");
+        mvpMatLocation = glGetUniformLocation(shader_program, "mvp_mat");
         glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
 
         for (int i = 6; i < 42; i += 3)
