@@ -8,6 +8,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+#include <string>
+#include <fstream>
+
 #include "load.hpp"
 
 
@@ -22,6 +26,24 @@ mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_
 mat4 projectionMat(float fov, float aspect);
 
 mat4 mvpMat(mat4 model_mat, mat4 view_mat, mat4 projection_mat);
+
+
+
+// Constant vectors
+const glm::vec3 center(0, 0, -1);
+const glm::vec3 camera_up(0, 1, 0);
+glm::vec3 eye(2, 4, 4);
+
+//vec3(2, 4, 4),
+//vec3(0, 0, 0),
+//vec3(0, 1, 0))
+
+//for camera 
+glm::vec3 camera_front = center;
+glm::vec3 camera_position = eye;
+
+
+
 
 
 int main()
@@ -238,6 +260,30 @@ int main()
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
             model_scale -= 0.001;
 
+
+        // camera control: move up/down/left/right
+        const float camera_speed = 0.05f;
+
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+            camera_position += camera_speed * camera_front;
+        }
+        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+            camera_position -= camera_speed * camera_front;
+        }
+        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+            camera_position -= glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+        }
+        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+            camera_position += glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+        }
+
+
+
+
+        // move the camera 
+        view_mat = glm::lookAt(camera_position, camera_position + camera_front, camera_up);
+
+
         model_mat = modelMat(model_x_pos, model_y_pos, model_z_pos, model_scale, model_x_angle, model_y_angle, model_z_angle);
         
         mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
@@ -297,3 +343,30 @@ mat4 mvpMat(mat4 modelMat, mat4 viewMat, mat4 projectionMat)
 {
     return projectionMat * viewMat * modelMat;
 }
+
+
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+
+    // camera control: up/down/left/right
+    const float camera_speed = 0.05f;
+
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        camera_position += camera_speed * camera_front;
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        camera_position -= camera_speed * camera_front;
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+        camera_position -= glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        camera_position += glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+    }
+
+
+    // object control: 
+
+
+}
+
