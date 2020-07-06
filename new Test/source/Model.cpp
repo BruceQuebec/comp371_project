@@ -14,7 +14,9 @@ using namespace glm;
 
 GLFWwindow * Model::window;
 
-Model * Model::instance;
+Model * Model::instances[10];
+
+int Model::current_index = 1;
 
 GLuint Model::shader_program;
 
@@ -38,8 +40,6 @@ void Model::setMVPMatString(const GLchar * mvp_mat_string)
 
 void Model::key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
-	cout << key <<endl;
-
 	if (key == GLFW_KEY_P && action == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 	if (key == GLFW_KEY_L && action == GLFW_PRESS)
@@ -47,16 +47,40 @@ void Model::key_callback_dispatch(GLFWwindow * window, int key, int scancode, in
 	if (key == GLFW_KEY_T && action == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	instance->key_callback(window, key, scancode, action, mods);
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+		current_index = 1;
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+		current_index = 2;
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+		current_index = 3;
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+		current_index = 4;
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+		current_index = 5;
+	if (key == GLFW_KEY_6 && action == GLFW_PRESS)
+		current_index = 6;
+	if (key == GLFW_KEY_7 && action == GLFW_PRESS)
+		current_index = 7;
+	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
+		current_index = 8;
+	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
+		current_index = 9;
+	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+		current_index = 0;
+
+	if (instances[current_index] != nullptr)
+		instances[current_index]->key_callback(window, key, scancode, action, mods);
 }
 
 void Model::setInstance(int index)
 {
-	instance = this;
+	instances[index] = this;
 }
 
-Model::Model(int startIndex, int endIndex)
+Model::Model(int startIndex, int endIndex, GLenum mode)
 {
+	this->mode = mode;
+
 	this->startIndex = startIndex;
 	this->endIndex = endIndex;
 
@@ -111,6 +135,14 @@ void Model::draw(mat4 view_mat, mat4 projection_mat)
 	GLuint mvpMatLocation = glGetUniformLocation(shader_program, mvp_mat_string);
 	glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
 
-	for (int i = startIndex; i < endIndex; i += 3)
-		glDrawArrays(GL_TRIANGLES, i, 3);
+	if (mode == GL_LINES)
+	{
+		for (int i = startIndex; i < endIndex; i +=2)
+			glDrawArrays(mode, i, 2);
+	}
+	else if (mode == GL_TRIANGLES)
+	{
+		for (int i = startIndex; i < endIndex; i += 3)
+			glDrawArrays(mode, i, 3);
+	}
 }

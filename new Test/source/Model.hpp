@@ -10,7 +10,9 @@ public:
 
 	static const GLchar * mvp_mat_string;
 
-	static Model * instance;
+	static Model * instances[];
+	
+	static int current_index;
 
 	static void setWindow(GLFWwindow * window);
 
@@ -21,7 +23,7 @@ public:
 	static void key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods);
 
 private:
-
+	GLenum mode;
 
 	int startIndex;
 	int endIndex;
@@ -35,7 +37,7 @@ private:
 	double z_angle;
 
 public:
-	Model(int startIndex, int endIndex);
+	Model(int startIndex, int endIndex, GLenum mode);
 
 	~Model() {}
 

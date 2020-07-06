@@ -16,8 +16,6 @@ using namespace std;
 using namespace glm;
 
 
-mat4 modelMat(double x_pos, double y_pos, double z_pos, double scale, double x_angle, double y_angle, double z_angle);
-
 mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_angle);
 
 mat4 projectionMat(float fov, float aspect);
@@ -193,27 +191,12 @@ int main()
 
     Model::setMVPMatString("mvp_mat");
 
-
-    Model model1 = Model(6, 42);
+    Model model1 = Model(0, 6, GL_LINES);
+    Model model2 = Model(6, 42, GL_TRIANGLES);
     model1.setInstance(0);
+    model2.setInstance(1);
     
 
-
-    double grid_x_pos = 0;
-    double grid_y_pos = 0;
-    double grid_z_pos = 0;
-    double grid_scale = 1;
-    double grid_x_angle = 0;
-    double grid_y_angle = 0;
-    double grid_z_angle = 0;
-
-    double model_x_pos = 0;
-    double model_y_pos = 0;
-    double model_z_pos = 0;
-    double model_scale = 1;
-    double model_x_angle = 0;
-    double model_y_angle = 0;
-    double model_z_angle = 0;
 
     double view_x_pos = 0;
     double view_y_pos = 0;
@@ -223,29 +206,16 @@ int main()
 
     double projection_fov = 90;
 
-    mat4 model_mat = modelMat(grid_x_pos, grid_y_pos, grid_z_pos, grid_scale, grid_x_angle, grid_y_angle, grid_z_angle);
     mat4 view_mat = viewMat(view_x_pos, view_y_pos, view_z_pos, view_x_angle, view_y_angle);
     mat4 projection_mat = projectionMat(projection_fov, (float)4.0 / 3);
-
-    mat4 mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        model_mat = modelMat(grid_x_pos, grid_y_pos, grid_z_pos, grid_scale, grid_x_angle, grid_y_angle, grid_z_angle);
-
-        mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
-
-        GLuint mvpMatLocation = glGetUniformLocation(shader_program, "mvp_mat");
-        glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
-
-        for (int i = 0; i < 6; i += 2)
-            glDrawArrays(GL_LINES, i, 2);
-
-
         model1.draw(view_mat, projection_mat);
+        model2.draw(view_mat, projection_mat);
 
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -261,18 +231,6 @@ int main()
     glfwTerminate();
 
     return 0;
-}
-
-
-mat4 modelMat(double x_pos, double y_pos, double z_pos, double scale, double x_angle, double y_angle, double z_angle)
-{
-    mat4 translate_mat = translate(mat4(1), vec3(x_pos, y_pos, z_pos));
-
-    mat4 scale_mat = glm::scale(mat4(1), vec3(scale, scale, scale));
-
-    mat4 rotate_mat = rotate(mat4(1), (float)y_angle, vec3(0, 1, 0));
-
-    return rotate_mat * scale_mat * translate_mat;
 }
 
 
