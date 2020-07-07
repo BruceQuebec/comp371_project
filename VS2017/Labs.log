@@ -1,3 +1,0 @@
-﻿  lab02.cpp
-g:\weinan zhang\2020\summer\comp371\comp371_project\source\lab02.cpp(272): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
-  Labs.vcxproj -> G:\WEINAN ZHANG\2020\summer\COMP371\comp371_project\VS2017\/../Bin/Labs-Debug.exe
