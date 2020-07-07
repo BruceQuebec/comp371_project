@@ -19,13 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\control.cpp" />
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\load.hpp" />
-    <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\control.h" />
+    <ClInclude Include="source\load.h" />
+    <ClInclude Include="source\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\fragment-shader.glsl" />

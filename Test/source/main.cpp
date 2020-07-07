@@ -52,13 +52,13 @@ int main()
     glfwInit();
 
     // Get the primary monitor of the device 获取设备的主监视器（显示屏）
-    GLFWmonitor * monitor = glfwGetPrimaryMonitor();
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
     // Get the mode of the monitor 获取监视器的参数
-    const GLFWvidmode * video_mode = glfwGetVideoMode(monitor);
+    const GLFWvidmode* video_mode = glfwGetVideoMode(monitor);
 
     // Create a window 创建窗口
-    GLFWwindow * window = glfwCreateWindow(1024, 768, "", NULL, NULL); //宽和高为监视器的宽和高，显示模式为全屏
+    GLFWwindow* window = glfwCreateWindow(1024, 768, "", NULL, NULL); //宽和高为监视器的宽和高，显示模式为全屏
 
     // Make the context of the window current on the calling thread
     glfwMakeContextCurrent(window);
@@ -81,7 +81,7 @@ int main()
     glGenBuffers(1, &pos_buffer);
     glBindBuffer(GL_ARRAY_BUFFER, pos_buffer);
 
-    GLdouble pos_data[] = {0, 0, 0,
+    GLdouble pos_data[] = { 0, 0, 0,
                            5, 0, 0,
                            0, 0, 0,
                            0, 5, 0,
@@ -122,7 +122,7 @@ int main()
                            2, 0, 2,
                            2, 2, 0,
                            2, 0, 2,
-                           2, 2, 2};
+                           2, 2, 2 };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(pos_data), pos_data, GL_STATIC_DRAW);
 
@@ -134,7 +134,7 @@ int main()
     glGenBuffers(1, &color_buffer);
     glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
 
-    GLdouble color_data[] = {1, 0, 0,
+    GLdouble color_data[] = { 1, 0, 0,
                              1, 0, 0,
                              0, 1, 0,
                              0, 1, 0,
@@ -175,7 +175,7 @@ int main()
                              1, 0, 1,
                              1, 1, 0,
                              1, 0, 1,
-                             1, 1, 1};
+                             1, 1, 1 };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(color_data), color_data, GL_STATIC_DRAW);
 
@@ -187,8 +187,8 @@ int main()
     GLuint shader_program = glCreateProgram();
 
     // load shaders from files 加载shaders
-	loadShader(shader_program, "source/vertex-shader.glsl", GL_VERTEX_SHADER);
-	loadShader(shader_program, "source/fragment-shader.glsl", GL_FRAGMENT_SHADER);
+    loadShader(shader_program, "source/vertex-shader.glsl", GL_VERTEX_SHADER);
+    loadShader(shader_program, "source/fragment-shader.glsl", GL_FRAGMENT_SHADER);
 
     // Use the program 启用shader程序
     glUseProgram(shader_program);
@@ -288,7 +288,7 @@ int main()
 
 
         model_mat = modelMat(model_x_pos, model_y_pos, model_z_pos, model_scale, model_x_angle, model_y_angle, model_z_angle);
-        
+
         mvp_mat = mvpMat(model_mat, view_mat, projection_mat);
 
         mvpMatLocation = glGetUniformLocation(shader_program, "mvp_mat");
@@ -329,8 +329,8 @@ mat4 modelMat(double x_pos, double y_pos, double z_pos, double scale, double x_a
 mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_angle)
 {
     mat4 view_mat = lookAt(vec3(2, 4, 4),
-                           vec3(0, 0, 0),
-                           vec3(0, 1, 0)); // TODO
+        vec3(0, 0, 0),
+        vec3(0, 1, 0)); // TODO
 
     return view_mat;
 }
@@ -372,4 +372,3 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 }
-

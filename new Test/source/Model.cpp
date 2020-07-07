@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Model.hpp"
+#include "View.hpp"
 
 
 using namespace std;
@@ -70,6 +71,8 @@ void Model::key_callback_dispatch(GLFWwindow * window, int key, int scancode, in
 
 	if (instances[current_index] != nullptr)
 		instances[current_index]->key_callback(window, key, scancode, action, mods);
+
+	View::key_callback_dispatch(window, key, scancode, action, mods);
 }
 
 void Model::setInstance(int index)

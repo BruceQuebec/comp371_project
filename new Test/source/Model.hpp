@@ -4,7 +4,7 @@
 class Model
 {
 public:
-	static GLFWwindow* window;
+	static GLFWwindow * window;
 
 	static GLuint shader_program;
 

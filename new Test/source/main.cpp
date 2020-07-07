@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "load.hpp"
+#include "View.hpp"
 #include "Model.hpp"
 
 
@@ -195,6 +196,8 @@ int main()
     Model model2 = Model(6, 42, GL_TRIANGLES);
     model1.setInstance(0);
     model2.setInstance(1);
+
+    View view;
     
 
 
@@ -214,8 +217,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        model1.draw(view_mat, projection_mat);
-        model2.draw(view_mat, projection_mat);
+        model1.draw(view.viewMat(), projection_mat);
+        model2.draw(view.viewMat(), projection_mat);
 
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
