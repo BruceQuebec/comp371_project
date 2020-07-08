@@ -3,6 +3,11 @@
 
 class Model
 {
+private:
+	static double world_x_angle;
+	static double world_y_angle;
+	static double world_z_angle;
+
 public:
 	static GLFWwindow * window;
 
@@ -42,6 +47,8 @@ public:
 	~Model() {}
 
 	void setInstance(int index);
+
+	glm::mat4 getModelMat();
 
 	void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
 

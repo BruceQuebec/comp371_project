@@ -20,11 +20,6 @@ View * View::instance;
 bool View::is_mouse_button_right_pressed = false;
 bool View::is_mouse_button_middle_pressed = false;
 
-void View::key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods)
-{
-	instance->key_callback(window, key, scancode, action, mods);
-}
-
 void View::mouse_button_callback_dispatch(GLFWwindow * window, int button, int action, int mods)
 {
     Projection::mouse_button_callback(window, button, action, mods);
@@ -47,25 +42,6 @@ View::View()
     rho = 0;
 
     instance = this;
-}
-
-
-void View::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_UP && action == GLFW_REPEAT)
-        z_pos -= 0.01;
-    if (key == GLFW_KEY_DOWN && action == GLFW_REPEAT)
-        z_pos += 0.01;
-    if (key == GLFW_KEY_LEFT && action == GLFW_REPEAT)
-        x_pos -= 0.01;
-    if (key == GLFW_KEY_RIGHT && action == GLFW_REPEAT)
-        x_pos += 0.01;
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-    {
-        x_pos = 2;
-        y_pos = 2;
-        z_pos = 4;
-    }
 }
 
 mat4 View::viewMat()

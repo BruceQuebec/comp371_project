@@ -11,8 +11,6 @@ public:
 	static bool is_mouse_button_right_pressed;
 	static bool is_mouse_button_middle_pressed;
 
-	static void key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods);
-
 	static void mouse_button_callback_dispatch(GLFWwindow * window, int button, int action, int mods);
 
 	static void setWindow(GLFWwindow* window);
@@ -29,8 +27,6 @@ public:
 	View();
 
 	glm::mat4 viewMat();
-
-	void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
 
 	void mouse_button_callback(GLFWwindow * window, int button, int action, int mods);
 };

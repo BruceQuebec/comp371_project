@@ -19,7 +19,24 @@ using namespace std;
 using namespace glm;
 
 
-mat4 projectionMat(float fov, float aspect);
+void draw(mat4 world_mat, mat4 model_mat, mat4 view_mat, mat4 projection_mat)
+{
+    mat4 mvp_mat = projection_mat * view_mat * model_mat * world_mat;
+
+    /*GLuint mvpMatLocation = glGetUniformLocation(shader_program, mvp_mat_string);
+    glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
+
+    if (mode == GL_LINES)
+    {
+        for (int i = startIndex; i < endIndex; i += 2)
+            glDrawArrays(mode, i, 2);
+    }
+    else if (mode == GL_TRIANGLES)
+    {
+        for (int i = startIndex; i < endIndex; i += 3)
+            glDrawArrays(mode, i, 3);
+    }*/
+}
 
 
 int main()
@@ -202,13 +219,6 @@ int main()
 
     View view;
 
-    
-
-
-
-    double projection_fov = 45;
-
-    mat4 projection_mat = projectionMat(projection_fov, (float)4.0 / 3);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -232,10 +242,4 @@ int main()
     glfwTerminate();
 
     return 0;
-}
-
-
-mat4 projectionMat(float fov, float aspect)
-{
-    return perspective(radians(fov), aspect, 0.01f, 100.0f);
 }
