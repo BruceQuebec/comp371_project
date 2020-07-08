@@ -4,19 +4,26 @@
 class View
 {
 public:
+	static GLFWwindow * window;
+
 	static View * instance;
 
-	static void key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods);;
+	static bool is_mouse_button_right_pressed;
+	static bool is_mouse_button_middle_pressed;
 
+	static void key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods);
+
+	static void mouse_button_callback_dispatch(GLFWwindow * window, int button, int action, int mods);
+
+	static void setWindow(GLFWwindow* window);
 
 private:
 	double x_pos;
 	double y_pos;
 	double z_pos;
 
-	double x_angle;
-	double y_angle;
-	double z_angle;
+	double theta;
+	double rho;
 
 public:
 	View();
@@ -24,4 +31,6 @@ public:
 	glm::mat4 viewMat();
 
 	void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
+
+	void mouse_button_callback(GLFWwindow * window, int button, int action, int mods);
 };

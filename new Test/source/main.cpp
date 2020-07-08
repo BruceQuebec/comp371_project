@@ -8,20 +8,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "control.hpp"
 #include "load.hpp"
 #include "View.hpp"
 #include "Model.hpp"
+#include "Projection.hpp"
 
 
 using namespace std;
 using namespace glm;
 
 
-mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_angle);
-
 mat4 projectionMat(float fov, float aspect);
-
-mat4 mvpMat(mat4 model_mat, mat4 view_mat, mat4 projection_mat);
 
 
 int main()
@@ -48,7 +46,6 @@ int main()
     // Initialize GLEW 初始化GLEW
     glewInit();
 
-
     // Create a vertex array 创建vertex array
     GLuint vertex_array;
     glGenVertexArrays(1, &vertex_array);
@@ -59,12 +56,12 @@ int main()
     glGenBuffers(1, &pos_buffer);
     glBindBuffer(GL_ARRAY_BUFFER, pos_buffer);
 
-    GLdouble pos_data[] = {0, 0, 0,
-                           5, 0, 0,
-                           0, 0, 0,
-                           0, 5, 0,
-                           0, 0, 0,
-                           0, 0, 5,
+    GLdouble pos_data[] = {-100, 0, 0,
+                           100, 0, 0,
+                           0, -100, 0,
+                           0, 100, 0,
+                           0, 0, -100,
+                           0, 0, 100,
                            0, 0, 0,
                            2, 0, 0,
                            0, 2, 0,
@@ -178,8 +175,13 @@ int main()
     // Objects with less depth will be displayed 显示近景的物体
     glDepthFunc(GL_LESS);
 
+    View::setWindow(window);
+    Projection::setWindow(window);
 
-    
+
+    glfwSetMouseButtonCallback(window, View::mouse_button_callback_dispatch);
+
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwSetKeyCallback(window, Model::key_callback_dispatch);
 
@@ -197,19 +199,15 @@ int main()
     model1.setInstance(0);
     model2.setInstance(1);
 
+
     View view;
+
     
 
 
-    double view_x_pos = 0;
-    double view_y_pos = 0;
-    double view_z_pos = 0;
-    double view_x_angle = 0;
-    double view_y_angle = 0;
 
-    double projection_fov = 90;
+    double projection_fov = 45;
 
-    mat4 view_mat = viewMat(view_x_pos, view_y_pos, view_z_pos, view_x_angle, view_y_angle);
     mat4 projection_mat = projectionMat(projection_fov, (float)4.0 / 3);
 
     while (!glfwWindowShouldClose(window))
@@ -217,8 +215,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        model1.draw(view.viewMat(), projection_mat);
-        model2.draw(view.viewMat(), projection_mat);
+        model1.draw(view.viewMat(), Projection::getProjectionMat());
+        model2.draw(view.viewMat(), Projection::getProjectionMat());
 
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -237,23 +235,7 @@ int main()
 }
 
 
-mat4 viewMat(double x_pos, double y_pos, double z_pos, double x_angle, double y_angle)
-{
-    mat4 view_mat = lookAt(vec3(2, 4, 4),
-                           vec3(0, 0, 0),
-                           vec3(0, 1, 0)); // TODO
-
-    return view_mat;
-}
-
-
 mat4 projectionMat(float fov, float aspect)
 {
     return perspective(radians(fov), aspect, 0.01f, 100.0f);
-}
-
-
-mat4 mvpMat(mat4 modelMat, mat4 viewMat, mat4 projectionMat)
-{
-    return projectionMat * viewMat * modelMat;
 }

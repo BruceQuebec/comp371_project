@@ -23,11 +23,16 @@
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
+    <ClCompile Include="source\Projection.cpp" />
+    <ClCompile Include="source\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\control.h" />
+    <ClInclude Include="source\control.hpp" />
     <ClInclude Include="source\load.h" />
     <ClInclude Include="source\Model.h" />
+    <ClInclude Include="source\Projection.hpp" />
+    <ClInclude Include="source\View.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\fragment-shader.glsl" />
