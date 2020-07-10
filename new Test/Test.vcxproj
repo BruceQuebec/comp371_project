@@ -19,20 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\control.cpp" />
+    <ClCompile Include="source\draw.cpp" />
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
-    <ClCompile Include="source\Projection.cpp" />
-    <ClCompile Include="source\View.cpp" />
+    <ClCompile Include="source\temp.hpp" />
+    <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\control.h" />
+    <ClInclude Include="source\Camera.hpp" />
     <ClInclude Include="source\control.hpp" />
-    <ClInclude Include="source\load.h" />
-    <ClInclude Include="source\Model.h" />
-    <ClInclude Include="source\Projection.hpp" />
-    <ClInclude Include="source\View.hpp" />
+    <ClInclude Include="source\draw.hpp" />
+    <ClInclude Include="source\load.hpp" />
+    <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\fragment-shader.glsl" />

@@ -2,6 +2,7 @@
 
 
 #include <iostream>
+#include <vector>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -10,33 +11,65 @@
 
 #include "control.hpp"
 #include "load.hpp"
-#include "View.hpp"
+#include "World.hpp"
 #include "Model.hpp"
-#include "Projection.hpp"
+#include "Camera.hpp"
+#include "draw.hpp"
 
 
 using namespace std;
 using namespace glm;
 
 
-void draw(mat4 world_mat, mat4 model_mat, mat4 view_mat, mat4 projection_mat)
-{
-    mat4 mvp_mat = projection_mat * view_mat * model_mat * world_mat;
+vector<GLdouble> pos_data0 = {0, 0, 0,
+                              5, 0, 0,
+                              0, 0, 0,
+                              0, 5, 0,
+                              0, 0, 0,
+                              0, 0, 5};
 
-    /*GLuint mvpMatLocation = glGetUniformLocation(shader_program, mvp_mat_string);
-    glUniformMatrix4fv(mvpMatLocation, 1, GL_FALSE, &mvp_mat[0][0]);
+vector<GLdouble> color_data0 = {1, 0, 0,
+                                1, 0, 0,
+                                0, 1, 0,
+                                0, 1, 0,
+                                0, 0, 1,
+                                0, 0, 1};
 
-    if (mode == GL_LINES)
-    {
-        for (int i = startIndex; i < endIndex; i += 2)
-            glDrawArrays(mode, i, 2);
-    }
-    else if (mode == GL_TRIANGLES)
-    {
-        for (int i = startIndex; i < endIndex; i += 3)
-            glDrawArrays(mode, i, 3);
-    }*/
-}
+vector<GLuint> index_data0 = {0, 1,
+                              2, 3,
+                              4, 5};
+
+
+vector<GLdouble> pos_data1 = {-2, -2, -2,
+                              -2, -2,  2,
+                              -2,  2, -2,
+                              -2,  2,  2,
+                               2, -2, -2,
+                               2, -2,  2,
+                               2,  2, -2,
+                               2,  2,  2};
+
+vector<GLdouble> color_data1 = {0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5,
+                                0.5, 0.5, 0.5};
+
+vector<GLuint> index_data1 = {0, 1, 2,
+                              1, 2, 3,
+                              0, 1, 4,
+                              1, 4, 5,
+                              0, 2, 4,
+                              2, 4, 6,
+                              1, 3, 5,
+                              3, 5, 7,
+                              2, 3, 6,
+                              3, 6, 7,
+                              4, 5, 6,
+                              5, 6, 7};
 
 
 int main()
@@ -63,117 +96,6 @@ int main()
     // Initialize GLEW 初始化GLEW
     glewInit();
 
-    // Create a vertex array 创建vertex array
-    GLuint vertex_array;
-    glGenVertexArrays(1, &vertex_array);
-    glBindVertexArray(vertex_array);
-
-
-    GLuint pos_buffer;
-    glGenBuffers(1, &pos_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, pos_buffer);
-
-    GLdouble pos_data[] = {-100, 0, 0,
-                           100, 0, 0,
-                           0, -100, 0,
-                           0, 100, 0,
-                           0, 0, -100,
-                           0, 0, 100,
-                           0, 0, 0,
-                           2, 0, 0,
-                           0, 2, 0,
-                           2, 0, 0,
-                           0, 2, 0,
-                           2, 2, 0,
-                           0, 0, 0,
-                           2, 0, 0,
-                           0, 0, 2,
-                           2, 0, 0,
-                           0, 0, 2,
-                           2, 0, 2,
-                           0, 0, 0,
-                           0, 2, 0,
-                           0, 0, 2,
-                           0, 2, 0,
-                           0, 0, 2,
-                           0, 2, 2,
-                           0, 0, 2,
-                           2, 0, 2,
-                           0, 2, 2,
-                           2, 0, 2,
-                           0, 2, 2,
-                           2, 2, 2,
-                           0, 2, 0,
-                           2, 2, 0,
-                           0, 2, 2,
-                           2, 2, 0,
-                           0, 2, 2,
-                           2, 2, 2,
-                           2, 0, 0,
-                           2, 2, 0,
-                           2, 0, 2,
-                           2, 2, 0,
-                           2, 0, 2,
-                           2, 2, 2};
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(pos_data), pos_data, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, 0, (void*)0);
-
-
-    GLuint color_buffer;
-    glGenBuffers(1, &color_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
-
-    GLdouble color_data[] = {1, 0, 0,
-                             1, 0, 0,
-                             0, 1, 0,
-                             0, 1, 0,
-                             0, 0, 1,
-                             0, 0, 1,
-                             0, 0, 0,
-                             1, 0, 0,
-                             0, 1, 0,
-                             1, 0, 0,
-                             0, 1, 0,
-                             1, 1, 0,
-                             0, 0, 0,
-                             1, 0, 0,
-                             0, 0, 1,
-                             1, 0, 0,
-                             0, 0, 1,
-                             1, 0, 1,
-                             0, 0, 0,
-                             0, 1, 0,
-                             0, 0, 1,
-                             0, 1, 0,
-                             0, 0, 1,
-                             0, 1, 1,
-                             0, 0, 1,
-                             1, 0, 1,
-                             0, 1, 1,
-                             1, 0, 1,
-                             0, 1, 1,
-                             1, 1, 1,
-                             0, 1, 0,
-                             1, 1, 0,
-                             0, 1, 1,
-                             1, 1, 0,
-                             0, 1, 1,
-                             1, 1, 1,
-                             1, 0, 0,
-                             1, 1, 0,
-                             1, 0, 1,
-                             1, 1, 0,
-                             1, 0, 1,
-                             1, 1, 1};
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(color_data), color_data, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_DOUBLE, GL_FALSE, 0, (void*)0);
-
 
     // Create a shader program 创建shader程序
     GLuint shader_program = glCreateProgram();
@@ -185,6 +107,28 @@ int main()
     // Use the program 启用shader程序
     glUseProgram(shader_program);
 
+    GLuint mvp_mat_location = glGetUniformLocation(shader_program, "mvp_mat");
+
+
+    Control::window = window;
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+
+    glfwSetKeyCallback(window, Control::key_callback);
+    glfwSetMouseButtonCallback(window, Control::mouse_button_callback);
+
+
+    Model model0 = Model(pos_data0, color_data0, index_data0, GL_LINES, 0, 0, 0);
+    Control::setModel(&model0, 0);
+
+    Model model1 = Model(pos_data1, color_data1, index_data1, GL_TRIANGLES, 0, 2, 0);
+    Control::setModel(&model1, 1);
+
+
+    Camera camera;
+
 
     // Enable the depth test 启用景深测试
     glEnable(GL_DEPTH_TEST);
@@ -192,49 +136,16 @@ int main()
     // Objects with less depth will be displayed 显示近景的物体
     glDepthFunc(GL_LESS);
 
-    View::setWindow(window);
-    Projection::setWindow(window);
-
-
-    glfwSetMouseButtonCallback(window, View::mouse_button_callback_dispatch);
-
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-    glfwSetKeyCallback(window, Model::key_callback_dispatch);
-
-    glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
-
-
-    Model::setWindow(window);
-
-    Model::setShaderProgram(shader_program);
-
-    Model::setMVPMatString("mvp_mat");
-
-    Model model1 = Model(0, 6, GL_LINES);
-    Model model2 = Model(6, 42, GL_TRIANGLES);
-    model1.setInstance(0);
-    model2.setInstance(1);
-
-
-    View view;
-
 
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glfwPollEvents();
 
-        model1.draw(view.viewMat(), Projection::getProjectionMat());
-        model2.draw(view.viewMat(), Projection::getProjectionMat());
-
-
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
-
+        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), mvp_mat_location);
 
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
     glDisableVertexAttribArray(0);

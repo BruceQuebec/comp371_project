@@ -1,56 +1,45 @@
 #pragma once
 
 
+#include <vector>
+
+
 class Model
 {
-private:
-	static double world_x_angle;
-	static double world_y_angle;
-	static double world_z_angle;
-
 public:
-	static GLFWwindow * window;
-
-	static GLuint shader_program;
-
-	static const GLchar * mvp_mat_string;
-
-	static Model * instances[];
-	
-	static int current_index;
-
-	static void setWindow(GLFWwindow * window);
-
-	static void setShaderProgram(GLuint shader_program);
-
-	static void setMVPMatString(const GLchar * mvp_mat_string);
-
-	static void key_callback_dispatch(GLFWwindow * window, int key, int scancode, int action, int mods);
+	static std::vector<Model *> models;
 
 private:
-	GLenum mode;
+	GLuint vertex_array;
 
-	int startIndex;
-	int endIndex;
+	std::vector<GLdouble> pos_data;
+	std::vector<GLdouble> color_data;
+	std::vector<GLuint> index_data;
+
+	int num_elements;
+
+	GLenum mode;
 
 	double x_pos;
 	double y_pos;
 	double z_pos;
+
 	double scale;
+
 	double x_angle;
 	double y_angle;
 	double z_angle;
 
 public:
-	Model(int startIndex, int endIndex, GLenum mode);
+	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
 
-	~Model() {}
+	GLuint getVertexArray();
 
-	void setInstance(int index);
+	int getNumElements();
+
+	GLenum getMode();
 
 	glm::mat4 getModelMat();
 
-	void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
-
-	void draw(glm::mat4 view_mat, glm::mat4 projection_mat);
+	void key_callback(int key, int action, int mods);
 };

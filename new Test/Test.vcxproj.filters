@@ -30,30 +30,36 @@
     <ClCompile Include="source\control.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Projection.cpp">
+    <ClCompile Include="source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\View.cpp">
+    <ClCompile Include="source\World.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\temp.hpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\load.h">
+    <ClInclude Include="source\load.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\control.h">
+    <ClInclude Include="source\Model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\control.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Projection.hpp">
+    <ClInclude Include="source\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\View.hpp">
+    <ClInclude Include="source\World.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\draw.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
