@@ -19,15 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\control.cpp" />
+    <ClCompile Include="source\draw.cpp" />
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Model.cpp" />
+    <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Camera.hpp" />
+    <ClInclude Include="source\control.hpp" />
+    <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
+    <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\fragment-shader.glsl" />
     <None Include="source\vertex-shader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resource\axes.txt" />
+    <Text Include="resource\E7.txt" />
+    <Text Include="resource\grid.txt" />
+    <Text Include="resource\I4.txt" />
+    <Text Include="resource\L8.txt" />
+    <Text Include="resource\N4.txt" />
+    <Text Include="resource\Z7.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

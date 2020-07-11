@@ -24,9 +24,39 @@
     <ClCompile Include="source\load.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\control.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\load.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Model.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\World.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\draw.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,5 +67,28 @@
     <None Include="source\vertex-shader.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resource\axes.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\grid.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\N4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\E7.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\I4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\L8.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\Z7.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
