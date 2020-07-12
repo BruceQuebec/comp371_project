@@ -1,4 +1,6 @@
-
+# This is the code repository of Computer Graphic with C++ and OpenGL by Team 13
+---
+### The code responses to the Assignment1 of COMP
 1. 1, 2, 3, 4, 5 to select the model
 2. U, I to scale-up, scale-down the model
 3. W, A, S, D to move the model up/down/left/right
