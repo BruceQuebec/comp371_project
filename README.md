@@ -15,5 +15,13 @@
 | Left mouse button | move the camera zoom-in/zoom-out |
 | Middle mouse button | move the camera in y directionn to tilt |
 
+## Team Members
+| Name   | ID |
+| ------ | ----------- |
+| DONGDONG ZHANG | 40043995 |
+| HONGFEI LIANG | 27830548 |
+| HUANZHANG ZHU | 50054779 |
+| HE LIU | 27271662 |
+| WEINAN ZHANG | 40043261 |
 
 #### The structure of the project is different from the one given in the lab. To run the project, open "Project.sln" with Visual Studio 2017 and build it.
