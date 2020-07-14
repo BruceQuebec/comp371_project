@@ -14,7 +14,7 @@
     <ProjectGuid>{277EAE68-9EED-4EFF-BAD3-2A70787A3E8D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Labs</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,21 +110,16 @@
     <None Include="..\Assets\Shaders\SolidColor.vertexshader" />
     <None Include="..\Assets\Shaders\Texture.fragmentshader" />
     <None Include="..\Assets\Shaders\Texture.vertexshader" />
-    <None Include="..\Source\Shaders\general.fragmentshader" />
-    <None Include="..\Source\Shaders\general.vertexshader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp" />
     <Image Include="..\Assets\Textures\Particle.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\lab02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\grid.hpp" />
-    <ClInclude Include="..\Source\Utils\CameraConfig.hpp" />
-    <ClInclude Include="..\Source\Utils\ModelMeta.hpp" />
-    <ClInclude Include="..\Source\Utils\Shader.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

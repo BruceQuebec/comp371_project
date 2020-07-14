@@ -53,12 +53,6 @@
     <None Include="..\Assets\Shaders\Texture.vertexshader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\general.vertexshader">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="..\Source\Shaders\general.fragmentshader">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\BillboardTest.bmp">
@@ -69,22 +63,13 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\lab02.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\Source\grid.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Utils\Shader.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utils\ModelMeta.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Utils\CameraConfig.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Source\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
