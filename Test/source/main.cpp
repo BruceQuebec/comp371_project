@@ -18,11 +18,6 @@ using namespace std;
 
 int main()
 {
-	// Set OpenGL version to 3.1
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-
-
     // Initialize GLFW
     glfwInit();
 
@@ -63,6 +58,7 @@ int main()
     // Set up key and mouse button callbacks
     glfwSetKeyCallback(window, Control::key_callback);
     glfwSetMouseButtonCallback(window, Control::mouse_button_callback);
+    glfwSetWindowSizeCallback(window, Control::window_size_callback);
 
     // Set the window to be controlled
     Control::window = window;
@@ -73,6 +69,8 @@ int main()
     Control::setModel(&Z7, 3);
     Control::setModel(&I4, 4);
     Control::setModel(&E7, 5);
+
+    Control::setCamera(&camera);
 
 
     // Create a shader program

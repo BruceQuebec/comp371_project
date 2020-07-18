@@ -83,3 +83,8 @@ mat4 Camera::getCameraMat()
 
     return camera_mat;
 }
+
+void Camera::window_size_callback(int width, int height)
+{
+    aspect = (double)width / height;
+}

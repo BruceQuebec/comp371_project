@@ -1,7 +1,16 @@
-#include "Model.hpp"
+#include <vector>
+#include <random>
+#include <chrono>
+
 #include "World.hpp"
+#include "Model.hpp"
+#include "Camera.hpp"
+
 
 #include "control.hpp"
+
+
+using namespace std;
 
 
 GLFWwindow * Control::window = nullptr;
@@ -13,10 +22,17 @@ bool Control::is_mouse_button_middle_pressed = false;
 Model * Control::models[10];
 int Control::model_index = 1;
 
+Camera * Control::camera = nullptr;
+
 
 void Control::setModel(Model * model, int index)
 {
     models[index] = model;
+}
+
+void Control::setCamera(Camera * camera)
+{
+    Control::camera = camera;
 }
 
 void Control::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -61,6 +77,27 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
     // If an index is assigned to a model, call the key callback of the model
     if (models[model_index])
         models[model_index]->key_callback(key, action, mods);
+
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        vector<int> in;
+        for (int i = 0; i < 100; i++)
+            in.push_back(i);
+
+        shuffle(in.begin(), in.end(), default_random_engine(chrono::system_clock::now().time_since_epoch().count()));
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (models[i])
+            {
+                double x_pos = in[i] / 10 * 10 - 45;
+                double y_pos = 0;
+                double z_pos = in[i] % 10 * 10 - 45;
+
+                models[i]->setPos(x_pos, y_pos, z_pos);
+            }
+        }
+    }
 }
 
 void Control::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
@@ -78,4 +115,11 @@ void Control::mouse_button_callback(GLFWwindow * window, int button, int action,
         is_mouse_button_middle_pressed = true;
     if (button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_RELEASE)
         is_mouse_button_middle_pressed = false;
+}
+
+void Control::window_size_callback(GLFWwindow * window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+
+    camera->window_size_callback(width, height);
 }

@@ -27,4 +27,6 @@ public:
 
 	// Get the product of the projection and view matrix of the camera
 	glm::mat4 getCameraMat();
+
+	void window_size_callback(int width, int height);
 };
