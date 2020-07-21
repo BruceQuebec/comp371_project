@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include "Shader.hpp"
 #include "load.hpp"
 #include "World.hpp"
 #include "Model.hpp"
@@ -38,21 +38,35 @@ int main()
 
     // Initialize GLEW
     glewInit();
+	
+	//Initialize shader(s)
+	unordered_map<string, GLuint> shader_pointer_idx_map_generic = {
+								{"pos_data_idx", 0},
+								{"normal_data_idx", 1},
+								{"color_data_idx", 2} };
+	unordered_map<string, GLuint> shader_pointer_idx_map_lightCube = {
+								{"pos_data_idx", 0},
+								{"normal_data_idx", 1},
+								{"color_data_idx", 2}};
 
+	Shader generic_shader = Shader("source/shaders/generic.vs", "source/shaders/generic.fs", shader_pointer_idx_map_generic);
+	Shader lightCube_shader = Shader("source/shaders/lightCube.vs", "source/shaders/lightCube.fs", shader_pointer_idx_map_lightCube);
 
     // Initialize models and load from files
-    Model grid = Model(GL_LINES, 0, 0, 0, "resource/grid.txt");
-    Model axes = Model(GL_LINES, 0, 0, 0, "resource/axes.txt");
-    Model N4 = Model(GL_TRIANGLES, 0, 0, 0, "resource/N4.txt");
-    Model L8 = Model(GL_TRIANGLES, -40, 0, -40, "resource/L8.txt");
-    Model Z7 = Model(GL_TRIANGLES, 40, 0, -40, "resource/Z7.txt");
-    Model I4 = Model(GL_TRIANGLES, -40, 0, 40, "resource/I4.txt");
-    Model E7 = Model(GL_TRIANGLES, 40, 0, 40, "resource/E7.txt");
-
+    Model grid = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_LINES, 0, 0, 0, "resource/grid.txt", "grid");
+    Model axes = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_LINES, 0, 0, 0, "resource/axes.txt", "axes");
+    Model N4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/N4.txt", "N4");
+	Model sphere = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 0, 10, 0, "resource/sphere.txt", "sphere");
+	sphere.setScale(6);
+	Model L8 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, -40, "resource/L8.txt", "L8");
+	Model Z7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, -40, "resource/Z7.txt", "Z7");
+    Model I4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, 40, "resource/I4.txt", "I4");
+    Model E7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, 40, "resource/E7.txt", "E7");
+	
+	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 0,30,5, "resource/lightCube.txt", "lightCube");
 
     // Initialize a camera
     Camera camera;
-
 
     // Hide the cursor
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
@@ -68,32 +82,21 @@ int main()
     Control::window = window;
 
     // Set the models to be controlled
-    Control::setModel(&N4, 1);
-    Control::setModel(&L8, 2);
+	Control::setModel(&N4, 1);
+	Control::setModel(&L8, 2);
     Control::setModel(&Z7, 3);
     Control::setModel(&I4, 4);
     Control::setModel(&E7, 5);
-
-
-    // Create a shader program
-    GLuint shader_program = glCreateProgram();
-
-    // load shaders from files
-    loadShader(shader_program, GL_VERTEX_SHADER, "source/shaders/vertex-shader.glsl");
-    loadShader(shader_program, GL_FRAGMENT_SHADER, "source/shaders/fragment-shader.glsl");
-
-    // Enable the shader program
-    glUseProgram(shader_program);
-
-    // Get the location of "mvp_mat" variable
-    GLuint mvp_mat_location = glGetUniformLocation(shader_program, "mvp_mat");
-
+	Control::setModel(&sphere, 6);
 
     // Enable the depth test
     glEnable(GL_DEPTH_TEST);
 
     // Display pixels with less or equal depth
     glDepthFunc(GL_LEQUAL);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
     // Displaying loop
@@ -106,8 +109,8 @@ int main()
         glfwPollEvents();
 
         // Draw the models
-        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), mvp_mat_location);
-
+        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition());
+		
         // Swap the front and back buffers
         glfwSwapBuffers(window);
     }
