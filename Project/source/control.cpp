@@ -1,6 +1,5 @@
 #include "Model.hpp"
 #include "World.hpp"
-
 #include "control.hpp"
 
 
