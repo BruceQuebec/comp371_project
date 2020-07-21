@@ -1,6 +1,6 @@
-# This is the code repository of Computer Graphic with C++ and OpenGL by Team 13
+# This is the code quiz 1 of Computer Graphic with C++
 ---
-### The code responses to the Assignment1 of COMP
+### The code implements the following functions:
 1. 1, 2, 3, 4, 5 to select the model
 2. U, J to scale-up, scale-down the model
 3. W, A, S, D to shift(translate) the model
@@ -11,5 +11,5 @@
 8. Left mouse button: move the camera zoom-in/zoom-out
 9. Middle mouse button: move the camera in y directionn to tilt
 
-The structure of the project is different from the one given in the lab.
+
 To run the project, open "Project.sln" with Visual Studio 2017 and build it.
