@@ -59,14 +59,12 @@
     <ClInclude Include="source\Model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\shaders\fragment-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\shaders\vertex-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
+    <ClInclude Include="source\Shader.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\utils.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
@@ -90,5 +88,25 @@
     <Text Include="resource\Z7.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="resource\lightCube.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\sphere.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\shaders\generic.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\lightCube.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\lightCube.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
