@@ -9,13 +9,14 @@ bool Control::is_mouse_button_left_pressed = false;
 bool Control::is_mouse_button_right_pressed = false;
 bool Control::is_mouse_button_middle_pressed = false;
 
-Model * Control::models[10];
+//Model * Control::models[10];
+vector<Model*> Control::models_v[10];
 int Control::model_index = 1;
 
 
 void Control::setModel(Model * model, int index)
 {
-    models[index] = model;
+	models_v[index].push_back(model);
 }
 
 void Control::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -58,8 +59,11 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
         model_index = 9;
 
     // If an index is assigned to a model, call the key callback of the model
-    if (models[model_index])
-        models[model_index]->key_callback(key, action, mods);
+	if (models_v[model_index].size() > 0) {
+		for (vector<Model*>::iterator it = models_v[model_index].begin(); it != models_v[model_index].end(); it++) {
+			(*it)->key_callback(key, action, mods);
+		}
+	}
 }
 
 void Control::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)
