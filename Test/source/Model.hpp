@@ -21,9 +21,11 @@ private:
 	std::vector<GLdouble> pos_data;
 	std::vector<GLdouble> color_data;
 	std::vector<GLuint> index_data;
+	std::vector<GLdouble> uv_data;
 
 	// Number of elements
 	int num_elements;
+	int num_vertices;
 
 	// Mode (line or triangle)
 	GLenum mode;
@@ -42,11 +44,11 @@ private:
 	double z_angle;
 
 public:
-	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
+	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
 	Model(GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path);
 
 	// Initialze the model
-	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
+	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
 
 	void setPos(double x_pos, double y_pos, double z_pos);
 
@@ -55,6 +57,8 @@ public:
 
 	// Get the number of elements of the model
 	int getNumElements();
+
+	int getNumVertices();
 
 	// Get the mode of the model
 	GLenum getMode();

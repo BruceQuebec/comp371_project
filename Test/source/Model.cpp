@@ -10,23 +10,24 @@ using namespace std;
 vector<Model *> Model::models;
 
 
-Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos)
+Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos)
 {
-	init(pos_data, color_data, index_data, mode, x_pos, y_pos, z_pos);
+	init(pos_data, color_data, uv_data, index_data, mode, x_pos, y_pos, z_pos);
 }
 
 Model::Model(GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
+	vector<GLdouble> uv_data;
 	vector<GLuint> index_data;
 
-	loadModel(pos_data, color_data, index_data, mode, file_path);
+	loadModel(pos_data, color_data, uv_data, index_data, mode, file_path);
 
-	init(pos_data, color_data, index_data, mode, x_pos, y_pos, z_pos);
+	init(pos_data, color_data, uv_data, index_data, mode, x_pos, y_pos, z_pos);
 }
 
-void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos)
+void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos)
 {
 	// Add the model the vector of models
 	models.push_back(this);
@@ -51,6 +52,14 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 
+
+	GLuint uv_buffer;
+	glGenBuffers(1, &uv_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, uv_buffer);
+	glBufferData(GL_ARRAY_BUFFER, uv_data.size() * sizeof(GLdouble), &uv_data[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_DOUBLE, GL_FALSE, 0, (void *)0);
+
 	// Initialize and bind the index buffer
 	GLuint index_buffer;
 	glGenBuffers(1, &index_buffer);
@@ -58,6 +67,7 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_data.size() * sizeof(GLuint), &index_data[0], GL_STATIC_DRAW);
 
 	num_elements = index_data.size();
+	num_vertices = pos_data.size();
 
 	this->mode = mode;
 
@@ -87,6 +97,11 @@ GLuint Model::getVertexArray()
 int Model::getNumElements()
 {
 	return num_elements;
+}
+
+int Model::getNumVertices()
+{
+	return num_vertices;
 }
 
 GLenum Model::getMode()

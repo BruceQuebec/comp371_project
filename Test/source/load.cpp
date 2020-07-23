@@ -32,7 +32,7 @@ void loadShader(const GLuint & program, GLenum type, const char * file_path)
 }
 
 
-void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vector<GLuint> & index_data, GLenum mode, const char * file_path)
+void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, std::vector<GLdouble> & uv_data, vector<GLuint> & index_data, GLenum mode, const char * file_path)
 {
 	ifstream model_stream(file_path);
 
@@ -63,6 +63,13 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vecto
 				color_data.push_back(x_data);
 				color_data.push_back(y_data);
 				color_data.push_back(z_data);
+			}
+			else if (label == 'u')
+			{
+				string_stream >> x_data >> y_data;
+
+				uv_data.push_back(x_data);
+				uv_data.push_back(y_data);
 			}
 			else if (label == 'i')
 			{

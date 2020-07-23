@@ -59,14 +59,9 @@
     <ClInclude Include="source\draw.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\fragment-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\vertex-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
+    <ClInclude Include="source\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
@@ -90,5 +85,27 @@
     <Text Include="resource\Z7.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="resource\ground.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\shaders\fragment-shader.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\vertex-shader.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\DepthRTT.fragmentshader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\DepthRTT.vertexshader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\ground.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

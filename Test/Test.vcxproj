@@ -33,20 +33,27 @@
     <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\stb_image.h" />
     <ClInclude Include="source\World.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\fragment-shader.glsl" />
-    <None Include="source\vertex-shader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt" />
     <Text Include="resource\E7.txt" />
     <Text Include="resource\grid.txt" />
+    <Text Include="resource\ground.txt" />
     <Text Include="resource\I4.txt" />
     <Text Include="resource\L8.txt" />
     <Text Include="resource\N4.txt" />
     <Text Include="resource\Z7.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\shaders\DepthRTT.fragmentshader" />
+    <None Include="source\shaders\DepthRTT.vertexshader" />
+    <None Include="source\shaders\fragment-shader.glsl" />
+    <None Include="source\shaders\vertex-shader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\ground.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
