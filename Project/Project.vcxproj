@@ -141,6 +141,7 @@
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
     <ClInclude Include="source\Shader.hpp" />
+    <ClInclude Include="source\Texture.hpp" />
     <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>
