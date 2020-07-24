@@ -1,6 +1,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "stb_image.h"
+
 #include "load.hpp"
 
 
@@ -91,4 +93,17 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, std::
 			}
 		}
 	}
+}
+
+
+void loadTexture(GLuint & texture, const char * file_path)
+{
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	GLint width, height, comp;
+	unsigned char * data = stbi_load(file_path, &width, &height, &comp, 0);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	stbi_image_free(data);
 }

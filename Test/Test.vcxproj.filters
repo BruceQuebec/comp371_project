@@ -39,6 +39,9 @@
     <ClCompile Include="source\draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\load.hpp">
@@ -62,6 +65,9 @@
     <ClInclude Include="source\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
@@ -70,22 +76,31 @@
     <Text Include="resource\grid.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\N4.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\E7.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\I4.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\L8.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\Z7.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="resource\ground.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\4.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\7.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\8.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\E.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\I.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\L.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\N.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\Z.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
@@ -104,7 +119,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resource\ground.jpg">
+    <Image Include="resource\metal.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\box.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\tile.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -17,11 +17,8 @@ private:
 	// Vertex array
 	GLuint vertex_array;
 
-	// Position, color and index data
-	std::vector<GLdouble> pos_data;
-	std::vector<GLdouble> color_data;
-	std::vector<GLuint> index_data;
-	std::vector<GLdouble> uv_data;
+	GLuint texture;
+
 
 	// Number of elements
 	int num_elements;
@@ -45,7 +42,7 @@ private:
 
 public:
 	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
-	Model(GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path);
+	Model(GLenum mode, double x_pos, double y_pos, double z_pos, const char * model_file_path, const char * texture_file_path);
 
 	// Initialze the model
 	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
@@ -59,6 +56,8 @@ public:
 	int getNumElements();
 
 	int getNumVertices();
+
+	GLuint getTexture();
 
 	// Get the mode of the model
 	GLenum getMode();

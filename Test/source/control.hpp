@@ -19,7 +19,7 @@ public:
     static bool is_mouse_button_middle_pressed;
 
     // Models to be controlled
-    static Model * models[];
+    static std::vector<Model *> models[];
     static int model_index;
 
     static Camera * camera;

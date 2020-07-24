@@ -1,7 +1,7 @@
 #version 330 core
 
 
-uniform mat4 depth_mvp_mat;
+uniform mat4 light_mvp_mat;
 
 
 layout(location = 0) in vec3 vertex_pos;
@@ -12,7 +12,7 @@ out float w_value;
 
 void main()
 {
-	gl_Position = depth_mvp_mat * vec4(vertex_pos, 1);
+	gl_Position = light_mvp_mat * vec4(vertex_pos, 1);
 	z_value = gl_Position.z;
 	w_value = gl_Position.w;
 

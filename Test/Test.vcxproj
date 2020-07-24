@@ -25,6 +25,7 @@
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
+    <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,18 +34,22 @@
     <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\Shader.hpp" />
     <ClInclude Include="source\stb_image.h" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="resource\4.txt" />
+    <Text Include="resource\7.txt" />
+    <Text Include="resource\8.txt" />
     <Text Include="resource\axes.txt" />
-    <Text Include="resource\E7.txt" />
+    <Text Include="resource\E.txt" />
     <Text Include="resource\grid.txt" />
     <Text Include="resource\ground.txt" />
-    <Text Include="resource\I4.txt" />
-    <Text Include="resource\L8.txt" />
-    <Text Include="resource\N4.txt" />
-    <Text Include="resource\Z7.txt" />
+    <Text Include="resource\I.txt" />
+    <Text Include="resource\L.txt" />
+    <Text Include="resource\N.txt" />
+    <Text Include="resource\Z.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\DepthRTT.fragmentshader" />
@@ -53,7 +58,9 @@
     <None Include="source\shaders\vertex-shader.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resource\ground.jpg" />
+    <Image Include="resource\box.jpg" />
+    <Image Include="resource\metal.jpg" />
+    <Image Include="resource\tile.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

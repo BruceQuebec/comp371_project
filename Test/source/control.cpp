@@ -19,7 +19,7 @@ bool Control::is_mouse_button_left_pressed = false;
 bool Control::is_mouse_button_right_pressed = false;
 bool Control::is_mouse_button_middle_pressed = false;
 
-Model * Control::models[10];
+vector<Model *> Control::models[10];
 int Control::model_index = 1;
 
 Camera * Control::camera = nullptr;
@@ -27,7 +27,7 @@ Camera * Control::camera = nullptr;
 
 void Control::setModel(Model * model, int index)
 {
-    models[index] = model;
+    models[index].push_back(model);
 }
 
 void Control::setCamera(Camera * camera)
@@ -75,8 +75,11 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
         model_index = 9;
 
     // If an index is assigned to a model, call the key callback of the model
-    if (models[model_index])
-        models[model_index]->key_callback(key, action, mods);
+    if (models[model_index].size() > 0)
+    {
+        for (vector<Model *>::iterator it = models[model_index].begin(); it != models[model_index].end(); it++)
+            (*it)->key_callback(key, action, mods);
+    }
 
     if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
     {
@@ -88,13 +91,16 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
 
         for (int i = 0; i < 10; i++)
         {
-            if (models[i])
+            if (models[i].size() > 0)
             {
-                double x_pos = in[i] / 10 * 10 - 45;
-                double y_pos = 0;
-                double z_pos = in[i] % 10 * 10 - 45;
+                for (vector<Model *>::iterator it = models[i].begin(); it != models[i].end(); it++)
+                {
+                    double x_pos = in[i] / 10 * 10 - 45;
+                    double y_pos = 0;
+                    double z_pos = in[i] % 10 * 10 - 45;
 
-                models[i]->setPos(x_pos, y_pos, z_pos);
+                    (*it)->setPos(x_pos, y_pos, z_pos);
+                }
             }
         }
     }

@@ -8,14 +8,14 @@ using namespace glm;
 using namespace std;
 
 
-void draw(mat4 world_mat, vector<Model *> models, mat4 camera_mat, GLuint mvp_mat_location, GLuint depth_mvp_mat_location, GLuint shadow_map_location)
+void draw(mat4 world_mat, vector<Model *> models, mat4 camera_mat, Shader shader, GLuint shadow_map)
 {
 	// Draw each model in the vector
 	for (vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
-		draw(world_mat, **it, camera_mat, mvp_mat_location, depth_mvp_mat_location, shadow_map_location);
+		draw(world_mat, **it, camera_mat, shader, shadow_map);
 }
 
-void draw(mat4 world_mat, Model & model, mat4 camera_mat, GLuint mvp_mat_location, GLuint depth_mvp_mat_location, GLuint shadow_map_location)
+void draw(mat4 world_mat, Model & model, mat4 camera_mat, Shader shader, GLuint shadow_map)
 {
 	// Bind the vertex array of the model
 	glBindVertexArray(model.getVertexArray());
@@ -43,14 +43,15 @@ void draw(mat4 world_mat, Model & model, mat4 camera_mat, GLuint mvp_mat_locatio
 
 	//mat4 depth_mvp_mat = depthProjectionMatrix * depthViewMatrix * world_mat * model.getModelMat();
 
-	// Process the model with the given matrix
-	glUniformMatrix4fv(mvp_mat_location, 1, GL_FALSE, &mvp_mat[0][0]);
 
-	glUniformMatrix4fv(depth_mvp_mat_location, 1, GL_FALSE, &depth_mvp_mat[0][0]);
-	
+	shader.bindShader();
+	shader.bindMVPMat(mvp_mat);
+	shader.bindLightMVPMat(depth_mvp_mat);
+	shader.bindTexture(model.getTexture());
+	shader.bindShadowMap(shadow_map);
+
 
 	// Draw the model
+	glDrawArrays(model.getMode(), 0, model.getNumVertices() / 3);
 	//glDrawElements(model.getMode(), model.getNumElements(), GL_UNSIGNED_INT, 0);
-	for (int i = 0; i < model.getNumVertices() / 3; i += 3)
-		glDrawArrays(GL_TRIANGLES, i, 3);
 }
