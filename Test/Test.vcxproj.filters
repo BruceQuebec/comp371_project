@@ -39,6 +39,15 @@
     <ClCompile Include="source\draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\load.hpp">
@@ -59,14 +68,12 @@
     <ClInclude Include="source\draw.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\fragment-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\vertex-shader.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
+    <ClInclude Include="source\Texture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
@@ -90,5 +97,19 @@
     <Text Include="resource\Z7.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\shaders\generic.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\lightCube.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\lightCube.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
