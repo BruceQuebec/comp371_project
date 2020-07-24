@@ -25,6 +25,9 @@
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
+    <ClCompile Include="source\Source.cpp" />
+    <ClCompile Include="source\stb_image.cpp" />
+    <ClCompile Include="source\Texture.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,11 +36,9 @@
     <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\stb_image.h" />
+    <ClInclude Include="source\Texture.hpp" />
     <ClInclude Include="source\World.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\fragment-shader.glsl" />
-    <None Include="source\vertex-shader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt" />
@@ -48,12 +49,18 @@
     <Text Include="resource\N4.txt" />
     <Text Include="resource\Z7.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="source\shaders\generic.fs" />
+    <None Include="source\shaders\generic.vs" />
+    <None Include="source\shaders\lightCube.fs" />
+    <None Include="source\shaders\lightCube.vs" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c0aa8af0-fbe7-447e-8495-2125fd57bad6}</ProjectGuid>
     <RootNamespace>Test</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
