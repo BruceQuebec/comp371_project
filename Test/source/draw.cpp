@@ -48,11 +48,8 @@ void lighting_render(Model model, vec3 cameraPos, string model_name) {
 	model.getShader().setVec3("viewPos", cameraPos);
 
 	// point light properties
-	glm::vec3 lightColor;
-	lightColor.x = sin(glfwGetTime() * 2.0f);
-	lightColor.y = sin(glfwGetTime() * 0.7f);
-	lightColor.z = sin(glfwGetTime() * 1.3f);
-	glm::vec3 diffuseColor = lightColor * glm::vec3(0.7f); // decrease the influence
+	glm::vec3 lightColor(1.0, 1.0, 1.0);
+	glm::vec3 diffuseColor = lightColor * glm::vec3(7.0f); // decrease the influence
 	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.5f); // low influence
 	model.getShader().setVec3("light.ambient", ambientColor);
 	model.getShader().setVec3("light.diffuse", diffuseColor);
