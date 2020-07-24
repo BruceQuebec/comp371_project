@@ -141,11 +141,10 @@ void loadModel(std::vector<GLdouble> & pos_data, std::vector<GLdouble> & color_d
 				normal_data.push_back(z_data);
 			}
 			else if (label == 't') {
-				string_stream >> x_data >> y_data >> z_data;
+				string_stream >> x_data >> y_data;
 
 				texCoords_data.push_back(x_data);
 				texCoords_data.push_back(y_data);
-				texCoords_data.push_back(z_data);
 			}
 		}
 	}
