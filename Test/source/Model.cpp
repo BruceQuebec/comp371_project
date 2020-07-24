@@ -83,7 +83,7 @@ void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_dat
 		glBindBuffer(GL_ARRAY_BUFFER, texCoords_buffer);
 		glBufferData(GL_ARRAY_BUFFER, texCoords_data.size() * sizeof(GLdouble), &texCoords_data[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(shader_pointer_idx_map["texCoords_data_idx"]);
-		glVertexAttribPointer(shader_pointer_idx_map["texCoords_data_idx"], 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
+		glVertexAttribPointer(shader_pointer_idx_map["texCoords_data_idx"], 2, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 	}
 	
 
