@@ -65,6 +65,9 @@
     <ClInclude Include="source\utils.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Texture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
