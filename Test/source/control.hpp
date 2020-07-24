@@ -19,7 +19,7 @@ public:
 
     // Models to be controlled
 	
-    static Model * models[];
+	static vector<Model *> models_v[];
     static int model_index;
 
 
