@@ -4,6 +4,7 @@
 #include "Model.hpp"
 #include "utils.hpp"
 
+
 using namespace std;
 using namespace glm;
 
@@ -11,12 +12,12 @@ using namespace glm;
 unordered_map<string, Model*> Model::models;
 
 
-Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name)
+Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path)
 {
-	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name);
+	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name, texture_file_path);
 }
 
-Model::Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name)
+Model::Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name, string texture_file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
@@ -27,13 +28,13 @@ Model::Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_ma
 	loadModel(pos_data, color_data, index_data, normal_data, texCoords_data, mode, file_path);
 	
 	if (normal_data.size() == 0 && (mode==GL_TRIANGLES || mode==GL_TRIANGLE_STRIP)) {
-		normal_data = Model::getNormals(pos_data, index_data);
+		normal_data = Model::getNormals(pos_data);
 	}
 	
-	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name);
+	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name, texture_file_path);
 }
 
-void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name)
+void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path)
 {
 	num_vertices = pos_data.size();
 
@@ -77,13 +78,35 @@ void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_dat
 	}
 
 	// Initialize and bind the texture coordinates buffer
-	if (texCoords_data.size() > 0) {
+	if (texCoords_data.size() > 0 && texture_file_path!="") {
 		GLuint texCoords_buffer;
 		glGenBuffers(1, &texCoords_buffer);
 		glBindBuffer(GL_ARRAY_BUFFER, texCoords_buffer);
 		glBufferData(GL_ARRAY_BUFFER, texCoords_data.size() * sizeof(GLdouble), &texCoords_data[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(shader_pointer_idx_map["texCoords_data_idx"]);
 		glVertexAttribPointer(shader_pointer_idx_map["texCoords_data_idx"], 2, GL_DOUBLE, GL_FALSE, 0, (void *)0);
+
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+		// set the texture wrapping parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		// set texture filtering parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// load image, create texture and generate mipmaps
+		int width, height, nrChannels;
+		unsigned char *data = stbi_load(texture_file_path.c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			std::cout << "Failed to load texture" << std::endl;
+		}
+		stbi_image_free(data);
 	}
 	
 
@@ -132,6 +155,10 @@ Shader Model::getShader() {
 	return shader;
 }
 
+GLuint Model::getTextureID() {
+	return textureID;
+}
+
 glm::vec3 Model::getPosition() {
 	return glm::vec3(this->x_pos, this->y_pos, this->z_pos);
 }
@@ -153,6 +180,11 @@ mat4 Model::getModelMat()
 
 vector<GLdouble> Model::getNormals(vector<GLdouble> pos_data, vector<GLuint> index_data) {
 	vector<GLdouble> normals = Utils::getNormalForVertex(pos_data, index_data);
+	return normals;
+}
+
+vector<GLdouble> Model::getNormals(vector<GLdouble> pos_data) {
+	vector<GLdouble> normals = Utils::getNormalForVertex(pos_data);
 	return normals;
 }
 
