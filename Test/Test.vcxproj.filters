@@ -45,9 +45,6 @@
     <ClCompile Include="source\Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\load.hpp">
@@ -68,47 +65,68 @@
     <ClInclude Include="source\draw.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Texture.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\stb_image.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\utils.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resource\axes.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\grid.txt">
+    <Text Include="resource\ground.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\N4.txt">
+    <Text Include="resource\lightCube.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\E7.txt">
+    <Text Include="resource\N.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\I4.txt">
+    <Text Include="resource\4.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\L8.txt">
+    <Text Include="resource\sphere.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\Z7.txt">
+    <Text Include="resource\L.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\8.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\Z.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\7.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\I.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resource\E.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\shaders\generic.fs">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\shaders\generic.vs">
-      <Filter>Source Files\shaders</Filter>
-    </None>
     <None Include="source\shaders\lightCube.fs">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="source\shaders\lightCube.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_texture.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_texture.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_color.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_color.fs">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>
