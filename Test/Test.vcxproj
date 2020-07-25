@@ -27,7 +27,6 @@
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\Source.cpp" />
     <ClCompile Include="source\stb_image.cpp" />
-    <ClCompile Include="source\Texture.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -37,21 +36,28 @@
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
     <ClInclude Include="source\stb_image.h" />
-    <ClInclude Include="source\Texture.hpp" />
+    <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="resource\4.txt" />
+    <Text Include="resource\7.txt" />
+    <Text Include="resource\8.txt" />
     <Text Include="resource\axes.txt" />
-    <Text Include="resource\E7.txt" />
-    <Text Include="resource\grid.txt" />
-    <Text Include="resource\I4.txt" />
-    <Text Include="resource\L8.txt" />
-    <Text Include="resource\N4.txt" />
-    <Text Include="resource\Z7.txt" />
+    <Text Include="resource\E.txt" />
+    <Text Include="resource\ground.txt" />
+    <Text Include="resource\I.txt" />
+    <Text Include="resource\L.txt" />
+    <Text Include="resource\lightCube.txt" />
+    <Text Include="resource\N.txt" />
+    <Text Include="resource\sphere.txt" />
+    <Text Include="resource\Z.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\shaders\generic.fs" />
-    <None Include="source\shaders\generic.vs" />
+    <None Include="source\shaders\generic_color.fs" />
+    <None Include="source\shaders\generic_color.vs" />
+    <None Include="source\shaders\generic_texture.fs" />
+    <None Include="source\shaders\generic_texture.vs" />
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
   </ItemGroup>
