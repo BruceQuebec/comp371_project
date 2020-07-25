@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Shader.hpp"
+#include "stb_image.h"
 
 
 class Model
@@ -21,6 +22,9 @@ private:
 
 	// the instance of shader being used in the modle
 	Shader shader;
+	
+	// the instance of texture used in the model
+	GLuint textureID = 0;
 
 	// Position, color and index data
 	std::vector<GLdouble> pos_data;
@@ -50,11 +54,11 @@ private:
 	double z_angle;
 
 public:
-	Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name);
-	Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name);
+	Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path);
+	Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name, string texture_file_path);
 
 	// Initialze the model
-	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name);
+	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path);
 
 	// Get the vertex array of the model
 	GLuint getVertexArray();
@@ -74,11 +78,15 @@ public:
 	// Get Shader of the model
 	Shader getShader();
 
+	// Get texture of the model
+	GLuint getTextureID();
+
 	// Get position of the model
 	glm::vec3 getPosition();
 
 	// Get normal of the model
 	vector<GLdouble> getNormals(vector<GLdouble> pos_data, vector<GLuint> index_data);
+	vector<GLdouble> getNormals(vector<GLdouble> pos_data);
 
 	// Set model scale
 	void setScale(double scale);
