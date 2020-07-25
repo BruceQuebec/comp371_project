@@ -132,6 +132,7 @@
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Model.cpp" />
+    <ClCompile Include="source\stb_image.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +142,7 @@
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
     <ClInclude Include="source\Shader.hpp" />
+    <ClInclude Include="source\stb_image.h" />
     <ClInclude Include="source\Texture.hpp" />
     <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
@@ -157,8 +159,6 @@
     <Text Include="resource\Z7.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\shaders\generic.fs" />
-    <None Include="source\shaders\generic.vs" />
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
   </ItemGroup>
