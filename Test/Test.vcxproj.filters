@@ -117,6 +117,12 @@
     <None Include="source\shaders\DepthRTT.vertexshader">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="source\shaders\color.fragmentshader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\color.vertexshader">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\metal.jpg">
@@ -126,6 +132,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resource\tile.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\grid-and-axes.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\tile1.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

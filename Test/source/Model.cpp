@@ -1,4 +1,5 @@
 #include "load.hpp"
+#include "Shader.hpp"
 
 #include "Model.hpp"
 

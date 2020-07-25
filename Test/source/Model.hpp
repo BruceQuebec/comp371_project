@@ -6,6 +6,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Shader.hpp"
+
 
 class Model
 {
@@ -18,6 +20,8 @@ private:
 	GLuint vertex_array;
 
 	GLuint texture;
+
+	Shader * shader;
 
 
 	// Number of elements
@@ -48,6 +52,7 @@ public:
 	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLuint> index_data, GLenum mode, double x_pos, double y_pos, double z_pos);
 
 	void setPos(double x_pos, double y_pos, double z_pos);
+
 
 	// Get the vertex array of the model
 	GLuint getVertexArray();

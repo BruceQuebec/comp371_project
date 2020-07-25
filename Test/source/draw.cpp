@@ -10,6 +10,8 @@ using namespace std;
 
 void draw(mat4 world_mat, vector<Model *> models, mat4 camera_mat, Shader shader, GLuint shadow_map)
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	// Draw each model in the vector
 	for (vector<Model *>::iterator it = models.begin(); it != models.end(); it++)
 		draw(world_mat, **it, camera_mat, shader, shadow_map);
@@ -33,6 +35,7 @@ void draw(mat4 world_mat, Model & model, mat4 camera_mat, Shader shader, GLuint 
 
 	mat4 light_camera_mat = projection_mat * view_mat;
 
+
 	mat4 depth_mvp_mat = light_camera_mat * world_mat * model.getModelMat();
 
 	//glm::vec3 lightInvDir = glm::vec3(-20, 2, 2);
@@ -44,11 +47,7 @@ void draw(mat4 world_mat, Model & model, mat4 camera_mat, Shader shader, GLuint 
 	//mat4 depth_mvp_mat = depthProjectionMatrix * depthViewMatrix * world_mat * model.getModelMat();
 
 
-	shader.bindShader();
-	shader.bindMVPMat(mvp_mat);
-	shader.bindLightMVPMat(depth_mvp_mat);
-	shader.bindTexture(model.getTexture());
-	shader.bindShadowMap(shadow_map);
+	shader.bindShader(mvp_mat, depth_mvp_mat, model.getTexture(), shadow_map);
 
 
 	// Draw the model

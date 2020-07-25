@@ -18,6 +18,8 @@ public:
     static bool is_mouse_button_right_pressed;
     static bool is_mouse_button_middle_pressed;
 
+    static bool render_with_texture;
+
     // Models to be controlled
     static std::vector<Model *> models[];
     static int model_index;

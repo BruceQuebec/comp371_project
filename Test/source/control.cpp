@@ -19,6 +19,8 @@ bool Control::is_mouse_button_left_pressed = false;
 bool Control::is_mouse_button_right_pressed = false;
 bool Control::is_mouse_button_middle_pressed = false;
 
+bool Control::render_with_texture = true;
+
 vector<Model *> Control::models[10];
 int Control::model_index = 1;
 
@@ -104,6 +106,9 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
             }
         }
     }
+
+    if (key == GLFW_KEY_X && action == GLFW_PRESS)
+        render_with_texture = !render_with_texture;
 }
 
 void Control::mouse_button_callback(GLFWwindow * window, int button, int action, int mods)

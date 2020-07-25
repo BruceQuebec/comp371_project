@@ -52,6 +52,8 @@
     <Text Include="resource\Z.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="source\shaders\color.fragmentshader" />
+    <None Include="source\shaders\color.vertexshader" />
     <None Include="source\shaders\DepthRTT.fragmentshader" />
     <None Include="source\shaders\DepthRTT.vertexshader" />
     <None Include="source\shaders\fragment-shader.glsl" />
@@ -59,8 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\box.jpg" />
+    <Image Include="resource\grid-and-axes.jpg" />
     <Image Include="resource\metal.jpg" />
     <Image Include="resource\tile.jpg" />
+    <Image Include="resource\tile1.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

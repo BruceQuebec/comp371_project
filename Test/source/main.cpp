@@ -39,19 +39,15 @@ int main()
     glewInit();
 
 
+    GLuint frame_buffer;
+    glGenFramebuffers(1, &frame_buffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
 
 
-    // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
-    GLuint FramebufferName;
-    glGenFramebuffers(1, &FramebufferName);
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-
-    // Depth texture. Slower than a depth buffer, but you can sample it later in your shader
     GLuint shadow_map;
     glGenTextures(1, &shadow_map);
     glBindTexture(GL_TEXTURE_2D, shadow_map);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -59,16 +55,25 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadow_map, 0);
 
-    //glDrawBuffer(GL_NONE); // No color buffer is drawn to.
+    glDrawBuffer(GL_NONE);
+
+
+    Shader texture_shader = Shader("source/shaders/vertex-shader.glsl", "source/shaders/fragment-shader.glsl");
+
+    Shader color_shader = Shader("source/shaders/color.vertexshader", "source/shaders/color.fragmentshader");
+
+    Shader shadow_shader = Shader("source/shaders/DepthRTT.vertexshader", "source/shaders/DepthRTT.fragmentshader");
 
 
 
     // Initialize models and load from files
     Model ground = Model(GL_TRIANGLES, 0, 0, 0, "resource/ground.txt", "resource/tile.jpg");
     //Model grid = Model(GL_LINES, 0, 0, 0, "resource/grid.txt");
-    //Model axes = Model(GL_LINES, 0, 0, 0, "resource/axes.txt");
+    Model axes = Model(GL_LINES, 0, 0, 0, "resource/axes.txt", "resource/grid-and-axes.jpg");
     Model N4_N = Model(GL_TRIANGLES, 0, 0, 0, "resource/N.txt", "resource/box.jpg");
     Model N4_4 = Model(GL_TRIANGLES, 0, 0, 0, "resource/4.txt", "resource/metal.jpg");
     Model L8_L = Model(GL_TRIANGLES, -40, 0, -40, "resource/L.txt", "resource/box.jpg");
@@ -112,21 +117,6 @@ int main()
 
     Control::setCamera(&camera);
 
-
-
-
-    // Create a shader program
-    GLuint depth_shader_program = glCreateProgram();
-
-    loadShader(depth_shader_program, GL_VERTEX_SHADER, "source/shaders/DepthRTT.vertexshader");
-    loadShader(depth_shader_program, GL_FRAGMENT_SHADER, "source/shaders/DepthRTT.fragmentshader");
-
-    // Enable the shader program
-    glUseProgram(depth_shader_program);
-
-
-    Shader shader = Shader("source/shaders/vertex-shader.glsl", "source/shaders/fragment-shader.glsl");
-
     
 
     // Enable the depth test
@@ -139,31 +129,20 @@ int main()
     // Displaying loop
     while (!glfwWindowShouldClose(window))
     {
-        //glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+        glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
 
-        //glViewport(0, 0, 1024, 1024);
+        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), shadow_shader, NULL);
 
-        //// Clear the color and depth buffers
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        //depth_mvp_mat_location = glGetUniformLocation(depth_shader_program, "depth_mvp_mat");
-
-        //glUseProgram(depth_shader_program);
-
-        //draw(World::getWorldMat(), Model::models, camera.getCameraMat(), mvp_mat_location, depth_mvp_mat_location, shadow_map_location);
-
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
-        
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // Clear the color and depth buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         // Draw the models
-        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), shader, shadow_map);
+        if (Control::render_with_texture)
+            draw(World::getWorldMat(), Model::models, camera.getCameraMat(), texture_shader, shadow_map);
+        else
+            draw(World::getWorldMat(), Model::models, camera.getCameraMat(), color_shader, shadow_map);
         
+
         // Process events in the event queue
         glfwPollEvents();
 

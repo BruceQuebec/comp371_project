@@ -8,6 +8,8 @@
 using namespace glm;
 
 
+Shader::Shader() {}
+
 Shader::Shader(const char * vertex_shader_file_path, const char * fragment_shader_file_path)
 {
     program = glCreateProgram();
@@ -21,9 +23,14 @@ Shader::Shader(const char * vertex_shader_file_path, const char * fragment_shade
     shadow_map = glGetUniformLocation(program, "shadow_map");
 }
 
-void Shader::bindShader()
+void Shader::bindShader(mat4 mvp_mat, mat4 light_mvp_mat, GLuint texture, GLuint shadow_map)
 {
     glUseProgram(program);
+
+    bindMVPMat(mvp_mat);
+    bindLightMVPMat(light_mvp_mat);
+    bindTexture(texture);
+    bindShadowMap(shadow_map);
 }
 
 void Shader::bindMVPMat(mat4 mvp_mat)
