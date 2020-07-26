@@ -22,6 +22,11 @@ using namespace std;
 
 int main()
 {
+    // Set OpenGL version to 3.1
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+
+
     // Initialize GLFW
     glfwInit();
 

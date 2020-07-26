@@ -35,6 +35,10 @@ private:
 	double x_pos;
 	double y_pos;
 	double z_pos;
+
+	double x_shear;
+	double y_shear;
+	double z_shear;
 	
 	// Scale
 	double scale;

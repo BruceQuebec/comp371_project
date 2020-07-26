@@ -1,3 +1,5 @@
+#include "glm/gtx/transform2.hpp"
+
 #include "load.hpp"
 #include "Shader.hpp"
 
@@ -92,6 +94,9 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<
 	this->y_pos = y_pos;
 	this->z_pos = z_pos;
 
+	x_shear = 0;
+	z_shear = 0;
+
 	scale = 1;
 
 	x_angle = 0;
@@ -137,12 +142,14 @@ mat4 Model::getModelMat()
 
 	mat4 scale_mat = glm::scale(mat4(1), vec3(scale, scale, scale));
 
+	mat4 shear_mat = shearY3D(mat4(1), (float)x_shear, (float)z_shear);
+
 	mat4 rotate_x_mat = rotate(mat4(1), float(x_angle), vec3(1, 0, 0));
 	mat4 rotate_y_mat = rotate(mat4(1), float(y_angle), vec3(0, 1, 0));
 	mat4 rotate_z_mat = rotate(mat4(1), float(z_angle), vec3(0, 0, 1));
 	mat4 rotate_mat = rotate_x_mat * rotate_y_mat * rotate_z_mat;
 
-	mat4 model_mat = translate_mat * scale_mat * rotate_mat;
+	mat4 model_mat = shear_mat * translate_mat * rotate_mat * scale_mat;
 
 	return model_mat;
 }
@@ -164,6 +171,15 @@ void Model::key_callback(int key, int action, int mods)
 		scale += 0.01;
 	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
 		scale -= 0.01;
+
+	if (key == GLFW_KEY_F && action == GLFW_REPEAT)
+		x_shear -= 0.01;
+	if (key == GLFW_KEY_H && action == GLFW_REPEAT)
+		x_shear += 0.01;
+	if (key == GLFW_KEY_T && action == GLFW_REPEAT)
+		z_shear -= 0.01;
+	if (key == GLFW_KEY_G && action == GLFW_REPEAT)
+		z_shear += 0.01;
 
 	// If w, s, a, or d is pressed, rotate the model
 	if (key == GLFW_KEY_W && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
