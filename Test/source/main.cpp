@@ -68,9 +68,11 @@ int main()
 								{"pos_data_idx", 0}};
 
 	Shader generic_shader = Shader("source/shaders/generic.vs", "source/shaders/generic.fs", shader_pointer_idx_map_generic);
+	generic_shader.setInt("material.diffuse", 0);
+	generic_shader.setInt("shadowMap", 1);
+
 	Shader lightCube_shader = Shader("source/shaders/lightCube.vs", "source/shaders/lightCube.fs", shader_pointer_idx_map_lightCube);
-	Shader debugDepthQuadShader = Shader("source/shaders/debug_quad_depth.vs", "source/shaders/debug_quad_depth.fs", shader_pointer_idx_map_depthMap_debug);
-	Shader shadowMappingShader = Shader("source/shaders/shadow_mapping_depth.vs", "source/shaders/shadow_mapping_depth.fs", shader_pointer_idx_map_depthMap);
+	Shader shadowMappingShader = Shader("source/shaders/shadow_mapping_depth.vs", "source/shaders/shadow_mapping_depth.gs", "source/shaders/shadow_mapping_depth.fs", shader_pointer_idx_map_depthMap);
     
 	// Initialize models and load from files
     Model ground = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/ground.txt", "ground", "resource/textures/tile.jpg");
@@ -81,33 +83,31 @@ int main()
 	Model sphere_N4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 0, 13, 0, "resource/sphere.txt", "sphere_N4", "");
 	sphere_N4.setScale(9);
 	
-	Model L = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, -40, "resource/L.txt", "L", "resource/textures/box.jpg");
-	Model L8 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, -40, "resource/8.txt", "L8", "resource/textures/metal.jpg");
-	Model sphere_L8 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -40, 13, -40, "resource/sphere.txt", "sphere_L8", "");
+	Model L = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -30, 0, -30, "resource/L.txt", "L", "resource/textures/box.jpg");
+	Model L8 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -30, 0, -30, "resource/8.txt", "L8", "resource/textures/metal.jpg");
+	Model sphere_L8 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -30, 13, -30, "resource/sphere.txt", "sphere_L8", "");
 	sphere_L8.setScale(9);
 
-	Model Z = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, -40, "resource/Z.txt", "Z", "resource/textures/box.jpg");
-	Model Z7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, -40, "resource/7.txt", "Z7", "resource/textures/metal.jpg");
-	Model sphere_Z7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 40, 13, -40, "resource/sphere.txt", "sphere_Z7", "");
+	Model Z = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 30, 0, -30, "resource/Z.txt", "Z", "resource/textures/box.jpg");
+	Model Z7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 30, 0, -30, "resource/7.txt", "Z7", "resource/textures/metal.jpg");
+	Model sphere_Z7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 30, 13, -30, "resource/sphere.txt", "sphere_Z7", "");
 	sphere_Z7.setScale(9);
 
-	Model I = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, 40, "resource/I.txt", "I", "resource/textures/box.jpg");
-	Model I4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, 40, "resource/4.txt", "I4", "resource/textures/metal.jpg");
-	Model sphere_I4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -40, 13, 40, "resource/sphere.txt", "sphere_I4", "");
+	Model I = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -30, 0, 30, "resource/I.txt", "I", "resource/textures/box.jpg");
+	Model I4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, -30, 0, 30, "resource/4.txt", "I4", "resource/textures/metal.jpg");
+	Model sphere_I4 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -30, 13, 30, "resource/sphere.txt", "sphere_I4", "");
 	sphere_I4.setScale(9);
 
-	Model E = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, 40, "resource/E.txt", "E", "resource/textures/box.jpg");
-	Model E7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, 40, "resource/7.txt", "E7", "resource/textures/metal.jpg");
-	Model sphere_E7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 40, 13, 40, "resource/sphere.txt", "sphere_E7", "");
+	Model E = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 30, 0, 30, "resource/E.txt", "E", "resource/textures/box.jpg");
+	Model E7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLES, 30, 0, 30, "resource/7.txt", "E7", "resource/textures/metal.jpg");
+	Model sphere_E7 = Model(generic_shader, generic_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 30, 13, 30, "resource/sphere.txt", "sphere_E7", "");
 	sphere_E7.setScale(9);
 	
-	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, -2.0f, 30.0f, -2.0f, "resource/lightCube.txt", "lightCube", "");
+	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, -2.0f, 40.0f, -2.0f, "resource/lightCube.txt", "lightCube", "");
 
     // Initialize a camera
     Camera camera;
 	Control::setCamera(&camera);
-
-    
 
     // Set the window to be controlled
     Control::window = window;
@@ -143,7 +143,7 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	unordered_map<string, unsigned int> depthMapIDs = depthMappingSetup(debugDepthQuadShader);
+	unordered_map<string, unsigned int> depthMapIDs = depthMappingSetup();
 	
     // Displaying loop
     while (!glfwWindowShouldClose(window))
@@ -155,10 +155,10 @@ int main()
         glfwPollEvents();
 
         // Draw the models
-		glm::mat4 lightSpaceMat = depthMappingPerform(debugDepthQuadShader, shadowMappingShader, Model::models["lightCube"]->getPosition(), *Model::models["ground"],depthMapIDs, World::getWorldMat(), Model::models);
+		float far_plane = depthMappingPerform(shadowMappingShader, Model::models["lightCube"]->getPosition(), depthMapIDs, World::getWorldMat(), Model::models);
 		glViewport(0, 0, 1024, 768);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition(), depthMapIDs, lightSpaceMat);
+		draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition(), depthMapIDs, far_plane);
 		
         // Swap the front and back buffers
         glfwSwapBuffers(window);
