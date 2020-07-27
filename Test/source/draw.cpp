@@ -37,11 +37,7 @@ void draw(mat4 world_mat, Model & model, mat4 cameraMat, vec3 cameraPos, string 
 		else {
 			model.getShader().setInt("byColor", 1);
 		}
-
-		
 	}
-
-	
 		
 	model.getShader().setMat4("model", model.getModelMat());
 	model.getShader().setMat4("view_projection", cameraMat);
@@ -56,32 +52,24 @@ void draw(mat4 world_mat, Model & model, mat4 cameraMat, vec3 cameraPos, string 
 void lighting_render(Model model, vec3 cameraPos, string model_name) {
 	// update the light and view position in fragment shader
 	model.getShader().setVec3("light.position", Model::models["lightCube"]->getPosition());
-	model.getShader().setVec3("viewPos", cameraPos);
+	model.getShader().setVec3("view_position", cameraPos);
 
 	// point light properties
 	glm::vec3 lightColor(1.0, 1.0, 1.0);
-	glm::vec3 diffuseColor = lightColor * glm::vec3(0.9f); // decrease the influence
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.6f); // low influence
+	glm::vec3 diffuseColor = lightColor * glm::vec3(7.0f); // decrease the influence
+	glm::vec3 ambientColor = diffuseColor * glm::vec3(2.0f); // low influence
 	model.getShader().setVec3("light.ambient", ambientColor);
 	model.getShader().setVec3("light.diffuse", diffuseColor);
-	model.getShader().setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+	model.getShader().setVec3("light.specular", glm::vec3(10.0f, 10.0f, 10.0f));
 
 	// material properties
-	model.getShader().setVec3("material.ambient", glm::vec3(0.19225, 0.19225, 0.19225));
-	if (model.getTextureID() == 0) {
-		model.getShader().setVec3("material.diffuse", glm::vec3(0.50754, 0.50754, 0.50754));
-	}
-	model.getShader().setVec3("material.specular", glm::vec3(0.508273, 0.508273, 0.508273)); // specular lighting doesn't have full effect on this object's material
-	model.getShader().setFloat("material.shininess", 32.0f);
+	model.getShader().setFloat("material.shininess", 64.0f);
+	model.getShader().setVec3("material.specular", glm::vec3(5, 5, 5));
 
 	// point light attenuation calculation
 	model.getShader().setFloat("light.constant", 1.0f);
 	model.getShader().setFloat("light.linear", 0.09f);
 	model.getShader().setFloat("light.quadratic", 0.032f);
-
-	// spotlight 
-	model.getShader().setVec3("light.direction", glm::vec3(0, 0, -1));
-	model.getShader().setFloat("light.cutOff", glm::cos(glm::radians(32.5f)));
 }
 
 unordered_map<string, unsigned int> depthMappingSetup(Shader debugDepthQuadShader) {
