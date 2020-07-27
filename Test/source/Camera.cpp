@@ -1,10 +1,6 @@
 #define PI 3.141592653589793
 
-
-#include <GLFW/glfw3.h>
-
 #include "control.hpp"
-
 #include "Camera.hpp"
 
 
@@ -14,8 +10,8 @@ using namespace glm;
 Camera::Camera()
 {
     x_pos = 0;
-    y_pos = 10;
-    z_pos = 10;
+	y_pos = 20;
+	z_pos = 20;
 
     theta = -PI / 4;
     rho = 0;
@@ -84,7 +80,11 @@ mat4 Camera::getCameraMat()
     return camera_mat;
 }
 
+glm::vec3 Camera::getCameraPosition() {
+	return glm::vec3(x_pos, y_pos, z_pos);
+}
+
 void Camera::window_size_callback(int width, int height)
 {
-    aspect = (double)width / height;
+	aspect = (double)width / height;
 }

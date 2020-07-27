@@ -1,10 +1,7 @@
 #include <fstream>
 #include <sstream>
-
-#include "stb_image.h"
-
 #include "load.hpp"
-
+#include <iostream>
 
 using namespace std;
 
@@ -34,8 +31,7 @@ void loadShader(const GLuint & program, GLenum type, const char * file_path)
 }
 
 
-void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, std::vector<GLdouble> & uv_data, vector<GLuint> & index_data, GLenum mode, const char * file_path)
-{
+void loadModel(std::vector<GLdouble> & pos_data, std::vector<GLdouble> & color_data, std::vector<GLuint> & index_data, std::vector<GLdouble> & normal_data, std::vector<GLdouble> & texCoords_data, GLenum mode, const char * file_path) {
 	ifstream model_stream(file_path);
 
 	string line;
@@ -66,13 +62,6 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, std::
 				color_data.push_back(y_data);
 				color_data.push_back(z_data);
 			}
-			else if (label == 'u')
-			{
-				string_stream >> x_data >> y_data;
-
-				uv_data.push_back(x_data);
-				uv_data.push_back(y_data);
-			}
 			else if (label == 'i')
 			{
 				if (mode == GL_LINES)
@@ -91,19 +80,19 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, std::
 					index_data.push_back(index3);
 				}
 			}
+			else if (label == 'n') {
+				string_stream >> x_data >> y_data >> z_data;
+
+				normal_data.push_back(x_data);
+				normal_data.push_back(y_data);
+				normal_data.push_back(z_data);
+			}
+			else if (label == 'u') {
+				string_stream >> x_data >> y_data;
+
+				texCoords_data.push_back(x_data);
+				texCoords_data.push_back(y_data);
+			}
 		}
 	}
-}
-
-
-void loadTexture(GLuint & texture, const char * file_path)
-{
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	GLint width, height, comp;
-	unsigned char * data = stbi_load(file_path, &width, &height, &comp, 0);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
-	stbi_image_free(data);
 }
