@@ -133,6 +133,13 @@ void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_dat
 	z_angle = 0;
 }
 
+void Model::setPos(double x_pos, double y_pos, double z_pos)
+{
+	this->x_pos = x_pos;
+	this->y_pos = y_pos;
+	this->z_pos = z_pos;
+}
+
 GLuint Model::getVertexArray()
 {
 	return vertex_array;
