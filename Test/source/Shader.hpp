@@ -107,7 +107,9 @@ public:
 		glDeleteShader(fragment);
 	}
 
-	Shader(const char* vertexPath, const char* geometryPath, const char* fragmentPath) {
+	Shader(const char* vertexPath, const char* geometryPath, const char* fragmentPath, unordered_map<string, GLuint> shader_pointer_idx_map) {
+		this->shader_pointer_idx_map = shader_pointer_idx_map;
+		
 		// 1. retrieve the vertex/fragment source code from filePath
 		std::string vertexCode;
 		std::string geometryCode;
