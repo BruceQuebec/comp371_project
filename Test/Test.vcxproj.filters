@@ -109,6 +109,9 @@
     <Text Include="resource\E.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="resource\grid.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\lightCube.fs">
@@ -117,16 +120,22 @@
     <None Include="source\shaders\lightCube.vs">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="source\shaders\generic_texture.fs">
+    <None Include="source\shaders\debug_quad_depth.fs">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="source\shaders\generic_texture.vs">
+    <None Include="source\shaders\debug_quad_depth.vs">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="source\shaders\generic_color.vs">
+    <None Include="source\shaders\shadow_mapping_depth.vs">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="source\shaders\generic_color.fs">
+    <None Include="source\shaders\shadow_mapping_depth.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic.vs">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>
