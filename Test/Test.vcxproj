@@ -35,6 +35,7 @@
     <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
     <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\Shader.hpp" />
     <ClInclude Include="source\stb_image.h" />
     <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
@@ -62,6 +63,7 @@
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
     <None Include="source\shaders\shadow_mapping_depth.fs" />
+    <None Include="source\shaders\shadow_mapping_depth.gs" />
     <None Include="source\shaders\shadow_mapping_depth.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
