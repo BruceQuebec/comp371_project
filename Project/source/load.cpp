@@ -1,8 +1,7 @@
 #include <fstream>
 #include <sstream>
-
 #include "load.hpp"
-
+#include <iostream>
 
 using namespace std;
 
@@ -32,8 +31,7 @@ void loadShader(const GLuint & program, GLenum type, const char * file_path)
 }
 
 
-void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vector<GLuint> & index_data, GLenum mode, const char * file_path)
-{
+void loadModel(std::vector<GLdouble> & pos_data, std::vector<GLdouble> & color_data, std::vector<GLuint> & index_data, std::vector<GLdouble> & normal_data, std::vector<GLdouble> & texCoords_data, GLenum mode, const char * file_path) {
 	ifstream model_stream(file_path);
 
 	string line;
@@ -81,6 +79,19 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vecto
 					index_data.push_back(index2);
 					index_data.push_back(index3);
 				}
+			}
+			else if (label == 'n') {
+				string_stream >> x_data >> y_data >> z_data;
+
+				normal_data.push_back(x_data);
+				normal_data.push_back(y_data);
+				normal_data.push_back(z_data);
+			}
+			else if (label == 'u') {
+				string_stream >> x_data >> y_data;
+
+				texCoords_data.push_back(x_data);
+				texCoords_data.push_back(y_data);
 			}
 		}
 	}
