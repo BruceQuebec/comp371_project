@@ -45,6 +45,7 @@
     <Text Include="resource\8.txt" />
     <Text Include="resource\axes.txt" />
     <Text Include="resource\E.txt" />
+    <Text Include="resource\grid.txt" />
     <Text Include="resource\ground.txt" />
     <Text Include="resource\I.txt" />
     <Text Include="resource\L.txt" />
@@ -54,12 +55,14 @@
     <Text Include="resource\Z.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\shaders\generic_color.fs" />
-    <None Include="source\shaders\generic_color.vs" />
-    <None Include="source\shaders\generic_texture.fs" />
-    <None Include="source\shaders\generic_texture.vs" />
+    <None Include="source\shaders\debug_quad_depth.vs" />
+    <None Include="source\shaders\debug_quad_depth.fs" />
+    <None Include="source\shaders\generic.fs" />
+    <None Include="source\shaders\generic.vs" />
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
+    <None Include="source\shaders\shadow_mapping_depth.fs" />
+    <None Include="source\shaders\shadow_mapping_depth.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
