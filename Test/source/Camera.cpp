@@ -83,3 +83,8 @@ mat4 Camera::getCameraMat()
 glm::vec3 Camera::getCameraPosition() {
 	return glm::vec3(x_pos, y_pos, z_pos);
 }
+
+void Camera::window_size_callback(int width, int height)
+{
+	aspect = (double)width / height;
+}
