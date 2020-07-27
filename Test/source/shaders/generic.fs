@@ -4,7 +4,6 @@ in VS_OUT{
     vec3 fragment_normal;
 	vec3 fragment_color;
     vec2 fragment_texCoords;
-    vec4 fragment_position_LightSpace;
 }fs_in;
 
 
@@ -35,21 +34,22 @@ uniform vec3 view_position;
 uniform Light light;
 uniform Material material;
 uniform int byColor = 0;
-uniform sampler2D shadowMap;
+uniform samplerCube shadowMap;
+uniform float far_plane;
 
 
 out vec4 color;
+float ShadowCalculation(vec3 fragPos, Light light, samplerCube shadowMap, float far_plane);
+vec3 pointLightRender(Light light, Material material, vec3 view_position, int byColor, vec3 fragment_position, vec3 fragment_normal, vec3 fragment_color, vec2 fragment_texCoords, samplerCube shadowMap);
 
-vec3 pointLightRender(Light light, Material material, vec3 view_position, int byColor, vec3 fragment_position, vec3 fragment_normal, vec3 fragment_color, vec2 fragment_texCoords, vec4 fragment_position_LightSpace, sampler2D shadowMap);
-float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap);
 
 void main()
 {
-	vec3 result = pointLightRender(light, material, view_position, byColor, fs_in.fragment_position, fs_in.fragment_normal, fs_in.fragment_color, fs_in.fragment_texCoords, fs_in.fragment_position_LightSpace, shadowMap);
+	vec3 result = pointLightRender(light, material, view_position, byColor, fs_in.fragment_position, fs_in.fragment_normal, fs_in.fragment_color, fs_in.fragment_texCoords, shadowMap);
 	color = vec4(result, 1.0);
 }
 
-vec3 pointLightRender(Light light, Material material, vec3 view_position, int byColor, vec3 fragment_position, vec3 fragment_normal, vec3 fragment_color, vec2 fragment_texCoords, vec4 fragment_position_LightSpace, sampler2D shadowMap){
+vec3 pointLightRender(Light light, Material material, vec3 view_position, int byColor, vec3 fragment_position, vec3 fragment_normal, vec3 fragment_color, vec2 fragment_texCoords, samplerCube shadowMap){
 	vec3 result;
     // ambient
     vec3 ambient;
@@ -70,7 +70,8 @@ vec3 pointLightRender(Light light, Material material, vec3 view_position, int by
         
     // specular
     vec3 viewDir = normalize(view_position - fragment_position);
-    vec3 reflectDir = reflect(-lightDir, norm);  
+    vec3 reflectDir = reflect(-lightDir, norm);
+	vec3 halfwayDir = normalize(lightDir + viewDir);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specular = light.specular * spec * material.specular;  
         
@@ -83,25 +84,26 @@ vec3 pointLightRender(Light light, Material material, vec3 view_position, int by
     specular *= attenuation;
 
 	// calculate shadow
-	float shadow = ShadowCalculation(fragment_position_LightSpace, shadowMap);      
+	float shadow = ShadowCalculation(fs_in.fragment_position, light, shadowMap, far_plane);      
 	vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular));
             
-    result = lighting;
-	return result;
+    return lighting;
 }
 
-float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap){
-	// perform perspective divide
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    // transform to [0,1] range
-    projCoords = projCoords * 0.5 + 0.5;
-    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(shadowMap, projCoords.xy).r; 
-    // get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
-    // check whether current frag pos is in shadow
-    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
-	
-
+float ShadowCalculation(vec3 fragPos, Light light, samplerCube shadowMap, float far_plane)
+{
+    // get vector between fragment position and light position
+    vec3 fragToLight = fragPos - light.position;
+    // use the light to fragment vector to sample from the depth map    
+    float closestDepth = texture(shadowMap, fragToLight).r;
+    // it is currently in linear range between [0,1]. Re-transform back to original value
+    closestDepth *= far_plane;
+    // now get current linear depth as the length between the fragment and light position
+    float currentDepth = length(fragToLight);
+    // now test for shadows
+    float bias = 0.05; 
+    float shadow = currentDepth -  bias > closestDepth ? 1.0 : 0.0;
+	  
     return shadow;
 }
+
