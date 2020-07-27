@@ -59,6 +59,7 @@ public:
 
 	// Initialze the model
 	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path);
+	void setPos(double x_pos, double y_pos, double z_pos);
 
 	// Get the vertex array of the model
 	GLuint getVertexArray();
