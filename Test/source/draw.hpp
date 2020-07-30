@@ -1,26 +1,19 @@
 #pragma once
 
-#include <unordered_map>
+
+#include <vector>
+
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include "Model.hpp"
+#include "Light.hpp"
 #include "Camera.hpp"
+#include "Shader.hpp"
 
 
-// Draw the models
-void draw(glm::mat4 world_mat, unordered_map<string, Model *> models, glm::mat4 cameraMat, glm::vec3 cameraPos, unordered_map<string, unsigned int> depthMapIDs, glm::mat4 lightSpaceMatrix);
+// Draw all the models
+void draw(int width, int height, std::vector<Model *> models, Light & light, Camera & camera, Shader shader, GLuint shadow_map);
 
 // Draw a model
-void draw(glm::mat4 world_mat, Model & model, glm::mat4 cameraMat, glm::vec3 cameraPos, string model_name, unordered_map<string, unsigned int> depthMapIDs, glm::mat4 lightSpaceMatrix);
-
-void lighting_render(Model model, glm::vec3 cameraPos, string model_name);
-
-unordered_map<string, unsigned int> depthMappingSetup(Shader debugDepthQuadShader);
-
-glm::mat4 depthMappingPerform(Shader debugDepthQuadShader, Shader shadowMappingShader, glm::vec3 lightSourcePos, Model ground, unordered_map<string, unsigned int> depthMapIDs, glm::mat4 world_mat, unordered_map<string, Model *> models);
-
-void renderDepthMapScene(Shader &depth_mapping_shader, glm::mat4 world_mat, unordered_map<string, Model *> models);
-
-void renderQuad();
-
-void renderCube();
+void draw(Model & model, Light & light, Camera & camera, Shader shader, GLuint shadow_map);

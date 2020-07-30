@@ -1,0 +1,50 @@
+#version 330 core
+
+
+layout(location = 0) in vec3 vertex_pos;
+layout(location = 2) in vec2 vertex_uv;
+layout(location = 3) in vec3 vertex_normal;
+
+out vec4 shadow_map_pos;
+out vec2 uv;
+out vec3 normal;
+out vec3 light_direction;
+out vec3 camera_direction;
+out vec3 vertex_pos_worldspace;
+out vec3 light_pos_worldspace;
+out vec3 camera_pos_worldspace;
+
+
+uniform mat4 model_mat;
+uniform mat4 world_mat;
+uniform mat4 view_mat;
+uniform mat4 projection_mat;
+
+uniform vec3 light_pos;
+uniform vec3 camera_pos;
+
+uniform mat4 light_mvp_mat;
+
+
+void main()
+{
+	vertex_pos_worldspace = (model_mat * vec4(vertex_pos, 1)).xyz;
+	light_pos_worldspace = light_pos;
+	camera_pos_worldspace = camera_pos;
+
+	mat4 mvp_mat = projection_mat * view_mat * model_mat;
+	gl_Position = mvp_mat * vec4(vertex_pos, 1);
+
+	uv = vertex_uv;
+
+	normal = mat3(model_mat) * vertex_normal;
+
+	
+	
+
+	light_direction = light_pos_worldspace - vertex_pos_worldspace;
+	camera_direction = camera_pos_worldspace - vertex_pos_worldspace;
+
+
+	shadow_map_pos = light_mvp_mat * vec4(vertex_pos, 1);
+}

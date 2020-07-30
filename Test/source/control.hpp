@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+
 #include <GLFW/glfw3.h>
 
 #include "Model.hpp"
@@ -10,33 +10,36 @@
 class Control
 {
 public:
-	// Window to be controlled
-	static GLFWwindow * window;
+    // Window to be controlled
+    static GLFWwindow * window;
 
-	// Label of whether the mouse button is pressed
-	static bool is_mouse_button_left_pressed;
-	static bool is_mouse_button_right_pressed;
-	static bool is_mouse_button_middle_pressed;
+    // Label of whether the mouse button is pressed
+    static bool is_mouse_button_left_pressed;
+    static bool is_mouse_button_right_pressed;
+    static bool is_mouse_button_middle_pressed;
 
-	static bool render_with_texture;
+    static bool render_with_texture;
+    static bool render_shadow;
 
-	// Models to be controlled
-	static std::vector<Model *> models[];
-	static int model_index;
+    // Models to be controlled
+    static std::vector<Model *> models[];
+    static int model_index;
 
-	static Camera * camera;
+    static Camera * camera;
 
 
-	// Set the model to be controlled
-	static void setModel(Model * model, int index);
+    // Set the model to be controlled
+    static void setModel(Model * model, int index);
 
-	static void setCamera(Camera * camera);
+    static void setCamera(Camera * camera);
 
-	// Key callback
-	static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
+    // Key callback
+    static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);
 
-	// Mouse button callback
-	static void mouse_button_callback(GLFWwindow * window, int button, int action, int mods);
+    // Mouse button callback
+    static void mouse_button_callback(GLFWwindow * window, int button, int action, int mods);
 
-	static void window_size_callback(GLFWwindow * window, int width, int height);
+    static void cursor_pos_callback(GLFWwindow * window, double x_pos, double y_pos);
+
+    static void window_size_callback(GLFWwindow * window, int width, int height);
 };

@@ -22,21 +22,24 @@
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\control.cpp" />
     <ClCompile Include="source\draw.cpp" />
+    <ClCompile Include="source\Light.cpp" />
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Material.cpp" />
     <ClCompile Include="source\Model.cpp" />
-    <ClCompile Include="source\Source.cpp" />
-    <ClCompile Include="source\stb_image.cpp" />
+    <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Camera.hpp" />
     <ClInclude Include="source\control.hpp" />
     <ClInclude Include="source\draw.hpp" />
+    <ClInclude Include="source\Light.hpp" />
     <ClInclude Include="source\load.hpp" />
+    <ClInclude Include="source\Material.hpp" />
     <ClInclude Include="source\Model.hpp" />
+    <ClInclude Include="source\Shader.hpp" />
     <ClInclude Include="source\stb_image.h" />
-    <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -49,20 +52,26 @@
     <Text Include="resource\ground.txt" />
     <Text Include="resource\I.txt" />
     <Text Include="resource\L.txt" />
-    <Text Include="resource\lightCube.txt" />
     <Text Include="resource\N.txt" />
     <Text Include="resource\sphere.txt" />
     <Text Include="resource\Z.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\shaders\debug_quad_depth.vs" />
-    <None Include="source\shaders\debug_quad_depth.fs" />
-    <None Include="source\shaders\generic.fs" />
-    <None Include="source\shaders\generic.vs" />
-    <None Include="source\shaders\lightCube.fs" />
-    <None Include="source\shaders\lightCube.vs" />
-    <None Include="source\shaders\shadow_mapping_depth.fs" />
-    <None Include="source\shaders\shadow_mapping_depth.vs" />
+    <None Include="source\shaders\color.fragmentshader" />
+    <None Include="source\shaders\color.vertexshader" />
+    <None Include="source\shaders\DepthRTT.fragmentshader" />
+    <None Include="source\shaders\DepthRTT.vertexshader" />
+    <None Include="source\shaders\texture.fragmentshader" />
+    <None Include="source\shaders\texture.vertexshader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\box.jpg" />
+    <Image Include="resource\grid-and-axes.jpg" />
+    <Image Include="resource\metal.jpg" />
+    <Image Include="resource\sphere.jpg" />
+    <Image Include="resource\tile.jpg" />
+    <Image Include="resource\tile1.jpg" />
+    <Image Include="resource\tile2.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
