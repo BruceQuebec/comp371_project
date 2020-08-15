@@ -76,12 +76,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>lib\glfw-3.2.2\include;lib\glew-2.2.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/lib/assimp3.3.1/include;lib\glfw-3.2.2\include;lib\glew-2.2.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>lib\glfw-3.2.2\lib\WIN32\lib-vc2017;lib\glew-2.2.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDIr)/lib/assimp3.3.1/lib;lib\glfw-3.2.2\lib\WIN32\lib-vc2017;lib\glew-2.2.0\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,19 +127,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\ComplexModel.cpp" />
     <ClCompile Include="source\control.cpp" />
     <ClCompile Include="source\draw.cpp" />
     <ClCompile Include="source\load.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Mesh.cpp" />
     <ClCompile Include="source\Model.cpp" />
     <ClCompile Include="source\stb_image.cpp" />
     <ClCompile Include="source\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Camera.hpp" />
+    <ClInclude Include="source\ComplexModel.hpp" />
     <ClInclude Include="source\control.hpp" />
     <ClInclude Include="source\draw.hpp" />
     <ClInclude Include="source\load.hpp" />
+    <ClInclude Include="source\Mesh.hpp" />
     <ClInclude Include="source\Model.hpp" />
     <ClInclude Include="source\Shader.hpp" />
     <ClInclude Include="source\stb_image.h" />
@@ -159,6 +163,8 @@
     <Text Include="resource\Z7.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="source\shaders\generic_texture.fs" />
+    <None Include="source\shaders\generic_texture.vs" />
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
   </ItemGroup>

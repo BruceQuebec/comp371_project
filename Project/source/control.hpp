@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include "ComplexModel.hpp"
 #include "Model.hpp"
 
 
@@ -19,12 +19,12 @@ public:
 
     // Models to be controlled
 	
-	static vector<Model *> models_v[];
+	static vector<ComplexModel *> models_v[];
     static int model_index;
 
 
     // Set the model to be controlled
-    static void setModel(Model * model, int index);
+    static void setModel(ComplexModel * model, int index);
 
     // Key callback
     static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods);

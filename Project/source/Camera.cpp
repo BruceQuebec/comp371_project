@@ -11,7 +11,7 @@ Camera::Camera()
 {
     x_pos = 0;
 	y_pos = 20;
-	z_pos = 20;
+	z_pos = 40;
 
     theta = -PI / 4;
     rho = 0;

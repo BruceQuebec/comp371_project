@@ -42,6 +42,12 @@
     <ClCompile Include="source\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ComplexModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Camera.hpp">
@@ -73,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="source\stb_image.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ComplexModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +121,12 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="source\shaders\lightCube.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_texture.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\generic_texture.vs">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

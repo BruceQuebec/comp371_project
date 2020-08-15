@@ -25,6 +25,7 @@ private:
 
 public:
 	Camera();
+	
 
 	// Get the product of the projection and view matrix of the camera
 	glm::mat4 getCameraMat();

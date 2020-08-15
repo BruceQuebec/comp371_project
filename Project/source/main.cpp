@@ -10,6 +10,7 @@
 #include "Camera.hpp"
 #include "control.hpp"
 #include "draw.hpp"
+#include "ComplexModel.hpp"
 
 
 using namespace glm;
@@ -18,14 +19,14 @@ using namespace std;
 
 int main()
 {
+	// Initialize GLFW
+	glfwInit();
+
 	// Set OpenGL version to 3.1
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-
-
-    // Initialize GLFW
-    glfwInit();
-
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+   
     // Initialize a window
     GLFWwindow * window = glfwCreateWindow(1024, 768, "Project", NULL, NULL);
 
@@ -38,75 +39,56 @@ int main()
 
     // Initialize GLEW
     glewInit();
+
+	// Initialize a camera
+	Camera camera;
+	
+
+	// Hide the cursor
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+	// Enable lock keys
+	glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+
+	// Set up key and mouse button callbacks
+	glfwSetKeyCallback(window, Control::key_callback);
+	glfwSetMouseButtonCallback(window, Control::mouse_button_callback);
+
+	// tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+	stbi_set_flip_vertically_on_load(true);
+
+
+	// Set the window to be controlled
+	Control::window = window;
 	
 	//Initialize shader(s)
 	unordered_map<string, GLuint> shader_pointer_idx_map_generic_texture = {
 								{"pos_data_idx", 0},
 								{"normal_data_idx", 1},
 								{"texCoords_data_idx", 2} };
-	unordered_map<string, GLuint> shader_pointer_idx_map_generic_color = {
+	/*unordered_map<string, GLuint> shader_pointer_idx_map_generic_color = {
 								{"pos_data_idx", 0},
 								{"normal_data_idx", 1},
-								{"color_data_idx", 2} };
+								{"color_data_idx", 2} };*/
 	unordered_map<string, GLuint> shader_pointer_idx_map_lightCube = {
 								{"pos_data_idx", 0},
 								{"normal_data_idx", 1},
 								{"color_data_idx", 2}};
 
 	Shader generic_texture_shader = Shader("source/shaders/generic_texture.vs", "source/shaders/generic_texture.fs", shader_pointer_idx_map_generic_texture);
-	Shader generic_color_shader = Shader("source/shaders/generic_color.vs", "source/shaders/generic_color.fs", shader_pointer_idx_map_generic_color);
 	Shader lightCube_shader = Shader("source/shaders/lightCube.vs", "source/shaders/lightCube.fs", shader_pointer_idx_map_lightCube);
-
-    // Initialize models and load from files
-    Model ground = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/ground.txt", "ground", "resource/textures/tile.jpg");
-	Model axes = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_LINES, 0, 0, 0, "resource/axes.txt", "axes","");
+	//ComplexModel backpack = ComplexModel("resource/textures/backpack/backpack.obj", glm::vec3(0,0,0), glm::vec3(5,5,5));
+	ComplexModel building1 = ComplexModel("resource/models/Cartoon_House.obj", glm::vec3(10, 0, 10), glm::vec3(0.01, 0.01, 0.01));
+	ComplexModel building2 = ComplexModel("resource/models/house.obj", glm::vec3(-20, 0, 10), glm::vec3(0.05, 0.05, 0.05));
+	ComplexModel building3 = ComplexModel("resource/models/restaurant.obj", glm::vec3(40, 0, 10), glm::vec3(6, 6, 6));
 	
-	Model N = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/N.txt", "N", "resource/textures/box.jpg");
-	Model N4 = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/4.txt", "N4", "resource/textures/metal.jpg");
-	Model sphere_N4 = Model(generic_color_shader, generic_color_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 0, 10, 0, "resource/sphere.txt", "sphere_N4", "");
-	sphere_N4.setScale(6);
-	
-	Model L = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, -40, "resource/L.txt", "L", "resource/textures/box.jpg");
-	Model L8 = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, -40, "resource/8.txt", "L8", "resource/textures/metal.jpg");
-	Model sphere_L8 = Model(generic_color_shader, generic_color_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -40, 10, -40, "resource/sphere.txt", "sphere_L8", "");
-	sphere_L8.setScale(3);
-
-	Model Z = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, -40, "resource/Z.txt", "Z", "resource/textures/box.jpg");
-	Model Z7 = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, -40, "resource/7.txt", "Z7", "resource/textures/metal.jpg");
-	Model sphere_Z7 = Model(generic_color_shader, generic_color_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 40, 10, -40, "resource/sphere.txt", "sphere_Z7", "");
-	sphere_Z7.setScale(3);
-
-	Model I = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, 40, "resource/I.txt", "I", "resource/textures/box.jpg");
-	Model I4 = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, -40, 0, 40, "resource/4.txt", "I4", "resource/textures/metal.jpg");
-	Model sphere_I4 = Model(generic_color_shader, generic_color_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, -40, 10, 40, "resource/sphere.txt", "sphere_I4", "");
-	sphere_I4.setScale(3);
-
-	Model E = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, 40, "resource/E.txt", "E", "resource/textures/box.jpg");
-	Model E7 = Model(generic_texture_shader, generic_texture_shader.shader_pointer_idx_map, GL_TRIANGLES, 40, 0, 40, "resource/7.txt", "E7", "resource/textures/metal.jpg");
-	Model sphere_E7 = Model(generic_color_shader, generic_color_shader.shader_pointer_idx_map, GL_TRIANGLE_STRIP, 40, 10, 40, "resource/sphere.txt", "sphere_E7", "");
-	sphere_E7.setScale(3);
-	
-	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 0,30,5, "resource/lightCube.txt", "lightCube", "");
-
-    // Initialize a camera
-    Camera camera;
-
-    // Hide the cursor
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-    // Enable lock keys
-    glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
-
-    // Set up key and mouse button callbacks
-    glfwSetKeyCallback(window, Control::key_callback);
-    glfwSetMouseButtonCallback(window, Control::mouse_button_callback);
-
-    // Set the window to be controlled
-    Control::window = window;
+	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 20,25,10, "resource/lightCube.txt", "lightCube", "");
+	//lightCube.setScale(2.0);
+   
 
     // Set the models to be controlled
-	Control::setModel(&N, 1);
-	Control::setModel(&N4, 1);
+	//Control::setModel(&backpack, 1);
+	/*Control::setModel(&N4, 1);
 	Control::setModel(&sphere_N4, 1);
 
 	Control::setModel(&L, 2);
@@ -123,7 +105,7 @@ int main()
 
 	Control::setModel(&E, 5);
     Control::setModel(&E7, 5);
-	Control::setModel(&sphere_E7, 5);
+	Control::setModel(&sphere_E7, 5);*/
 	
 
     // Enable the depth test
@@ -146,6 +128,12 @@ int main()
         glfwPollEvents();
 
         // Draw the models
+		generic_texture_shader.use();
+		//backpack.draw(generic_texture_shader, camera);
+		building1.draw(generic_texture_shader, camera);
+		building2.draw(generic_texture_shader, camera);
+		building3.draw(generic_texture_shader, camera);
+
         draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition());
 		
         // Swap the front and back buffers

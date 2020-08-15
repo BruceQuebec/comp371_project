@@ -1,5 +1,6 @@
 
 
+#include <assimp/Importer.hpp>
 #include "load.hpp"
 #include "Model.hpp"
 #include "utils.hpp"
