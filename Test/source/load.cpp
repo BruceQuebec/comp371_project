@@ -1,11 +1,9 @@
 #include <fstream>
 #include <sstream>
-#include <unordered_map>
 
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/string_cast.hpp>
 
 #include "stb_image.h"
 
@@ -13,6 +11,7 @@
 
 
 using namespace std;
+using namespace glm;
 
 
 void loadShader(const GLuint & program, GLenum type, const char * file_path)
@@ -40,7 +39,7 @@ void loadShader(const GLuint & program, GLenum type, const char * file_path)
 }
 
 
-void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vector<GLdouble> & uv_data, vector<GLdouble> & normal_data, vector<GLuint> & index_data, GLenum mode, const char * file_path)
+void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vector<GLdouble> & uv_data, vector<GLdouble> & normal_data, GLenum mode, const char * file_path)
 {
 	ifstream model_stream(file_path);
 
@@ -87,58 +86,81 @@ void loadModel(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vecto
 				normal_data.push_back(y_data);
 				normal_data.push_back(z_data);
 			}
-			else if (label == 'i')
-			{
-				if (mode == GL_LINES)
-				{
-					string_stream >> index1 >> index2;
-
-					index_data.push_back(index1);
-					index_data.push_back(index2);
-				}
-				else if (mode == GL_TRIANGLES)
-				{
-					string_stream >> index1 >> index2 >> index3;
-
-					index_data.push_back(index1);
-					index_data.push_back(index2);
-					index_data.push_back(index3);
-				}
-			}
 		}
 	}
+}
 
-	if (normal_data.size() == 0)
+
+void loadObject(vector<GLdouble> & pos_data, vector<GLdouble> & color_data, vector<GLdouble> & uv_data, vector<GLdouble> & normal_data, GLenum mode, const char * file_path)
+{
+	ifstream model_stream(file_path);
+
+	vector<vec3> temp_pos_data; temp_pos_data.push_back(vec3(0));
+	vector<vec3> temp_color_data; temp_color_data.push_back(vec3(0));
+	vector<vec2> temp_uv_data; temp_uv_data.push_back(vec2(0));
+	vector<vec3> temp_normal_data; temp_normal_data.push_back(vec3(0));
+
+	string line;
+	while (getline(model_stream, line))
 	{
-		std::unordered_map<string, glm::vec3> verticesNormal;
-
-		for (int i = 0; i < pos_data.size(); i += 9)
+		if (line.length() != 0)
 		{
-			// Organize vertex position data from pos_data vectors
-			glm::vec3 curVertex = glm::vec3(pos_data[i], pos_data[i + 1], pos_data[i + 2]);
-			glm::vec3 firstNextVertex = glm::vec3(pos_data[i + 3], pos_data[i + 4], pos_data[i + 5]);
-			glm::vec3 secondNextVertex = glm::vec3(pos_data[i + 6], pos_data[i + 7], pos_data[i + 8]);
-			// Get the face normal
-			glm::vec3 vector1 = firstNextVertex - curVertex;
-			glm::vec3 vector2 = secondNextVertex - curVertex;
-			glm::vec3 faceNormal = glm::cross(vector1, vector2);
+			stringstream line_stream(line);
 
-			// Add the face normal to the 3 vertices normal touching this face
-			verticesNormal[glm::to_string(curVertex)] += faceNormal;
-			verticesNormal[glm::to_string(firstNextVertex)] += faceNormal;
-			verticesNormal[glm::to_string(secondNextVertex)] += faceNormal;
-		}
+			string label;
+			line_stream >> label;
+			if (label == "v")
+			{
+				float x_pos, y_pos, z_pos;
+				float r_color, g_color, b_color;
+				line_stream >> x_pos >> y_pos >> z_pos >> r_color >> g_color >> b_color;
 
-		// Normalize vertices normal
-		std::unordered_map<string, glm::vec3>::iterator it = verticesNormal.begin();
-		while (it != verticesNormal.end()) {
-			if (!(it->second.x == 0 && it->second.y == 0 && it->second.z == 0)) {
-				it->second = glm::normalize(it->second);
+				temp_pos_data.push_back(vec3(x_pos, y_pos, z_pos));
+				temp_color_data.push_back(vec3(r_color, g_color, b_color));
 			}
-			normal_data.push_back(it->second.x);
-			normal_data.push_back(it->second.y);
-			normal_data.push_back(it->second.z);
-			it++;
+			else if (label == "vt")
+			{
+				float x_vt, y_vt;
+				line_stream >> x_vt >> y_vt;
+
+				temp_uv_data.push_back(vec2(x_vt, y_vt));
+			}
+			else if (label == "vn")
+			{
+				float x_vn, y_vn, z_vn;
+				line_stream >> x_vn >> y_vn >> z_vn;
+
+				temp_normal_data.push_back(vec3(x_vn, y_vn, z_vn));
+			}
+			else if (label == "f")
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					string face;
+					line_stream >> face;
+
+					stringstream face_stream(face);
+
+					string v, vt, vn;
+					getline(face_stream,  v, '/');
+					getline(face_stream, vt, '/');
+					getline(face_stream, vn, '/');
+
+					int v_index = stoi(v), vt_index = stoi(vt), vn_index = stoi(vn);
+
+					pos_data.push_back(temp_pos_data[v_index][0]);
+					pos_data.push_back(temp_pos_data[v_index][1]);
+					pos_data.push_back(temp_pos_data[v_index][2]);
+					color_data.push_back(temp_color_data[v_index][0]);
+					color_data.push_back(temp_color_data[v_index][1]);
+					color_data.push_back(temp_color_data[v_index][2]);
+					uv_data.push_back(temp_uv_data[vt_index][0]);
+					uv_data.push_back(temp_uv_data[vt_index][1]);
+					normal_data.push_back(temp_normal_data[vn_index][0]);
+					normal_data.push_back(temp_normal_data[vn_index][1]);
+					normal_data.push_back(temp_normal_data[vn_index][2]);
+				}
+			}
 		}
 	}
 }
@@ -148,10 +170,16 @@ void loadTexture(GLuint & texture, const char * file_path)
 {
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	int width, height, comp;
-	unsigned char * data = stbi_load(file_path, &width, &height, &comp, STBI_rgb);
+	stbi_set_flip_vertically_on_load(true);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	int width, height, channels;
+	unsigned char * data = stbi_load(file_path, &width, &height, &channels, 0);
+
+	if (channels == STBI_rgb)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,  GL_RGB, GL_UNSIGNED_BYTE, data);
+	else if (channels == STBI_rgb_alpha)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);
 }

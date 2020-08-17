@@ -1,6 +1,4 @@
 #include <vector>
-#include <random>
-#include <chrono>
 
 #include "World.hpp"
 #include "Model.hpp"
@@ -84,32 +82,7 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
             (*it)->key_callback(key, action, mods);
     }
 
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-    {
-        vector<int> in;
-        for (int i = 0; i < 100; i++)
-            in.push_back(i);
-
-        shuffle(in.begin(), in.end(), default_random_engine(chrono::system_clock::now().time_since_epoch().count()));
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (models[i].size() > 0)
-            {
-                for (vector<Model *>::iterator it = models[i].begin(); it != models[i].end(); it++)
-                {
-                    double x_pos = in[i] / 10 * 10 - 45;
-                    double y_pos = 0;
-                    double z_pos = in[i] % 10 * 10 - 45;
-
-                    (*it)->setPos(x_pos, y_pos, z_pos);
-                }
-            }
-        }
-    }
-
-    if (key == GLFW_KEY_X && action == GLFW_PRESS)
-        render_with_texture = !render_with_texture;
+    camera->key_callback(key, action);
 
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
         render_shadow = !render_shadow;
@@ -142,4 +115,9 @@ void Control::window_size_callback(GLFWwindow * window, int width, int height)
     glViewport(0, 0, width, height);
 
     camera->window_size_callback(width, height);
+}
+
+void Control::scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
+{
+    camera->scroll_callback(yoffset);
 }

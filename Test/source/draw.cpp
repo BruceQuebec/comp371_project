@@ -28,7 +28,6 @@ void draw(Model & model, Light & light, Camera & camera, Shader shader, GLuint s
 	mat4 view_mat = lookAt(eye, center, up);
 
 	mat4 projection_mat = perspective((float)90, 1.0f, 10.0f, 40.0f);
-	//projection_mat = ortho<float>(-20, 20, -20, 20, -10, 20);
 
 	mat4 light_camera_mat = projection_mat * view_mat;
 

@@ -11,13 +11,13 @@
 using namespace glm;
 
 
-Camera::Camera(vec3 pos, double aspect)
+Camera::Camera(vec3 pos, float aspect)
 {
     x_pos = pos[0];
     y_pos = pos[1];
     z_pos = pos[2];
 
-    theta = -PI / 4;
+    theta = 0;
     rho = 0;
 
     fov = PI / 2;
@@ -37,7 +37,7 @@ mat4 Camera::getViewMat()
 
 mat4 Camera::getProjectionMat()
 {
-    mat4 projection_mat = perspective((float)fov, (float)aspect, 0.001f, 1000.0f);
+    mat4 projection_mat = perspective(fov, aspect, 0.1f, 100.0f);
 
     return projection_mat;
 }
@@ -47,48 +47,70 @@ vec3 Camera::getCameraPos()
     return vec3(x_pos, y_pos, z_pos);
 }
 
+void Camera::key_callback(int key, int action)
+{
+    if (key == GLFW_KEY_W && action == GLFW_REPEAT)
+    {
+        x_pos += 0.5 * cos(theta) * sin(rho);
+        y_pos += 0.5 * sin(theta);
+        z_pos -= 0.5 * cos(theta) * cos(rho);
+    }
+    if (key == GLFW_KEY_S && action == GLFW_REPEAT)
+    {
+        x_pos -= 0.5 * cos(theta) * sin(rho);
+        y_pos -= 0.5 * sin(theta);
+        z_pos += 0.5 * cos(theta) * cos(rho);
+    }
+    if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+    {
+        x_pos -= 0.5 * cos(rho);
+        z_pos -= 0.5 * sin(rho);
+    }
+    if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+    {
+        x_pos += 0.5 * cos(rho);
+        z_pos += 0.5 * sin(rho);
+    }
+}
+
 void Camera::cursor_pos_callback(GLFWwindow * window, double x_pos, double y_pos)
 {
     int width, height;
     glfwGetWindowSize(window, &width, &height);
 
-    if (Control::is_mouse_button_left_pressed)
-    {
-        double dy = (height / 2 - y_pos) * 0.01;
+    double drho = (x_pos - width / 2) * 0.002, dtheta = (height / 2 - y_pos) * 0.002;
 
-        if (fov - dy <= 0)
-            fov = 0;
-        else if (fov - dy >= PI)
-            fov = PI;
-        else
-            fov -= dy;
-    }
+    rho += drho;
 
-    // When the right mouse button is pressed, move the mouse to pan the camera
-    if (Control::is_mouse_button_right_pressed)
-    {
-        double drho = (x_pos - width / 2) * 0.01;
-
-        rho += drho;
-    }
-
-    // When the middle mouse button is pressed, move the mouse to tilt the camera
-    if (Control::is_mouse_button_middle_pressed)
-    {
-        double dtheta = (height / 2 - y_pos) * 0.01;
-
-        if (theta + dtheta >= PI / 2 - 0.00001)
-            theta = PI / 2 - 0.00001;
-        else if (theta + dtheta <= -PI / 2 + 0.00001)
-            theta = -PI / 2 + 0.00001;
-        else
-            theta += dtheta;
-    }
+    if (theta + dtheta >= PI / 2 - 0.00001)
+        theta = PI / 2 - 0.00001;
+    else if (theta + dtheta <= -PI / 2 + 0.00001)
+        theta = -PI / 2 + 0.00001;
+    else
+        theta += dtheta;
 
     glfwSetCursorPos(window, width / 2, height / 2);
 }
 
 void Camera::window_size_callback(int width, int height)
 {
-    aspect = (double)width / height;
+    aspect = (float)width / height;
+}
+
+void Camera::scroll_callback(double yoffset)
+{
+    if (yoffset == 1)
+    {
+        if (fov - 0.1 <= 0)
+            fov = 0;
+        else
+            fov -= 0.1;
+    }
+    if (yoffset == -1)
+    {
+        if (fov + 0.1 >= pi<double>())
+            fov = pi<double>();
+        else
+            fov += 0.1;
+    }
 }

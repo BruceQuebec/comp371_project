@@ -19,7 +19,7 @@ Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdo
 	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos);
 }
 
-Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, const char * model_file_path, const char * texture_file_path)
+Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
@@ -27,7 +27,10 @@ Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z
 	vector<GLdouble> normal_data;
 	vector<GLuint> index_data;
 
-	loadModel(pos_data, color_data, uv_data, normal_data, index_data, mode, model_file_path);
+	if (load_from_txt)
+		loadModel(pos_data, color_data, uv_data, normal_data, mode, model_file_path);
+	else
+		loadObject(pos_data, color_data, uv_data, normal_data, mode, model_file_path);
 
 
 	glGenTextures(1, &texture);
@@ -36,7 +39,6 @@ Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glGenerateMipmap(GL_TEXTURE_2D);
 
 	loadTexture(texture, texture_file_path);
 
@@ -84,13 +86,6 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector
 	glBufferData(GL_ARRAY_BUFFER, normal_data.size() * sizeof(GLdouble), &normal_data[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
-
-	// Initialize and bind the index buffer
-	GLuint index_buffer;
-	glGenBuffers(1, &index_buffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-	if (index_data.size() > 0)
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_data.size() * sizeof(GLuint), &index_data[0], GL_STATIC_DRAW);
 
 	num_elements = index_data.size();
 	num_vertices = pos_data.size();
@@ -173,16 +168,6 @@ mat4 Model::getModelMat()
 
 void Model::key_callback(int key, int action, int mods)
 {
-	// If W, S, A or D is pressed, shift the model
-	if (key == GLFW_KEY_W && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		z_pos -= 0.1;
-	if (key == GLFW_KEY_S && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		z_pos += 0.1;
-	if (key == GLFW_KEY_A && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		x_pos -= 0.1;
-	if (key == GLFW_KEY_D && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		x_pos += 0.1;
-
 	// If U or J is pressed, scale the model
 	if (key == GLFW_KEY_U && action == GLFW_REPEAT)
 		scale += 0.01;
@@ -197,14 +182,4 @@ void Model::key_callback(int key, int action, int mods)
 		z_shear -= 0.01;
 	if (key == GLFW_KEY_G && action == GLFW_REPEAT)
 		z_shear += 0.01;
-
-	// If w, s, a, or d is pressed, rotate the model
-	if (key == GLFW_KEY_W && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		x_angle += 0.01;
-	if (key == GLFW_KEY_S && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		x_angle -= 0.01;
-	if (key == GLFW_KEY_A && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		y_angle += 0.01;
-	if (key == GLFW_KEY_D && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		y_angle -= 0.01;
 }

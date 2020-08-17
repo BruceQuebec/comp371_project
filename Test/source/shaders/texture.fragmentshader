@@ -52,7 +52,7 @@ void main()
 
 	vec3 reflect_direction = reflect(-normalize(light_direction), normalize(normal));
 	float cos_alpha = max(dot(normalize(camera_direction), normalize(reflect_direction)), 0);
-	vec3 specular_color = pow(cos_alpha, shininess) * texture_color;
+	vec3 specular_color = pow(cos_alpha, 1) * texture_color;
 
 	float distance = length(light_pos_worldspace - vertex_pos_worldspace);
 
@@ -62,13 +62,5 @@ void main()
 	if (render_shadow)
 		color = (ambient * ambient_color + texture(shadow_map, shadow_pos) * light_color * diffuse * diffuse_color + texture(shadow_map, shadow_pos) * light_color * specular * specular_color) * normalized_distance;
 	else
-		color = (ambient * ambient_color + light_color * diffuse * diffuse_color + light_color * specular * specular_color) * normalized_distance;
-
-
-
-
-	float visibility = 1.0;
-	//if (texture(shadow_map, shadow_map_pos.xy/shadow_coord.w).x )
-
-	//color = vec3();
+		color = (ambient * ambient_color + light_color * specular * specular_color) * normalized_distance;
 }

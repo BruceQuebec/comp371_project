@@ -16,6 +16,9 @@
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{ccc2606e-875c-4162-923d-7e4fb8b84f86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\objects">
+      <UniqueIdentifier>{4b6ef516-f7a5-48be-98c0-d36e3e92768f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -46,6 +49,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,56 +86,15 @@
     <ClInclude Include="source\Light.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="resource\axes.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\grid.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\ground.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\4.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\7.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\8.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\E.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\I.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\L.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\N.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\Z.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\sphere.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
+    <ClInclude Include="source\Texture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\DepthRTT.fragmentshader">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="source\shaders\DepthRTT.vertexshader">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\shaders\color.fragmentshader">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="source\shaders\color.vertexshader">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="source\shaders\texture.fragmentshader">
@@ -140,25 +105,42 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resource\metal.jpg">
+    <Object Include="resource\objects\ground.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\4.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\7.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\8.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\E.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\I.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\L.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\N.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+    <Object Include="resource\objects\Z.obj">
+      <Filter>Resource Files\objects</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\box-top.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resource\box.jpg">
+    <Image Include="resource\silver.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resource\tile.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resource\grid-and-axes.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resource\tile1.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resource\sphere.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resource\tile2.png">
+    <Image Include="resource\ground.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
