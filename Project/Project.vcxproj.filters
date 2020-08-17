@@ -86,33 +86,15 @@
     <ClInclude Include="source\ComplexModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\skyCube.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resource\axes.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\E7.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\grid.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\I4.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\L8.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\N4.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resource\Z7.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="resource\lightCube.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="resource\sphere.txt">
+    <Text Include="resource\skyCube.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
@@ -127,6 +109,12 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="source\shaders\generic_texture.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\skyCube.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\skyCube.fs">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

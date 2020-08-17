@@ -31,4 +31,8 @@ public:
 	glm::mat4 getCameraMat();
 
 	glm::vec3 getCameraPosition();
+
+	glm::mat4 getView();
+
+	glm::mat4 getProjective();
 };

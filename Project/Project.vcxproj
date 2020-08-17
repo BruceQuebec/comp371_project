@@ -90,11 +90,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>lib\glfw-3.2.2\include;lib\glew-2.2.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/lib/assimp3.3.1/include;lib\glfw-3.2.2\include;lib\glew-2.2.0\include;lib\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>lib\glfw-3.2.2\lib\WIN64\lib-vc2017;lib\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/lib/assimp3.3.1/lib;lib\glfw-3.2.2\lib\WIN64\lib-vc2017;lib\glew-2.2.0\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,27 +146,23 @@
     <ClInclude Include="source\Mesh.hpp" />
     <ClInclude Include="source\Model.hpp" />
     <ClInclude Include="source\Shader.hpp" />
+    <ClInclude Include="source\skyCube.hpp" />
     <ClInclude Include="source\stb_image.h" />
     <ClInclude Include="source\Texture.hpp" />
     <ClInclude Include="source\utils.hpp" />
     <ClInclude Include="source\World.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resource\axes.txt" />
-    <Text Include="resource\E7.txt" />
-    <Text Include="resource\grid.txt" />
-    <Text Include="resource\I4.txt" />
-    <Text Include="resource\L8.txt" />
     <Text Include="resource\lightCube.txt" />
-    <Text Include="resource\N4.txt" />
-    <Text Include="resource\sphere.txt" />
-    <Text Include="resource\Z7.txt" />
+    <Text Include="resource\skyCube.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\generic_texture.fs" />
     <None Include="source\shaders\generic_texture.vs" />
     <None Include="source\shaders\lightCube.fs" />
     <None Include="source\shaders\lightCube.vs" />
+    <None Include="source\shaders\skyCube.fs" />
+    <None Include="source\shaders\skyCube.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

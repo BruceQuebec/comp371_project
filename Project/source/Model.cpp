@@ -4,6 +4,7 @@
 #include "load.hpp"
 #include "Model.hpp"
 #include "utils.hpp"
+#include "skyCube.hpp"
 
 
 using namespace std;
@@ -189,9 +190,11 @@ vector<GLdouble> Model::getNormals(vector<GLdouble> pos_data) {
 	return normals;
 }
 
+
 void Model::setScale(double scale) {
 	this->scale = scale;
 }
+
 
 void Model::key_callback(int key, int action, int mods)
 {

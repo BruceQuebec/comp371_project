@@ -15,6 +15,7 @@ public:
 	// Vector of models
 	//static std::vector<Model *> models;
 	static unordered_map<string, Model*> models;
+	
 
 private:
 	// Vertex array
@@ -53,7 +54,10 @@ private:
 	double y_angle;
 	double z_angle;
 
+	
+
 public:
+	Model() {};
 	Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path);
 	Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name, string texture_file_path);
 

@@ -147,8 +147,8 @@ void Mesh::draw(Shader& shader, Camera &camera) {
 
 	// point light properties
 	glm::vec3 lightColor(1.0, 1.0, 1.0);
-	glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f); // decrease the influence
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.9f); // low influence
+	glm::vec3 diffuseColor = lightColor * glm::vec3(1.0f); // decrease the influence
+	glm::vec3 ambientColor = diffuseColor * glm::vec3(1.0f); // low influence
 	shader.setVec3("light.ambient", ambientColor);
 	shader.setVec3("light.diffuse", diffuseColor);
 	shader.setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));

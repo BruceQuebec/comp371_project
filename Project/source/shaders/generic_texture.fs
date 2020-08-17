@@ -71,9 +71,9 @@ vec3 pointlLightRender(Light light, Material material, vec3 fragmemt_normal, vec
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 96.078431);
     vec3 specular = light.specular * spec *  specular_base ;
 	
-    ambient  *= attenuation;  
-    diffuse   *= attenuation; 
-    specular *= attenuation; 
+    //ambient  *= attenuation;  
+    //diffuse   *= attenuation; 
+    //specular *= attenuation; 
 	  
     vec3 result = ambient +  diffuse + specular;
     return result;

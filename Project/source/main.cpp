@@ -11,11 +11,13 @@
 #include "control.hpp"
 #include "draw.hpp"
 #include "ComplexModel.hpp"
+#include "skyCube.hpp"
 
 
 using namespace glm;
 using namespace std;
 
+unsigned int loadCubemap(vector<std::string> faces);
 
 int main()
 {
@@ -66,10 +68,8 @@ int main()
 								{"pos_data_idx", 0},
 								{"normal_data_idx", 1},
 								{"texCoords_data_idx", 2} };
-	/*unordered_map<string, GLuint> shader_pointer_idx_map_generic_color = {
-								{"pos_data_idx", 0},
-								{"normal_data_idx", 1},
-								{"color_data_idx", 2} };*/
+	unordered_map<string, GLuint> shader_pointer_idx_map_skyCube = {
+								{"pos_data_idx", 0}};
 	unordered_map<string, GLuint> shader_pointer_idx_map_lightCube = {
 								{"pos_data_idx", 0},
 								{"normal_data_idx", 1},
@@ -77,37 +77,29 @@ int main()
 
 	Shader generic_texture_shader = Shader("source/shaders/generic_texture.vs", "source/shaders/generic_texture.fs", shader_pointer_idx_map_generic_texture);
 	Shader lightCube_shader = Shader("source/shaders/lightCube.vs", "source/shaders/lightCube.fs", shader_pointer_idx_map_lightCube);
-	//ComplexModel backpack = ComplexModel("resource/textures/backpack/backpack.obj", glm::vec3(0,0,0), glm::vec3(5,5,5));
+	Shader skyCube_shader = Shader("source/shaders/skyCube.vs", "source/shaders/skyCube.fs", shader_pointer_idx_map_skyCube);
+	
 	ComplexModel building1 = ComplexModel("resource/models/Cartoon_House.obj", glm::vec3(10, 0, 10), glm::vec3(0.01, 0.01, 0.01));
 	ComplexModel building2 = ComplexModel("resource/models/house.obj", glm::vec3(-20, 0, 10), glm::vec3(0.05, 0.05, 0.05));
 	ComplexModel building3 = ComplexModel("resource/models/restaurant.obj", glm::vec3(40, 0, 10), glm::vec3(6, 6, 6));
 	
-	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 20,25,10, "resource/lightCube.txt", "lightCube", "");
-	//lightCube.setScale(2.0);
-   
-
-    // Set the models to be controlled
-	//Control::setModel(&backpack, 1);
-	/*Control::setModel(&N4, 1);
-	Control::setModel(&sphere_N4, 1);
-
-	Control::setModel(&L, 2);
-	Control::setModel(&L8, 2);
-	Control::setModel(&sphere_L8, 2);
-
-	Control::setModel(&Z, 3);
-    Control::setModel(&Z7, 3);
-	Control::setModel(&sphere_Z7, 3);
-
-	Control::setModel(&I, 4);
-    Control::setModel(&I4, 4);
-	Control::setModel(&sphere_I4, 4);
-
-	Control::setModel(&E, 5);
-    Control::setModel(&E7, 5);
-	Control::setModel(&sphere_E7, 5);*/
+	Model lightCube = Model(lightCube_shader, lightCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 0,25,10, "resource/lightCube.txt", "lightCube", "");
+	Model skyCubeModel = Model(skyCube_shader, skyCube_shader.shader_pointer_idx_map, GL_TRIANGLES, 0, 0, 0, "resource/skyCube.txt", "skyCube", "");
+	
+	vector<std::string> faces
+	{
+		"resource/textures/skybox/right.jpg",
+		"resource/textures/skybox/left.jpg",
+		"resource/textures/skybox/top.jpg",
+		"resource/textures/skybox/bottom.jpg",
+		"resource/textures/skybox/front.jpg",
+		"resource/textures/skybox/back.jpg"
+	};
+	skyCube skyCubeObj = skyCube(skyCubeModel, faces);
+	skyCube_shader.setInt("skybox", 0);
 	
 
+	
     // Enable the depth test
     glEnable(GL_DEPTH_TEST);
 
@@ -135,9 +127,8 @@ int main()
 		building3.draw(generic_texture_shader, camera);
 
         draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition());
-		
-        // Swap the front and back buffers
-        glfwSwapBuffers(window);
+		skyCubeObj.drawSky(camera);
+		glfwSwapBuffers(window);
     }
 
     // Terminate GLFW

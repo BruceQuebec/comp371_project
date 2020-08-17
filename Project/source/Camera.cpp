@@ -73,7 +73,7 @@ mat4 Camera::getCameraMat()
     vec3 up = vec3(0, 1, 0);
     mat4 view_mat = lookAt(eye, center, up);
 
-    mat4 projection_mat = perspective((float)fov, (float)aspect, 0.001f, 1000.0f);
+    mat4 projection_mat = perspective((float)fov, (float)aspect, 0.001f, 100.0f);
 
     mat4 camera_mat = projection_mat * view_mat;
 
@@ -82,4 +82,17 @@ mat4 Camera::getCameraMat()
 
 glm::vec3 Camera::getCameraPosition() {
 	return glm::vec3(x_pos, y_pos, z_pos);
+}
+
+glm::mat4 Camera::getView() {
+	vec3 eye = vec3(x_pos, y_pos, z_pos);
+	vec3 center = vec3(x_pos + cos(theta) * sin(rho), y_pos + sin(theta), z_pos - cos(theta) * cos(rho));
+	vec3 up = vec3(0, 1, 0);
+	mat4 view_mat = lookAt(eye, center, up);
+	return view_mat;
+}
+
+glm::mat4 Camera::getProjective() {
+	mat4 projection_mat = perspective((float)fov, (float)aspect, 0.001f, 100.0f);
+	return projection_mat;
 }

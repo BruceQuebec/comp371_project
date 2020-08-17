@@ -1,5 +1,6 @@
 #include "draw.hpp"
 #include "World.hpp"
+#include "skyCube.hpp"
 
 
 using namespace glm;
@@ -18,27 +19,46 @@ void draw(mat4 world_mat, unordered_map<string, Model *> models, mat4 cameraMat,
 
 void draw(mat4 world_mat, Model & model, mat4 cameraMat, vec3 cameraPos, string model_name)
 {	
-	// Process the model with the given matrix
-	model.getShader().use();
-
-	// if the models aren't light source model, render them with light computation
-	if (model_name != "lightCube") {
-		lighting_render(model, cameraPos, model_name);
-	}
-
-	if (model.getTextureID() != 0) {
-		model.getShader().setInt("material.diffuse", 0);
-		//std::cout << "Texture ID is: " << model.getTexture() << std::endl;
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, model.getTextureID());
-	}
-
-	model.getShader().setMat4("model", model.getModelMat());
-	model.getShader().setMat4("view_projection", cameraMat);
 	
-	// Bind the vertex array of the model
-	glBindVertexArray(model.getVertexArray());
-	glDrawArrays(model.getMode(), 0, model.getNumVertices() / 3);
+	if (model_name == "skyCube") {
+		
+		//std::cout << "1. in draw" << std::endl;
+		//glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+		//model.getShader().use();
+		//view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+		//skyboxShader.setMat4("view", view);
+		//skyboxShader.setMat4("projection", projection);
+		// skybox cube
+		/*glBindVertexArray(model.getVertexArray());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+		glDepthFunc(GL_LESS); // set depth function back to default*/
+	}
+	else {
+		// Process the model with the given matrix
+		model.getShader().use();
+
+		// if the models aren't light source model, render them with light computation
+		if (model_name != "lightCube") {
+			lighting_render(model, cameraPos, model_name);
+		}
+
+		if (model.getTextureID() != 0) {
+			model.getShader().setInt("material.diffuse", 0);
+			//std::cout << "Texture ID is: " << model.getTexture() << std::endl;
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, model.getTextureID());
+		}
+
+		
+		model.getShader().setMat4("model", model.getModelMat());
+		model.getShader().setMat4("view_projection", cameraMat);
+		// Bind the vertex array of the model
+		glBindVertexArray(model.getVertexArray());
+		glDrawArrays(model.getMode(), 0, model.getNumVertices() / 3);
+	}
 }
 
 void lighting_render(Model model, vec3 cameraPos, string model_name) {
@@ -48,8 +68,8 @@ void lighting_render(Model model, vec3 cameraPos, string model_name) {
 
 	// point light properties
 	glm::vec3 lightColor(1.0, 1.0, 1.0);
-	glm::vec3 diffuseColor = lightColor * glm::vec3(0.9f); // decrease the influence
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.6f); // low influence
+	glm::vec3 diffuseColor = lightColor * glm::vec3(1.f); // decrease the influence
+	glm::vec3 ambientColor = diffuseColor * glm::vec3(1.f); // low influence
 	model.getShader().setVec3("light.ambient", ambientColor);
 	model.getShader().setVec3("light.diffuse", diffuseColor);
 	model.getShader().setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
