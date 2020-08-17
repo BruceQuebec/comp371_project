@@ -17,7 +17,6 @@
 using namespace glm;
 using namespace std;
 
-unsigned int loadCubemap(vector<std::string> faces);
 
 int main()
 {
