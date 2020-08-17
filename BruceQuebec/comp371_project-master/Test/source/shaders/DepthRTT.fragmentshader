@@ -1,0 +1,15 @@
+#version 330 core
+
+
+layout(location = 0) out float fragment_depth;
+//out vec3 color;
+
+in float z_value;
+in float w_value;
+
+
+void main()
+{
+	fragment_depth = gl_FragCoord.z;
+	//fragment_depth = z_value / w_value;
+}
