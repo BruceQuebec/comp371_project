@@ -132,6 +132,12 @@
     <Object Include="resource\objects\Z.obj">
       <Filter>Resource Files\objects</Filter>
     </Object>
+    <Object Include="resource\bark.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="resource\leaves.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\box-top.png">
@@ -141,6 +147,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="resource\ground.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\bark.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\leaves.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -51,6 +51,12 @@
     <None Include="source\shaders\texture.vertexshader" />
   </ItemGroup>
   <ItemGroup>
+    <Object Include="resource\bark.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="resource\leaves.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Object>
     <Object Include="resource\objects\4.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Object>
@@ -80,8 +86,10 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resource\bark.jpg" />
     <Image Include="resource\box-top.png" />
     <Image Include="resource\ground.png" />
+    <Image Include="resource\leaves.png" />
     <Image Include="resource\silver.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

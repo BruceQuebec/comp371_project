@@ -95,7 +95,10 @@ int main()
 
     // Initialize models and load from files
     Model ground = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/ground.obj", false, "resource/ground.png");
-    Model N4_N = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
+    Model bark = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model leaves = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/leaves.obj", false, "resource/leaves.png");
+
+    //Model N4_N = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
     //Model N4_4 = Model(GL_TRIANGLES, polished_silver, 0, 0, 0, "resource/objects/4.obj", false, "resource/silver.png");
     Model L8_L = Model(GL_TRIANGLES, box, -40, 0, -40, "resource/objects/L.obj", false, "resource/box-top.png");
     //Model L8_8 = Model(GL_TRIANGLES, polished_silver, -40, 0, -40, "resource/objects/8.obj", false, "resource/silver.png");
@@ -129,7 +132,7 @@ int main()
     Control::window = window;
 
     // Set the models to be controlled
-    Control::setModel(&N4_N, 1);
+    //Control::setModel(&N4_N, 1);
     //Control::setModel(&N4_4, 1);
     Control::setModel(&L8_L, 2);
     //Control::setModel(&L8_8, 2);
