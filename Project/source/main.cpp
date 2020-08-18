@@ -125,7 +125,7 @@ int main()
 		building2.draw(generic_texture_shader, camera);
 		building3.draw(generic_texture_shader, camera);
 
-        draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition());
+        //draw(World::getWorldMat(), Model::models, camera.getCameraMat(), camera.getCameraPosition());
 		skyCubeObj.drawSky(camera);
 		glfwSwapBuffers(window);
     }
