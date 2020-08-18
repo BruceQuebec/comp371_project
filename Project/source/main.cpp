@@ -119,7 +119,7 @@ int main()
         glfwPollEvents();
 
         // Draw the models
-		generic_texture_shader.use();
+		//generic_texture_shader.use();
 		//backpack.draw(generic_texture_shader, camera);
 		building1.draw(generic_texture_shader, camera);
 		building2.draw(generic_texture_shader, camera);

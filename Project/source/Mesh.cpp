@@ -104,6 +104,7 @@ glm::mat4 Mesh::getModelMat()
 }
 
 void Mesh::draw(Shader& shader, Camera &camera) {
+	shader.use();
 	//synchronize material uniforms
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
