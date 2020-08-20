@@ -18,6 +18,7 @@
 #include "Material.hpp"
 #include "Light.hpp"
 #include "load.hpp"
+#include "Box.hpp"
 
 
 #include <fstream>
@@ -88,26 +89,31 @@ int main()
 
 
     Material polished_silver(vec3(0.23125, 0.23125, 0.23125), vec3(0.2775, 0.2775, 0.2775), vec3(0.773911, 0.773911, 0.773911), 1000);;
-    Material box(vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5), vec3(0.1, 0.1, 0.1), 1);
+    Material rough(vec3(0.2, 0.2, 0.2), vec3(0.5, 0.5, 0.5), vec3(0.1, 0.1, 0.1), 1);
 
     Light light(vec3(0, 30, 0));
 
 
     // Initialize models and load from files
-    Model ground = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/ground.obj", false, "resource/ground.png");
-    Model bark = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/bark.obj", false, "resource/bark.jpg");
-    Model leaves = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/leaves.obj", false, "resource/leaves.png");
+    Model ground = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/ground.obj", false, "resource/ground.png");
+    Model bark = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model leaves = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/leaves.obj", false, "resource/leaves.png");
 
-    //Model N4_N = Model(GL_TRIANGLES, box, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
+    //Model N4_N = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
     //Model N4_4 = Model(GL_TRIANGLES, polished_silver, 0, 0, 0, "resource/objects/4.obj", false, "resource/silver.png");
-    Model L8_L = Model(GL_TRIANGLES, box, -40, 0, -40, "resource/objects/L.obj", false, "resource/box-top.png");
+    Model L8_L = Model(GL_TRIANGLES, rough, -40, 0, -40, "resource/objects/L.obj", false, "resource/box-top.png");
     //Model L8_8 = Model(GL_TRIANGLES, polished_silver, -40, 0, -40, "resource/objects/8.obj", false, "resource/silver.png");
-    Model Z7_Z = Model(GL_TRIANGLES, box, 40, 0, -40, "resource/objects/Z.obj", false, "resource/box-top.png");
+    Model Z7_Z = Model(GL_TRIANGLES, rough, 40, 0, -40, "resource/objects/Z.obj", false, "resource/box-top.png");
     //Model Z7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, -40, "resource/objects/7.obj", false, "resource/silver.png");
-    Model I4_I = Model(GL_TRIANGLES, box, -40, 0, 40, "resource/objects/I.obj", false, "resource/box-top.png");
+    Model I4_I = Model(GL_TRIANGLES, rough, -40, 0, 40, "resource/objects/I.obj", false, "resource/box-top.png");
     //Model I4_4 = Model(GL_TRIANGLES, polished_silver, -40, 0, 40, "resource/objects/4.obj", false, "resource/silver.png");
-    Model E7_E = Model(GL_TRIANGLES, box, 40, 0, 40, "resource/objects/E.obj", false, "resource/box-top.png");
+    Model E7_E = Model(GL_TRIANGLES, rough, 40, 0, 40, "resource/objects/E.obj", false, "resource/box-top.png");
     //Model E7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, 40, "resource/objects/7.obj", false, "resource/silver.png");
+
+    Box box_ground(-500, 500, -0.1, 0, -500, 500);
+    Box::boxes.push_back(&box_ground);
+    Box box_L8_L(-44, -36, 0, 12, -41, -39);
+    Box::boxes.push_back(&box_L8_L);
 
     // Initialize a camera
     Camera camera(vec3(0, 12, 12), (float)width / height);

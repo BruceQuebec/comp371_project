@@ -101,7 +101,9 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector
 	x_shear = 0;
 	z_shear = 0;
 
-	scale = 1;
+	x_scale = 1;
+	y_scale = 1;
+	z_scale = 1;
 
 	x_angle = 0;
 	y_angle = 0;
@@ -147,7 +149,7 @@ GLenum Model::getMode()
 
 mat4 Model::getModelMat()
 {
-	mat4 scale_mat = glm::scale(mat4(1), vec3(scale, scale, scale));
+	mat4 scale_mat = glm::scale(mat4(1), vec3(x_scale, y_scale, z_scale));
 
 	mat4 rotate_x_mat = rotate(mat4(1), float(x_angle), vec3(1, 0, 0));
 	mat4 rotate_y_mat = rotate(mat4(1), float(y_angle), vec3(0, 1, 0));
@@ -170,9 +172,17 @@ void Model::key_callback(int key, int action, int mods)
 {
 	// If U or J is pressed, scale the model
 	if (key == GLFW_KEY_U && action == GLFW_REPEAT)
-		scale += 0.01;
+	{
+		x_scale += 0.01;
+		y_scale += 0.01;
+		z_scale += 0.01;
+	}
 	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
-		scale -= 0.01;
+	{
+		x_scale -= 0.01;
+		y_scale -= 0.01;
+		z_scale -= 0.01;
+	}
 
 	if (key == GLFW_KEY_F && action == GLFW_REPEAT)
 		x_shear -= 0.01;

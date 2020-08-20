@@ -44,7 +44,9 @@ private:
 	float z_shear;
 	
 	// Scale
-	float scale;
+	float x_scale;
+	float y_scale;
+	float z_scale;
 
 	// Angle of rotation
 	float x_angle;
