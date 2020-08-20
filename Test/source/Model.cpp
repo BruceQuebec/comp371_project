@@ -14,12 +14,12 @@ using namespace std;
 vector<Model *> Model::models;
 
 
-Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos)
+Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
 {
-	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos);
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
 }
 
-Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
+Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
@@ -43,10 +43,10 @@ Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z
 	loadTexture(texture, texture_file_path);
 
 
-	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos);
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
 }
 
-void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos)
+void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
 {
 	// Add the model the vector of models
 	models.push_back(this);
@@ -101,9 +101,9 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector
 	x_shear = 0;
 	z_shear = 0;
 
-	x_scale = 1;
-	y_scale = 1;
-	z_scale = 1;
+	x_scale = scale[0];
+	y_scale = scale[1];
+	z_scale = scale[2];
 
 	x_angle = 0;
 	y_angle = 0;

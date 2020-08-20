@@ -95,19 +95,19 @@ int main()
 
 
     // Initialize models and load from files
-    Model ground = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/ground.obj", false, "resource/ground.png");
-    Model bark = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/bark.obj", false, "resource/bark.jpg");
-    Model leaves = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/leaves.obj", false, "resource/leaves.png");
+    Model ground = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(1), "resource/objects/ground.obj", false, "resource/ground.png");
+    Model bark = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(2), "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model leaves = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(2), "resource/objects/leaves.obj", false, "resource/leaves.png");
 
     //Model N4_N = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
     //Model N4_4 = Model(GL_TRIANGLES, polished_silver, 0, 0, 0, "resource/objects/4.obj", false, "resource/silver.png");
-    Model L8_L = Model(GL_TRIANGLES, rough, -40, 0, -40, "resource/objects/L.obj", false, "resource/box-top.png");
+    Model L8_L = Model(GL_TRIANGLES, rough, -40, 0, -40, vec3(1), "resource/objects/L.obj", false, "resource/box-top.png");
     //Model L8_8 = Model(GL_TRIANGLES, polished_silver, -40, 0, -40, "resource/objects/8.obj", false, "resource/silver.png");
-    Model Z7_Z = Model(GL_TRIANGLES, rough, 40, 0, -40, "resource/objects/Z.obj", false, "resource/box-top.png");
+    Model Z7_Z = Model(GL_TRIANGLES, rough, 40, 0, -40, vec3(1), "resource/objects/Z.obj", false, "resource/box-top.png");
     //Model Z7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, -40, "resource/objects/7.obj", false, "resource/silver.png");
-    Model I4_I = Model(GL_TRIANGLES, rough, -40, 0, 40, "resource/objects/I.obj", false, "resource/box-top.png");
+    Model I4_I = Model(GL_TRIANGLES, rough, -40, 0, 40, vec3(1), "resource/objects/I.obj", false, "resource/box-top.png");
     //Model I4_4 = Model(GL_TRIANGLES, polished_silver, -40, 0, 40, "resource/objects/4.obj", false, "resource/silver.png");
-    Model E7_E = Model(GL_TRIANGLES, rough, 40, 0, 40, "resource/objects/E.obj", false, "resource/box-top.png");
+    Model E7_E = Model(GL_TRIANGLES, rough, 40, 0, 40, vec3(1), "resource/objects/E.obj", false, "resource/box-top.png");
     //Model E7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, 40, "resource/objects/7.obj", false, "resource/silver.png");
 
     Box box_ground(-500, 500, -0.1, 0, -500, 500);

@@ -54,11 +54,11 @@ private:
 	float z_angle;
 
 public:
-	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLdouble> & normal_data, std::vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos);
-	Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, const char * model_file_path, bool load_from_txt, const char * texture_file_path);
+	Model(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLdouble> & normal_data, std::vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, glm::vec3 scale);
+	Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, glm::vec3 scale, const char * model_file_path, bool load_from_txt, const char * texture_file_path);
 
 	// Initialze the model
-	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLdouble> & normal_data, std::vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos);
+	void init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLdouble> uv_data, std::vector<GLdouble> & normal_data, std::vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, glm::vec3 scale);
 
 	void setPos(double x_pos, double y_pos, double z_pos);
 
