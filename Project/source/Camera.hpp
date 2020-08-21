@@ -43,7 +43,7 @@ public:
 
 	glm::vec3 getCameraPos();
 
-	void key_callback(int key, int action);
+	void key_callback(int key, int action, bool view_mode);
 
 	void cursor_pos_callback(GLFWwindow * window, double x_pos, double y_pos);
 

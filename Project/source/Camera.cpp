@@ -61,7 +61,7 @@ vec3 Camera::getCameraPos()
     return vec3(x_pos, y_pos, z_pos);
 }
 
-void Camera::key_callback(int key, int action)
+void Camera::key_callback(int key, int action, bool view_mode)
 {
     for (Box * i : Box::boxes)
     {
@@ -83,16 +83,19 @@ void Camera::key_callback(int key, int action)
 
     float dx = 0, dy = 0, dz = 0;
 
+    if (view_mode == false)
+        y_pos = 1.5;
+
     if (key == GLFW_KEY_W && action == GLFW_REPEAT)
     {
         dx = 0.2 * cos(theta) * sin(rho);
-        dy = 0.2 * sin(theta);
+        dy = view_mode ? 0.2 * sin(theta) : 0;
         dz = -0.2 * cos(theta) * cos(rho);
     }
     else if (key == GLFW_KEY_S && action == GLFW_REPEAT)
     {
         dx = -0.2 * cos(theta) * sin(rho);
-        dy = -0.2 * sin(theta);
+        dy = view_mode ? -0.2 * sin(theta) : 0;
         dz = 0.2 * cos(theta) * cos(rho);
     }
     if (key == GLFW_KEY_A && action == GLFW_REPEAT)

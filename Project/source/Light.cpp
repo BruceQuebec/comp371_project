@@ -28,7 +28,7 @@ Light::Light(vec3 pos, vec3 color)
 
 vec3 Light::getLightPos()
 {
-    theta += 0.001;
+    theta += 0.0005;
 
     pos_x = 100 * cos(radians(theta));
     pos_y = 100 * sin(radians(theta));

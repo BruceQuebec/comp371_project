@@ -18,6 +18,8 @@ public:
     static bool is_mouse_button_right_pressed;
     static bool is_mouse_button_middle_pressed;
 
+    static bool view_mode;
+
     static bool render_with_texture;
     static bool render_shadow;
 

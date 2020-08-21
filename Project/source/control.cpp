@@ -17,6 +17,8 @@ bool Control::is_mouse_button_left_pressed = false;
 bool Control::is_mouse_button_right_pressed = false;
 bool Control::is_mouse_button_middle_pressed = false;
 
+bool Control::view_mode = false;
+
 bool Control::render_with_texture = true;
 bool Control::render_shadow = true;
 
@@ -82,7 +84,10 @@ void Control::key_callback(GLFWwindow * window, int key, int scancode, int actio
             (*it)->key_callback(key, action, mods);
     }
 
-    camera->key_callback(key, action);
+    if (key == GLFW_KEY_V && action == GLFW_PRESS)
+        view_mode = !view_mode;
+
+    camera->key_callback(key, action, view_mode);
 
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
         render_shadow = !render_shadow;

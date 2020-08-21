@@ -94,15 +94,15 @@ int main()
     Light light(vec3(0, 30, 0));
 
     //Model N4_N = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
-    //Model N4_4 = Model(GL_TRIANGLES, polished_silver, 0, 0, 0, "resource/objects/4.obj", false, "resource/silver.png");
     Model L8_L = Model(GL_TRIANGLES, polished_silver, -10, 0, -40, vec3(1), "resource/objects/L.obj", false, "resource/silver.png");
-    //Model L8_8 = Model(GL_TRIANGLES, polished_silver, -40, 0, -40, "resource/objects/8.obj", false, "resource/silver.png");
     Model Z7_Z = Model(GL_TRIANGLES, polished_silver, -10, 0, 40, vec3(1), "resource/objects/Z.obj", false, "resource/silver.png");
-    //Model Z7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, -40, "resource/objects/7.obj", false, "resource/silver.png");
     Model I4_I = Model(GL_TRIANGLES, rough, 10, 0, -40, vec3(1), "resource/objects/I.obj", false, "resource/box-top.png");
     //Model I4_4 = Model(GL_TRIANGLES, polished_silver, -40, 0, 40, "resource/objects/4.obj", false, "resource/silver.png");
     Model E7_E = Model(GL_TRIANGLES, rough, 10, 0, 40, vec3(1), "resource/objects/E.obj", false, "resource/box-top.png");
     //Model E7_7 = Model(GL_TRIANGLES, polished_silver, 40, 0, 40, "resource/objects/7.obj", false, "resource/silver.png");
+    Model _4 = Model(GL_TRIANGLES, polished_silver, -100, 0, -5, vec3(1), "resource/objects/4.obj", false, "resource/silver.png");
+    Model _7 = Model(GL_TRIANGLES, polished_silver, 100, 0, 0, vec3(1), "resource/objects/7.obj", false, "resource/silver.png");
+    Model _8 = Model(GL_TRIANGLES, rough, -100, 0, 5, vec3(1), "resource/objects/8.obj", false, "resource/box-top.png");
 
 
 
@@ -174,6 +174,12 @@ int main()
     Box::boxes.push_back(&box_I);
     Box box_E(6, 14, 0, 12, 39, 41);
     Box::boxes.push_back(&box_E);
+    Box box_4(-104, -96, 0, 12, -6, -4);
+    Box::boxes.push_back(&box_4);
+    Box box_7(96, 104, 0, 12, -1, 1);
+    Box::boxes.push_back(&box_7);
+    Box box_8(-104, -96, 0, 12, 4, 6);
+    Box::boxes.push_back(&box_8);
 
 
     Box box_Building1(-60, -20, 0, 50, -50, -10);
@@ -196,7 +202,7 @@ int main()
 
 
     // Initialize a camera
-    Camera camera(vec3(0, 12, 12), (float)width / height);
+    Camera camera(vec3(0, 1.5, 12), (float)width / height);
 
 
     // Hide the cursor
@@ -240,11 +246,22 @@ int main()
     glDepthFunc(GL_LEQUAL);
 
 
-
+    
 
     // Displaying loop
     while (!glfwWindowShouldClose(window))
     {
+        if (light.getLightPos()[1] > 50)
+            glClearColor(135.0 / 255, 206.0 / 255, 235.0 / 255, 0);
+        else if (light.getLightPos()[1] < -50)
+            glClearColor(0, 0, 0, 0);
+        else
+        {
+            float y = light.getLightPos()[1];
+            float ratio = (y + 50) / 100;
+            glClearColor(135.0 / 255 * ratio, 206.0 / 255 * ratio, 235.0 / 255 * ratio, 0);
+        }
+
         glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
 
         draw(4096, 4096, Model::models, light, camera, shadow_shader, NULL);
