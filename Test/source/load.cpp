@@ -176,9 +176,9 @@ void loadTexture(GLuint & texture, const char * file_path)
 	unsigned char * data = stbi_load(file_path, &width, &height, &channels, 0);
 
 	if (channels == STBI_rgb)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,  GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,  GL_RGB, GL_UNSIGNED_BYTE, data);
 	else if (channels == STBI_rgb_alpha)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);

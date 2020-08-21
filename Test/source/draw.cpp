@@ -22,12 +22,12 @@ void draw(int width, int height, vector<Model *> models, Light & light, Camera &
 
 void draw(Model & model, Light & light, Camera & camera, Shader shader, GLuint shadow_map)
 {
-	vec3 eye = vec3(0, 30, 0);
+	vec3 eye = light.getLightPos();
 	vec3 center = vec3(0, 0, 0);
 	vec3 up = vec3(1, 0, 0);
 	mat4 view_mat = lookAt(eye, center, up);
 
-	mat4 projection_mat = perspective((float)90, 1.0f, 10.0f, 40.0f);
+	mat4 projection_mat = perspective((float)90, 1.0f, 1.0f, 200.0f);
 
 	mat4 light_camera_mat = projection_mat * view_mat;
 

@@ -77,7 +77,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 4096, 4096, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadow_map, 0);
@@ -167,7 +167,7 @@ int main()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer);
 
-        draw(2048, 2048, Model::models, light, camera, shadow_shader, NULL);
+        draw(4096, 4096, Model::models, light, camera, shadow_shader, NULL);
 
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

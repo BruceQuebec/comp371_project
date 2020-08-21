@@ -7,8 +7,13 @@
 class Light
 {
 private:
-    glm::vec3 pos;
+    float pos_x;
+    float pos_y;
+    float pos_z;
+
     glm::vec3 color;
+
+    float theta;
 
 public:
     Light(glm::vec3 pos);
