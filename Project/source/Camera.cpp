@@ -1,90 +1,180 @@
 #define PI 3.141592653589793
 
+
+#include <vector>
+
+#include <GLFW/glfw3.h>
+
 #include "control.hpp"
+
 #include "Camera.hpp"
 
+#include <iostream>
 
+
+using namespace std;
 using namespace glm;
 
 
-Camera::Camera()
+Camera::Camera(vec3 pos, float aspect)
 {
-    x_pos = 0;
-	y_pos = 20;
-	z_pos = 20;
+    x_pos = pos[0];
+    y_pos = pos[1];
+    z_pos = pos[2];
 
-    theta = -PI / 4;
+    theta = 0;
     rho = 0;
 
     fov = PI / 2;
 
-    aspect = 4.0 / 3;
+    this->aspect = aspect;
+
+    box = new Box(-0.5 + x_pos, 0.5 + x_pos, -1.5 + y_pos, 0.5 + y_pos, -0.5 + z_pos, 0.5 + z_pos);
+
+    move_x  = true;
+    move_x_ = true;
+    move_y  = true;
+    move_y_ = true;
+    move_z  = true;
+    move_z_ = true;
 }
 
-mat4 Camera::getCameraMat()
+mat4 Camera::getViewMat()
 {
-    // Get the width and height of the window
-    int window_width, window_height;
-    glfwGetWindowSize(Control::window, &window_width, &window_height);
-    
-    // Get the position of the cursor
-    double cursor_x_pos, cursor_y_pos;
-    glfwGetCursorPos(Control::window, &cursor_x_pos, &cursor_y_pos);
-
-    // When the left mouse button is pressed, move the mouse to zoom in or out
-    if (Control::is_mouse_button_left_pressed)
-    {
-        double dy = (window_height / 2 - cursor_y_pos) * 0.01;
-
-        if (fov - dy <= 0)
-            fov = 0;
-        else if (fov - dy >= PI)
-            fov = PI;
-        else
-            fov -= dy;
-    }
-
-    // When the right mouse button is pressed, move the mouse to pan the camera
-    if (Control::is_mouse_button_right_pressed)
-    {
-        double drho = (cursor_x_pos - window_width / 2) * 0.01;
-
-        rho += drho;
-    }
-
-    // When the middle mouse button is pressed, move the mouse to tilt the camera
-    if (Control::is_mouse_button_middle_pressed)
-    {
-        double dtheta = (window_height / 2 - cursor_y_pos) * 0.01;
-
-        if (theta + dtheta >= PI / 2 - 0.00001)
-            theta = PI / 2 - 0.00001;
-        else if (theta + dtheta <= -PI / 2 + 0.00001)
-            theta = -PI / 2 + 0.00001;
-        else
-            theta += dtheta;
-    }
-
-    // Reset the position of the cursor to the center of the window
-    glfwSetCursorPos(Control::window, window_width / 2, window_height / 2);
-
     vec3 eye = vec3(x_pos, y_pos, z_pos);
     vec3 center = vec3(x_pos + cos(theta) * sin(rho), y_pos + sin(theta), z_pos - cos(theta) * cos(rho));
     vec3 up = vec3(0, 1, 0);
     mat4 view_mat = lookAt(eye, center, up);
 
-    mat4 projection_mat = perspective((float)fov, (float)aspect, 0.001f, 1000.0f);
-
-    mat4 camera_mat = projection_mat * view_mat;
-
-    return camera_mat;
+    return view_mat;
 }
 
-glm::vec3 Camera::getCameraPosition() {
-	return glm::vec3(x_pos, y_pos, z_pos);
+mat4 Camera::getProjectionMat()
+{
+    mat4 projection_mat = perspective(fov, aspect, 0.1f, 200.0f);
+
+    return projection_mat;
+}
+
+vec3 Camera::getCameraPos()
+{
+    return vec3(x_pos, y_pos, z_pos);
+}
+
+void Camera::key_callback(int key, int action)
+{
+    for (Box * i : Box::boxes)
+    {
+        int collide = box->detectCollision(*i);
+
+        if (collide == 1)
+            move_x = false;
+        else if (collide == 2)
+            move_x_ = false;
+        else if (collide == 3)
+            move_y = false;
+        else if (collide == 4)
+            move_y_ = false;
+        else if (collide == 5)
+            move_z = false;
+        else if (collide == 6)
+            move_z_ = false;
+    }
+
+    float dx = 0, dy = 0, dz = 0;
+
+    if (key == GLFW_KEY_W && action == GLFW_REPEAT)
+    {
+        dx = 0.2 * cos(theta) * sin(rho);
+        dy = 0.2 * sin(theta);
+        dz = -0.2 * cos(theta) * cos(rho);
+    }
+    else if (key == GLFW_KEY_S && action == GLFW_REPEAT)
+    {
+        dx = -0.2 * cos(theta) * sin(rho);
+        dy = -0.2 * sin(theta);
+        dz = 0.2 * cos(theta) * cos(rho);
+    }
+    if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+    {
+        dx = -0.2 * cos(rho);
+        dz = -0.2 * sin(rho);
+    }
+    if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+    {
+        dx = 0.2 * cos(rho);
+        dz = 0.2 * sin(rho);
+    }
+
+    if (dx < 0)
+        dx = move_x ? dx : 0;
+    else if (dx > 0)
+        dx = move_x_ ? dx : 0;
+    if (dy < 0)
+        dy = move_y ? dy : 0;
+    else if (dy > 0)
+        dy = move_y_ ? dy : 0;
+    if (dz < 0)
+        dz = move_z ? dz : 0;
+    else if (dz > 0)
+        dz = move_z_ ? dz : 0;
+
+    x_pos += dx;
+    box->x_bound += dx;
+    box->x_bound_ += dx;
+    y_pos += dy;
+    box->y_bound += dy;
+    box->y_bound_ += dy;
+    z_pos += dz;
+    box->z_bound += dz;
+    box->z_bound_ += dz;
+
+    move_x = true;
+    move_x_ = true;
+    move_y = true;
+    move_y_ = true;
+    move_z = true;
+    move_z_ = true;
+}
+
+void Camera::cursor_pos_callback(GLFWwindow * window, double x_pos, double y_pos)
+{
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+
+    double drho = (x_pos - width / 2) * 0.002, dtheta = (height / 2 - y_pos) * 0.002;
+
+    rho += drho;
+
+    if (theta + dtheta >= PI / 2 - 0.00001)
+        theta = PI / 2 - 0.00001;
+    else if (theta + dtheta <= -PI / 2 + 0.00001)
+        theta = -PI / 2 + 0.00001;
+    else
+        theta += dtheta;
+
+    glfwSetCursorPos(window, width / 2, height / 2);
 }
 
 void Camera::window_size_callback(int width, int height)
 {
-	aspect = (double)width / height;
+    aspect = (float)width / height;
+}
+
+void Camera::scroll_callback(double yoffset)
+{
+    if (yoffset == 1)
+    {
+        if (fov - PI / 12 <= PI / 6)
+            fov = PI / 6;
+        else
+            fov -= PI / 12;
+    }
+    if (yoffset == -1)
+    {
+        if (fov + PI / 12 >= PI * 2 / 3)
+            fov = PI * 2 / 3;
+        else
+            fov += PI / 12;
+    }
 }

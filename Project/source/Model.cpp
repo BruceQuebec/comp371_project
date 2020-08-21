@@ -1,125 +1,97 @@
 #include "glm/gtx/transform2.hpp"
 
 #include "load.hpp"
+#include "Shader.hpp"
+#include "World.hpp"
+
 #include "Model.hpp"
-#include "utils.hpp"
 
 
-using namespace std;
 using namespace glm;
+using namespace std;
 
 
-unordered_map<string, Model*> Model::models;
+vector<Model *> Model::models;
 
 
-Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLuint> index_data, vector<GLdouble> normal_data, vector<GLdouble> texCoords_data, Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path)
+Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
 {
-	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name, texture_file_path);
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
 }
 
-Model::Model(Shader& shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, const char * file_path, string model_name, string texture_file_path)
+Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
-	vector<GLuint> index_data;
+	vector<GLdouble> uv_data;
 	vector<GLdouble> normal_data;
-	vector<GLdouble> texCoords_data;
+	vector<GLuint> index_data;
 
-	loadModel(pos_data, color_data, index_data, normal_data, texCoords_data, mode, file_path);
-	
-	if (normal_data.size() == 0 && (mode==GL_TRIANGLES || mode==GL_TRIANGLE_STRIP)) {
-		normal_data = Model::getNormals(pos_data);
-	}
-	
-	init(pos_data, color_data, index_data, normal_data, texCoords_data, shader, shader_pointer_idx_map, mode, x_pos, y_pos, z_pos, model_name, texture_file_path);
+	if (load_from_txt)
+		loadModel(pos_data, color_data, uv_data, normal_data, mode, model_file_path);
+	else
+		loadObject(pos_data, color_data, uv_data, normal_data, mode, model_file_path);
+
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	loadTexture(texture, texture_file_path);
+
+
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
 }
 
-void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_data, std::vector<GLuint> index_data, std::vector<GLdouble> normal_data, std::vector<GLdouble> texCoords_data, Shader shader, unordered_map<string, GLuint> shader_pointer_idx_map, GLenum mode, double x_pos, double y_pos, double z_pos, string model_name, string texture_file_path)
+void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
 {
-	num_vertices = pos_data.size();
-
 	// Add the model the vector of models
-	models[model_name] = this;
+	models.push_back(this);
+
 
 	// Initialize the vertex array
 	glGenVertexArrays(1, &vertex_array);
 	glBindVertexArray(vertex_array);
+	
 
 	// Initialize and bind the position buffer
-	if (pos_data.size() > 0) {
-		GLuint pos_buffer;
-		glGenBuffers(1, &pos_buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, pos_buffer);
-		glBufferData(GL_ARRAY_BUFFER, pos_data.size() * sizeof(GLdouble), &pos_data[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(shader_pointer_idx_map["pos_data_idx"]);
-		glVertexAttribPointer(shader_pointer_idx_map["pos_data_idx"], 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
-	}
-	
+	GLuint pos_buffer;
+	glGenBuffers(1, &pos_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, pos_buffer);
+	glBufferData(GL_ARRAY_BUFFER, pos_data.size() * sizeof(GLdouble), &pos_data[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 
 	// Initialize and bind the color buffer
-	if (color_data.size() > 0) {
-		GLuint color_buffer;
-		glGenBuffers(1, &color_buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
-		glBufferData(GL_ARRAY_BUFFER, color_data.size() * sizeof(GLdouble), &color_data[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(shader_pointer_idx_map["color_data_idx"]);
-		glVertexAttribPointer(shader_pointer_idx_map["color_data_idx"], 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
-	}
-	
+	GLuint color_buffer;
+	glGenBuffers(1, &color_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+	glBufferData(GL_ARRAY_BUFFER, color_data.size() * sizeof(GLdouble), &color_data[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 
-	// Initialize and bind the normal buffer
-	if (normal_data.size() > 0) {
-		GLuint normal_buffer;
-		glGenBuffers(1, &normal_buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
-		glBufferData(GL_ARRAY_BUFFER, normal_data.size() * sizeof(GLdouble), &normal_data[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(shader_pointer_idx_map["normal_data_idx"]);
-		glVertexAttribPointer(shader_pointer_idx_map["normal_data_idx"], 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
-	}
+	GLuint uv_buffer;
+	glGenBuffers(1, &uv_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, uv_buffer);
+	glBufferData(GL_ARRAY_BUFFER, uv_data.size() * sizeof(GLdouble), &uv_data[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 
-	// Initialize and bind the texture coordinates buffer
-	if (texCoords_data.size() > 0 && texture_file_path!="") {
-		GLuint texCoords_buffer;
-		glGenBuffers(1, &texCoords_buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, texCoords_buffer);
-		glBufferData(GL_ARRAY_BUFFER, texCoords_data.size() * sizeof(GLdouble), &texCoords_data[0], GL_STATIC_DRAW);
-		glEnableVertexAttribArray(shader_pointer_idx_map["texCoords_data_idx"]);
-		glVertexAttribPointer(shader_pointer_idx_map["texCoords_data_idx"], 2, GL_DOUBLE, GL_FALSE, 0, (void *)0);
-
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_2D, textureID); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-		// set the texture wrapping parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// set texture filtering parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// load image, create texture and generate mipmaps
-		int width, height, nrChannels;
-		unsigned char *data = stbi_load(texture_file_path.c_str(), &width, &height, &nrChannels, 0);
-		if (data)
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
-		else
-		{
-			std::cout << "Failed to load texture" << std::endl;
-		}
-		stbi_image_free(data);
-	}
-	
-
-	// Initialize and bind the index buffer
-	if (index_data.size() > 0) {
-		GLuint index_buffer;
-		glGenBuffers(1, &index_buffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_data.size() * sizeof(GLuint), &index_data[0], GL_STATIC_DRAW);
-	}	
+	GLuint normal_buffer;
+	glGenBuffers(1, &normal_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+	glBufferData(GL_ARRAY_BUFFER, normal_data.size() * sizeof(GLdouble), &normal_data[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_DOUBLE, GL_FALSE, 0, (void *)0);
 
 	num_elements = index_data.size();
-	this->shader = shader;
+	num_vertices = pos_data.size();
+
+	this->material = &material;
+
 	this->mode = mode;
 
 	this->x_pos = x_pos;
@@ -129,7 +101,9 @@ void Model::init(std::vector<GLdouble> pos_data, std::vector<GLdouble> color_dat
 	x_shear = 0;
 	z_shear = 0;
 
-	scale = 1;
+	x_scale = scale[0];
+	y_scale = scale[1];
+	z_scale = scale[2];
 
 	x_angle = 0;
 	y_angle = 0;
@@ -143,11 +117,6 @@ void Model::setPos(double x_pos, double y_pos, double z_pos)
 	this->z_pos = z_pos;
 }
 
-vec3 Model::getPos()
-{
-	return vec3(x_pos, y_pos, z_pos);
-}
-
 GLuint Model::getVertexArray()
 {
 	return vertex_array;
@@ -158,68 +127,62 @@ int Model::getNumElements()
 	return num_elements;
 }
 
-int Model::getNumVertices() {
+int Model::getNumVertices()
+{
 	return num_vertices;
+}
+
+GLuint Model::getTexture()
+{
+	return texture;
+}
+
+Material & Model::getMaterial()
+{
+	return *material;
 }
 
 GLenum Model::getMode()
 {
 	return mode;
 }
-Shader Model::getShader() {
-	return shader;
-}
-
-GLuint Model::getTextureID() {
-	return textureID;
-}
-
-glm::vec3 Model::getPosition() {
-	return glm::vec3(this->x_pos, this->y_pos, this->z_pos);
-}
 
 mat4 Model::getModelMat()
 {
-	mat4 translate_mat = translate(mat4(1), vec3(x_pos, y_pos, z_pos));
+	mat4 scale_mat = glm::scale(mat4(1), vec3(x_scale, y_scale, z_scale));
 
-	mat4 shear_mat = shearY3D(mat4(1), (float)x_shear, (float)z_shear);
-
-	mat4 scale_mat = glm::scale(mat4(1), vec3(scale, scale, scale));
 	mat4 rotate_x_mat = rotate(mat4(1), float(x_angle), vec3(1, 0, 0));
 	mat4 rotate_y_mat = rotate(mat4(1), float(y_angle), vec3(0, 1, 0));
 	mat4 rotate_z_mat = rotate(mat4(1), float(z_angle), vec3(0, 0, 1));
 	mat4 rotate_mat = rotate_x_mat * rotate_y_mat * rotate_z_mat;
 
+	mat4 translate_mat = translate(mat4(1), vec3(x_pos, y_pos, z_pos));
+
+	mat4 shear_mat = shearY3D(mat4(1), (float)x_shear, (float)z_shear);
+
 	mat4 model_mat = shear_mat * translate_mat * rotate_mat * scale_mat;
+
+	mat4 world_mat = World::getWorldMat();
+	model_mat = world_mat * model_mat;
 
 	return model_mat;
 }
 
-vector<GLdouble> Model::getNormals(vector<GLdouble> pos_data, vector<GLuint> index_data) {
-	vector<GLdouble> normals = Utils::getNormalForVertex(pos_data, index_data);
-	return normals;
-}
-
-vector<GLdouble> Model::getNormals(vector<GLdouble> pos_data) {
-	vector<GLdouble> normals = Utils::getNormalForVertex(pos_data);
-	return normals;
-}
-
-void Model::setScale(double scale) {
-	this->scale = scale;
-}
-
 void Model::key_callback(int key, int action, int mods)
 {
-	// If W, S, A or D is pressed, shift the model
-	if (key == GLFW_KEY_W && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		z_pos -= 0.1;
-	if (key == GLFW_KEY_S && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		z_pos += 0.1;
-	if (key == GLFW_KEY_A && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		x_pos -= 0.1;
-	if (key == GLFW_KEY_D && action == GLFW_REPEAT && mods == GLFW_MOD_CAPS_LOCK)
-		x_pos += 0.1;
+	// If U or J is pressed, scale the model
+	if (key == GLFW_KEY_U && action == GLFW_REPEAT)
+	{
+		x_scale += 0.01;
+		y_scale += 0.01;
+		z_scale += 0.01;
+	}
+	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
+	{
+		x_scale -= 0.01;
+		y_scale -= 0.01;
+		z_scale -= 0.01;
+	}
 
 	if (key == GLFW_KEY_F && action == GLFW_REPEAT)
 		x_shear -= 0.01;
@@ -229,20 +192,4 @@ void Model::key_callback(int key, int action, int mods)
 		z_shear -= 0.01;
 	if (key == GLFW_KEY_G && action == GLFW_REPEAT)
 		z_shear += 0.01;
-
-	// If U or J is pressed, scale the model
-	if (key == GLFW_KEY_U && action == GLFW_REPEAT)
-		scale += 0.01;
-	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
-		scale -= 0.01;
-
-	// If w, s, a, or d is pressed, rotate the model
-	if (key == GLFW_KEY_W && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		x_angle += 0.01;
-	if (key == GLFW_KEY_S && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		x_angle -= 0.01;
-	if (key == GLFW_KEY_A && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		y_angle += 0.01;
-	if (key == GLFW_KEY_D && action == GLFW_REPEAT && mods != GLFW_MOD_CAPS_LOCK)
-		y_angle -= 0.01;
 }

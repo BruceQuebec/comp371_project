@@ -1,8 +1,10 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
+
+#include <glm/glm.hpp>
+
+
+#include "Box.hpp"
 
 
 class Camera
@@ -18,18 +20,34 @@ private:
 	double rho;
 
 	// Angle of the field of view
-	double fov;
+	float fov;
 
 	// Aspect ratio of the field of view
-	double aspect;
+	float aspect;
+
+	Box * box;
+
+	bool move_x;
+	bool move_x_;
+	bool move_y;
+	bool move_y_;
+	bool move_z;
+	bool move_z_;
 
 public:
-	Camera();
+	Camera(glm::vec3 pos, float aspect);
 
-	// Get the product of the projection and view matrix of the camera
-	glm::mat4 getCameraMat();
-	
-	glm::vec3 getCameraPosition();
+	glm::mat4 getViewMat();
+
+	glm::mat4 getProjectionMat();
+
+	glm::vec3 getCameraPos();
+
+	void key_callback(int key, int action);
+
+	void cursor_pos_callback(GLFWwindow * window, double x_pos, double y_pos);
 
 	void window_size_callback(int width, int height);
+
+	void scroll_callback(double yoffset);
 };

@@ -1,0 +1,20 @@
+#version 330 core
+
+
+uniform sampler2D texture_sampler;
+
+
+in vec2 uv;
+
+
+layout(location = 0) out float fragment_depth;
+
+
+void main()
+{
+	vec4 color = texture(texture_sampler, uv);
+	if(color.a < 0.1)
+        discard;
+
+	fragment_depth = gl_FragCoord.z;
+}
