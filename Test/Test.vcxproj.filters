@@ -60,6 +60,9 @@
     <ClCompile Include="source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\load.hpp">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="source\Shader_v2.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Box.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

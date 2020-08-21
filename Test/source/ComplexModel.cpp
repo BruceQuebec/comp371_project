@@ -1,7 +1,13 @@
 #include "ComplexModel.hpp"
 
 ComplexModel::ComplexModel(string path, glm::vec3 position, glm::vec3 scale) {
-	this->loadModel(path, position, scale);
+	loadModel(path, position, scale);
+	mBoundary_box = Box( boundary_box[0] * scale.x*0.01+(position.x),
+						 boundary_box[1] * scale.x*0.01 + (position.x),
+						 boundary_box[2] * scale.y*0.01 + (position.y),
+						 boundary_box[3] * scale.y*0.01 + (position.y),
+						 boundary_box[4] * scale.z*0.01 + (position.z),
+						 boundary_box[5] * scale.z*0.01 + (position.z));
 }
 
 void ComplexModel::loadModel(string path, glm::vec3 position, glm::vec3 scale) {
@@ -20,6 +26,10 @@ void ComplexModel::loadModel(string path, glm::vec3 position, glm::vec3 scale) {
 
 vector<Mesh> ComplexModel::getMeshes() {
 	return meshes;
+}
+
+Box ComplexModel::getBoundaryBox() {
+	return this->mBoundary_box;
 }
 
 void ComplexModel::draw(int width, int height, Shader_v2 &shader, Camera& camera, Light& light, GLuint shadow_map, bool render_shadow) {
@@ -63,6 +73,12 @@ Mesh ComplexModel::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3 pos
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z;
 		vertex.Position = vector;
+		boundary_box[0] = min(boundary_box[0], vector.x);
+		boundary_box[1] = max(boundary_box[1], vector.x);
+		boundary_box[2] = min(boundary_box[2], vector.y);
+		boundary_box[3] = max(boundary_box[3], vector.y);
+		boundary_box[4] = min(boundary_box[4], vector.z);
+		boundary_box[5] = max(boundary_box[5], vector.z);
 
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
@@ -80,15 +96,15 @@ Mesh ComplexModel::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3 pos
 			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 
 		// tangent
-		vector.x = mesh->mTangents[i].x;
+		/*vector.x = mesh->mTangents[i].x;
 		vector.y = mesh->mTangents[i].y;
 		vector.z = mesh->mTangents[i].z;
-		vertex.Tangent = vector;
+		vertex.Tangent = vector;*/
 		// bitangent
-		vector.x = mesh->mBitangents[i].x;
+		/*vector.x = mesh->mBitangents[i].x;
 		vector.y = mesh->mBitangents[i].y;
 		vector.z = mesh->mBitangents[i].z;
-		vertex.Bitangent = vector;
+		vertex.Bitangent = vector;*/
 
 		vertices.push_back(vertex);
 	}

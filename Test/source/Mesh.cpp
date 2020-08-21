@@ -125,6 +125,8 @@ void Mesh::draw(Shader_v2& shader, Camera &camera, Light& light, GLuint shadow_m
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
+	unsigned int totalSamplerUnitNum = 0;
+	std::cout << "textures.size(): " << textures.size() << std::endl;
 	if (textures.size() > 0) {
 		for (unsigned int i = 0; i < textures.size(); i++)
 		{
@@ -132,6 +134,7 @@ void Mesh::draw(Shader_v2& shader, Camera &camera, Light& light, GLuint shadow_m
 			// retrieve texture number (the N in diffuse_textureN)
 			string number;
 			string name = textures[i].type;
+			totalSamplerUnitNum++;
 			if (name == "texture_diffuse")
 				number = std::to_string(diffuseNr++);
 			else if (name == "texture_specular")
@@ -169,10 +172,11 @@ void Mesh::draw(Shader_v2& shader, Camera &camera, Light& light, GLuint shadow_m
 	shader.setFloat("light.quadratic", 0.0028f);
 
 	//synchronize shadow
-	if (shadow_map) {
-		glActiveTexture(GL_TEXTURE2);
+	if (shadow_map!=NULL) {
+		glActiveTexture(GL_TEXTURE0 + totalSamplerUnitNum);
+		shader.setInt("shadow_map", totalSamplerUnitNum);
 		glBindTexture(GL_TEXTURE_2D, shadow_map);
-		shader.setInt("shadow_map", 1);
+		
 	}
 
 	//synchronize matrices
