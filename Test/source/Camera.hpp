@@ -4,9 +4,6 @@
 #include <glm/glm.hpp>
 
 
-#include "Box.hpp"
-
-
 class Camera
 {
 private:
@@ -24,15 +21,6 @@ private:
 
 	// Aspect ratio of the field of view
 	float aspect;
-
-	Box * box;
-
-	bool move_x;
-	bool move_x_;
-	bool move_y;
-	bool move_y_;
-	bool move_z;
-	bool move_z_;
 
 public:
 	Camera(glm::vec3 pos, float aspect);

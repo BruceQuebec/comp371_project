@@ -14,12 +14,12 @@ using namespace std;
 vector<Model *> Model::models;
 
 
-Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
+Model::Model(vector<GLdouble> pos_data, vector<GLdouble> color_data, vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos)
 {
-	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos);
 }
 
-Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
+Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, const char * model_file_path, bool load_from_txt, const char * texture_file_path)
 {
 	vector<GLdouble> pos_data;
 	vector<GLdouble> color_data;
@@ -43,10 +43,10 @@ Model::Model(GLenum mode, Material & material, float x_pos, float y_pos, float z
 	loadTexture(texture, texture_file_path);
 
 
-	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos, scale);
+	init(pos_data, color_data, uv_data, normal_data, index_data, mode, material, x_pos, y_pos, z_pos);
 }
 
-void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos, vec3 scale)
+void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector<GLdouble> uv_data, vector<GLdouble> & normal_data, vector<GLuint> index_data, GLenum mode, Material & material, float x_pos, float y_pos, float z_pos)
 {
 	// Add the model the vector of models
 	models.push_back(this);
@@ -101,9 +101,7 @@ void Model::init(vector<GLdouble> pos_data, vector<GLdouble> color_data,  vector
 	x_shear = 0;
 	z_shear = 0;
 
-	x_scale = scale[0];
-	y_scale = scale[1];
-	z_scale = scale[2];
+	scale = 1;
 
 	x_angle = 0;
 	y_angle = 0;
@@ -149,7 +147,7 @@ GLenum Model::getMode()
 
 mat4 Model::getModelMat()
 {
-	mat4 scale_mat = glm::scale(mat4(1), vec3(x_scale, y_scale, z_scale));
+	mat4 scale_mat = glm::scale(mat4(1), vec3(scale, scale, scale));
 
 	mat4 rotate_x_mat = rotate(mat4(1), float(x_angle), vec3(1, 0, 0));
 	mat4 rotate_y_mat = rotate(mat4(1), float(y_angle), vec3(0, 1, 0));
@@ -172,17 +170,9 @@ void Model::key_callback(int key, int action, int mods)
 {
 	// If U or J is pressed, scale the model
 	if (key == GLFW_KEY_U && action == GLFW_REPEAT)
-	{
-		x_scale += 0.01;
-		y_scale += 0.01;
-		z_scale += 0.01;
-	}
+		scale += 0.01;
 	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
-	{
-		x_scale -= 0.01;
-		y_scale -= 0.01;
-		z_scale -= 0.01;
-	}
+		scale -= 0.01;
 
 	if (key == GLFW_KEY_F && action == GLFW_REPEAT)
 		x_shear -= 0.01;

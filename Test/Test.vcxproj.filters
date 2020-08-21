@@ -54,7 +54,10 @@
     <ClCompile Include="source\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Box.cpp">
+    <ClCompile Include="source\ComplexModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,8 +95,14 @@
     <ClInclude Include="source\Texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Box.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="source\ComplexModel.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mesh.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Shader_v2.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,41 +118,12 @@
     <None Include="source\shaders\texture.vertexshader">
       <Filter>Source Files\shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="resource\objects\ground.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\4.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\7.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\8.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\E.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\I.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\L.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\N.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\objects\Z.obj">
-      <Filter>Resource Files\objects</Filter>
-    </Object>
-    <Object Include="resource\bark.obj">
-      <Filter>Resource Files</Filter>
-    </Object>
-    <Object Include="resource\leaves.obj">
-      <Filter>Resource Files</Filter>
-    </Object>
+    <None Include="source\shaders\assimp_model_shader.fs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="source\shaders\assimp_model_shader.vs">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\box-top.png">
