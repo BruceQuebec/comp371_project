@@ -96,8 +96,52 @@ int main()
 
     // Initialize models and load from files
     Model ground = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(1), "resource/objects/ground.obj", false, "resource/ground.png");
-    Model bark = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(2), "resource/objects/bark.obj", false, "resource/bark.jpg");
-    Model leaves = Model(GL_TRIANGLES, rough, 0, 0, 0, vec3(2), "resource/objects/leaves.obj", false, "resource/leaves.png");
+    Model bark1 = Model(GL_TRIANGLES, rough, 13, 0.3, 13, vec3(2), "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model bark2 = Model(GL_TRIANGLES, rough, 13, 0.3, -13, vec3(2), "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model bark3 = Model(GL_TRIANGLES, rough, -13, 0.3, 13, vec3(2), "resource/objects/bark.obj", false, "resource/bark.jpg");
+    Model leaves1 = Model(GL_TRIANGLES, rough, 13, 0.3, 13, vec3(2), "resource/objects/leaves.obj", false, "resource/leaves.png");
+    Model leaves2 = Model(GL_TRIANGLES, rough, 13, 0.3, -13, vec3(2), "resource/objects/leaves.obj", false, "resource/leaves.png");
+    Model leaves3 = Model(GL_TRIANGLES, rough, -13, 0.3, 13, vec3(2), "resource/objects/leaves.obj", false, "resource/leaves.png");
+    
+    Model Building1 = Model(GL_TRIANGLES, rough, -30, 0.5, -30, vec3(2), "resource/objects/building1.txt", true, "resource/buildings1.jpg");
+    //Model Building2 = Model(GL_TRIANGLES, rough, 0, 0, -30, vec3(2), "resource/objects/building1.txt", true, "resource/buildings1.jpg");
+
+    Model Cross_Road_1 = Model(GL_TRIANGLES, rough, 0, 0.52, 0, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_1 = Model(GL_TRIANGLES, rough, 0, 0.5, 0, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_1 = Model(GL_TRIANGLES, rough, 0, 0.5, 0, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_2 = Model(GL_TRIANGLES, rough, -200, 0.52, 0, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_2 = Model(GL_TRIANGLES, rough, -200, 0.5, 0, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_2 = Model(GL_TRIANGLES, rough, -200, 0.5, 0, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_3 = Model(GL_TRIANGLES, rough, 200, 0.52, 0, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_3 = Model(GL_TRIANGLES, rough, 200, 0.5, 0, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_3 = Model(GL_TRIANGLES, rough, 200, 0.5, 0, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_4 = Model(GL_TRIANGLES, rough, 0, 0.52, -200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_4 = Model(GL_TRIANGLES, rough, 0, 0.5, -200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_4 = Model(GL_TRIANGLES, rough, 0, 0.5, -200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_5 = Model(GL_TRIANGLES, rough, 0, 0.52, 200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_5 = Model(GL_TRIANGLES, rough, 0, 0.5, 200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_5 = Model(GL_TRIANGLES, rough, 0, 0.5, 200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_6 = Model(GL_TRIANGLES, rough, 200, 0.52, -200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_6 = Model(GL_TRIANGLES, rough, 200, 0.5, -200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_6 = Model(GL_TRIANGLES, rough, 200, 0.5, -200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_7 = Model(GL_TRIANGLES, rough, 200, 0.52, 200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_7 = Model(GL_TRIANGLES, rough, 200, 0.5, 200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_7 = Model(GL_TRIANGLES, rough, 200, 0.5, 200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_8 = Model(GL_TRIANGLES, rough, -200, 0.52, 200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_8 = Model(GL_TRIANGLES, rough, -200, 0.5, 200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_8 = Model(GL_TRIANGLES, rough, -200, 0.5, 200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
+    Model Cross_Road_9 = Model(GL_TRIANGLES, rough, -200, 0.52, -200, vec3(2), "resource/objects/cross_road.txt", true, "resource/cross_road.png");
+    Model Road_H_9 = Model(GL_TRIANGLES, rough, -200, 0.5, -200, vec3(2), "resource/objects/road_h.txt", true, "resource/road_h.png");
+    Model Road_V_9 = Model(GL_TRIANGLES, rough, -200, 0.5, -200, vec3(2), "resource/objects/road_v.txt", true, "resource/road_v.png");
+
 
     //Model N4_N = Model(GL_TRIANGLES, rough, 0, 0, 0, "resource/objects/N.obj", false, "resource/box-top.png");
     //Model N4_4 = Model(GL_TRIANGLES, polished_silver, 0, 0, 0, "resource/objects/4.obj", false, "resource/silver.png");
