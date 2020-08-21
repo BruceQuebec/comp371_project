@@ -66,6 +66,14 @@
     <Image Include="resource\leaves.png" />
     <Image Include="resource\silver.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="resource\models\Apartment Building_01_obj.obj" />
+    <Object Include="resource\models\building.obj" />
+    <Object Include="resource\models\Cartoon_House.obj" />
+    <Object Include="resource\models\coconut-tree.obj" />
+    <Object Include="resource\models\effel-tower.obj" />
+    <Object Include="resource\models\house.obj" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

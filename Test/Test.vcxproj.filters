@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\objects">
       <UniqueIdentifier>{4b6ef516-f7a5-48be-98c0-d36e3e92768f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\models">
+      <UniqueIdentifier>{a650427f-26e9-4e61-ab1f-c63769df938d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -147,5 +150,25 @@
     <Image Include="resource\leaves.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resource\models\Apartment Building_01_obj.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resource\models\building.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resource\models\Cartoon_House.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resource\models\coconut-tree.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resource\models\effel-tower.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
+    <Object Include="resource\models\house.obj">
+      <Filter>Resource Files\models</Filter>
+    </Object>
   </ItemGroup>
 </Project>

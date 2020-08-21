@@ -125,7 +125,7 @@ int main()
 	ComplexModel building2 = ComplexModel("resource/models/house.obj", glm::vec3(-20, 0, 10), glm::vec3(0.05, 0.05, 0.05));
 	ComplexModel building3 = ComplexModel("resource/models/building.obj", glm::vec3(60, 0, 10), glm::vec3(6, 6, 6));
 	ComplexModel building4 = ComplexModel("resource/models/effel-tower.obj", glm::vec3(0, -2, -20), glm::vec3(0.09, 0.09, 0.09));
-	ComplexModel building10 = ComplexModel("resource/models/Apartment Building_01_obj.obj", glm::vec3(10, 0, -30), glm::vec3(0.02, 0.02, 0.02));
+	ComplexModel building10 = ComplexModel("resource/models/Apartment_Building_01_obj.obj", glm::vec3(10, 0, -30), glm::vec3(0.02, 0.02, 0.02));
 	
 	ComplexModel building5 = ComplexModel("resource/models/coconut-tree.obj", glm::vec3(10, 0, 8), glm::vec3(0.05, 0.05, 0.05));
 	ComplexModel building6 = ComplexModel("resource/models/coconut-tree.obj", glm::vec3(15, 0, 8), glm::vec3(0.05, 0.05, 0.05));
